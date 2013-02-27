@@ -6,7 +6,7 @@ class MessageEnvelope
 	private $message;
 	private $errors;
 
-	public function __construct($messageId, ApnsMessage $message)
+	public function __construct($messageId, Message $message)
 	{
 		// A message id greater then 0 is required
 		if (!($messageId > 0)) {

@@ -15,7 +15,7 @@ class Connection
 	private $lastMessageId;
 	private $messageQueue;
 
-	public function __construct(ApnsCertificate $certificate, $endpoint = self::ENDPOINT_PRODUCTION)
+	public function __construct(Certificate $certificate, $endpoint = self::ENDPOINT_PRODUCTION)
 	{
 		// A certificate is required
 		if (null == $certificate) {
@@ -37,11 +37,11 @@ class Connection
 		$this->messageQueue = new \SplQueue();
 	}
 
-	public function queue(ApnsMessage $message)
+	public function queue(Message $message)
 	{
 		// Put the message in an envelope
 		$this->lastMessageId++;
-		$envelope = new ApnsMessageEnvelope($this->lastMessageId, $message);
+		$envelope = new MessageEnvelope($this->lastMessageId, $message);
 
 		// Queue the message
 		$this->messageQueue->enqueue($envelope);
@@ -61,8 +61,7 @@ class Connection
 		$streamContext = stream_context_create();
 		stream_context_set_option($sslContext, 'ssl', 'local_cert', $this->certificate->getPemFile());
 
-		if ($this->certificate->hasPassphrase())
-		{
+		if ($this->certificate->hasPassphrase()) {
 			stream_context_set_option($streamContext, 'ssl', 'passphrase', $this->certificate->getPassphrase());
 		}
 
