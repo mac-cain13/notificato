@@ -5,6 +5,8 @@ namespace Wrep\Notificare\Apns;
 class Message
 {
 	private $deviceToken;
+	private $certificate;
+
 	private $alert;
 	private $badge;
 	private $sound;
@@ -14,8 +16,9 @@ class Message
 	 * Construct Message
 	 *
 	 * @param $deviceToken string Receiver of this message
+	 * @param $certificate Certificate The certificate that must be used for the APNS connection this message is send over
 	 */
-	public function __construct($deviceToken)
+	public function __construct($deviceToken, Certificate $certificate = null)
 	{
 		// Check if a devicetoken is given
 		if (null == $deviceToken) {
@@ -29,11 +32,12 @@ class Message
 
 		// Check if the length of the devicetoken is correct
 		if (64 != strlen($deviceToken)) {
-			throw new \InvalidArgumentException('Invalid device token given, incorrect length: (' .strlen($deviceToken) . ') ' . $deviceToken);
+			throw new \InvalidArgumentException('Invalid device token given, incorrect length: ' . $deviceToken . ' (' . strlen($deviceToken) . ')');
 		}
 
 		// Set the devicetoken
-		$this->deviceToken = (string)$deviceToken;
+		$this->deviceToken = $deviceToken;
+		$this->certificate = $certificate;
 
 		// Set the defaults
 		$this->alert = null;
@@ -50,6 +54,16 @@ class Message
 	public function getDeviceToken()
 	{
 		return $this->deviceToken;
+	}
+
+	/**
+	 * Get the certificate that should be used for this message
+	 *
+	 * @return Certificate
+	 */
+	public function getCertificate()
+	{
+		return $this->certificate;
 	}
 
 	/**

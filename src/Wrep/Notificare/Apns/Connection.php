@@ -4,10 +4,6 @@ namespace Wrep\Notificare\Apns;
 
 class Connection
 {
-	// Endpoint constants
-	const ENDPOINT_PRODUCTION = 'ssl://gateway.push.apple.com:2195';
-	const ENDPOINT_SANDBOX = 'ssl://gateway.sandbox.push.apple.com:2195';
-
 	// Socket read/write constants
 	const SEND_INTERVAL = 10000; // microseconds, so this equals 0.1 seconds
 	const READ_TIMEOUT = 1000000; // microseconds, so this equals 1.0 seconds
@@ -31,24 +27,17 @@ class Connection
 	 * Construct Connection
 	 *
 	 * @param $certificate Certificate The certificate to use when connecting to APNS
-	 * @param $endpoint string Optional the endpoint to connect to, APNS production is the default
 	 */
-	public function __construct(Certificate $certificate, $endpoint = self::ENDPOINT_PRODUCTION)
+	public function __construct(Certificate $certificate)
 	{
 		// A certificate is required
 		if (null == $certificate) {
 			throw new \InvalidArgumentException('No certificate given.');
 		}
 
-		// A endpoint is required
-		if (null == $endpoint) {
-			throw new \InvalidArgumentException('No endpoint given.');
-		}
-
 		// Save the given parameters
 		$this->certificate = $certificate;
 		$this->connectTimeout = ini_get('default_socket_timeout');
-		$this->endpoint = $endpoint;
 
 		// Setup the current state
 		$this->connection = null;
@@ -209,13 +198,13 @@ class Connection
 
 		// Open the connection
 		$errorCode = $errorString = null;
-		$this->connection = stream_socket_client($this->endpoint, $errorCode, $errorString, $this->connectTimeout, STREAM_CLIENT_CONNECT, $streamContext);
+		$this->connection = stream_socket_client($this->certificate->getEndpoint(), $errorCode, $errorString, $this->connectTimeout, STREAM_CLIENT_CONNECT, $streamContext);
 
 		// Check if the connection succeeded
 		if (false == $this->connection)
 		{
 			$this->connection = null;
-			throw new \UnexpectedValueException('Failed to connect to APNS at ' . $this->endpoint . ' with error #' . $errorCode . ' "' . $errorString . '".');
+			throw new \UnexpectedValueException('Failed to connect to APNS at ' . $this->certificate->getEndpoint() . ' with error #' . $errorCode . ' "' . $errorString . '".');
 		}
 
 		// Set stream in non-blocking mode and make writes unbuffered
