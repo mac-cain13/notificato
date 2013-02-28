@@ -93,7 +93,7 @@ class Certificate
 		// Calculate fingerprint if unknown
 		if (null == $this->fingerprint)
 		{
-			$this->fingerprint = sha1_file($this->getPemFile());
+			$this->fingerprint = sha1( $this->endpoint . sha1_file($this->getPemFile()) );
 		}
 
 		return $this->fingerprint;
