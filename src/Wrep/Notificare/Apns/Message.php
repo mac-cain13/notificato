@@ -33,11 +33,24 @@ class Message
 		$this->payload = null;
 	}
 
+	/**
+	 * Get the device token of the receiving device
+	 *
+	 * @return string
+	 */
 	public function getDeviceToken()
 	{
 		return $this->deviceToken;
 	}
 
+	/**
+	 * Set the alert to display
+	 *  Also see: http://developer.apple.com/library/ios/#documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/ApplePushService/ApplePushService.html#//apple_ref/doc/uid/TP40008194-CH100-SW1
+	 *
+	 * @param $body string The text of the alert to display
+	 * @param $actionLocKey string|null The localization key to use for the action button
+	 * @param $launchImage string|null The name of the launch image to use
+	 */
 	public function setAlert($body, $actionLocKey = null, $launchImage = null)
 	{
 		// Check if a boday is given
@@ -66,6 +79,15 @@ class Message
 		}
 	}
 
+	/**
+	 * Set the localized alert to display
+	 *  Also see: http://developer.apple.com/library/ios/#documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/ApplePushService/ApplePushService.html#//apple_ref/doc/uid/TP40008194-CH100-SW1
+	 *
+	 * @param $locKey string The localization key to use for the text of the alert
+	 * @param $locArgs array The arguments that fill the gaps in the locKey text
+	 * @param $actionLocKey string|null The localization key to use for the action button
+	 * @param $launchImage string|null The name of the launch image to use
+	 */
 	public function setAlertLocalized($locKey, $locArgs = array(), $actionLocKey = null, $launchImage = null)
 	{
 		// Check if a locKey is given
@@ -90,11 +112,21 @@ class Message
 		}
 	}
 
+	/**
+	 * Get the current alert
+	 *
+	 * @return string|array
+	 */
 	public function getAlert()
 	{
 		return $this->alert;
 	}
 
+	/**
+	 * Set the badge to display on the App icon
+	 *
+	 * @param $badge int|null
+	 */
 	public function setBadge($badge)
 	{
 		// Validate the badge int
@@ -106,26 +138,49 @@ class Message
 		$this->badge = (null === $badge) ? null : (int)$badge;
 	}
 
+	/**
+	 * Clear the badge from the App icon
+	 */
 	public function clearBadge()
 	{
 		$this->setBadge(0);
 	}
 
+	/**
+	 * Get the value of the badge as set in this message
+	 *
+	 * @return int|null
+	 */
 	public function getBadge()
 	{
 		return $this->badge;
 	}
 
+	/**
+	 * Set the sound that will be played when this message is received
+	 *
+	 * @param $sound string Optional string of the sound to play, no string will play the default sound
+	 */
 	public function setSound($sound = 'default')
 	{
 		$this->sound = $sound;
 	}
 
+	/**
+	 * Get the sound that will be played when this message is received
+	 *
+	 * @param $sound string|null
+	 */
 	public function getSound()
 	{
 		return $this->sound;
 	}
 
+	/**
+	 * Set custom payload to go with the message
+	 *
+	 * @param $payload array|json|null The payload to send as array or JSON string
+	 */
 	public function setPayload($payload)
 	{
 		if ( (is_string($payload) && empty($payload)) || (is_array($payload) && count($payload) == 0) )
@@ -153,11 +208,21 @@ class Message
 		}
 	}
 
+	/**
+	 * Get the current payload
+	 *
+	 * @return array|null
+	 */
 	public function getPayload()
 	{
 		return $this->payload;
 	}
 
+	/**
+	 * Get the JSON payload that should be send to the APNS
+	 *
+	 * @return string
+	 */
 	public function getJson()
 	{
 		// Get message array to create JSON from
