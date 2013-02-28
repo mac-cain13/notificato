@@ -70,15 +70,15 @@ class Message
 	 * Set the alert to display
 	 *  Also see: http://developer.apple.com/library/ios/#documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/ApplePushService/ApplePushService.html#//apple_ref/doc/uid/TP40008194-CH100-SW1
 	 *
-	 * @param $body string The text of the alert to display
+	 * @param $body string|null The text of the alert to display or null to set no alert
 	 * @param $actionLocKey string|null The localization key to use for the action button
 	 * @param $launchImage string|null The name of the launch image to use
 	 */
 	public function setAlert($body, $actionLocKey = null, $launchImage = null)
 	{
 		// Check if a boday is given
-		if (null == $body) {
-			throw new \InvalidArgumentException('No alert body given.');
+		if (null == $body && (null !== $actionLocKey || null !== $launchImage)) {
+			throw new \InvalidArgumentException('No alert body given, but action-loc-key and/or launch-image given.');
 		}
 
 		// Check if we must use an JSON object

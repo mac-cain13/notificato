@@ -47,10 +47,31 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 	public function correctAlertArguments()
 	{
 		return array(
+			array( null, null, null, null ),
 			array( 'alert-body', null, null, 'alert-body' ),
 			array( 'alert-body', 'action', null, array('body' => 'alert-body', 'action-loc-key' => 'action') ),
 			array( 'alert-body', 'action', 'image', array('body' => 'alert-body', 'action-loc-key' => 'action', 'launch-image' => 'image') ),
 			array( 'alert-body', null, 'image', array('body' => 'alert-body', 'launch-image' => 'image') )
+			);
+	}
+
+	/**
+	 * @dataProvider incorrectAlertArguments
+	 */
+	public function testInvalidAlert($body, $actionLocKey, $launchImage)
+	{
+		$message = new Message('2635d2cb3e51b705bcdf277498ffffce4c64e48ec313d2ccb9f603e2ffff98ef');
+		$this->assertNull($message->getAlert(), 'Alert not null on creation of message.');
+
+		$this->setExpectedException('InvalidArgumentException');
+		$message->setAlert($body, $actionLocKey, $launchImage);
+	}
+
+	public function incorrectAlertArguments()
+	{
+		return array(
+			array( null, 'action', null ),
+			array( null, null, 'image' )
 			);
 	}
 
