@@ -20,8 +20,7 @@ class Certificate
 		$pemFile = realpath($pemFile);
 
 		// Check if the given PEM file does exists
-		if (!is_file($pemFile))
-		{
+		if (!is_file($pemFile)) {
 			throw new \InvalidArgumentException('Could not find the given PEM file "' . $pemFile . '".');
 		}
 
