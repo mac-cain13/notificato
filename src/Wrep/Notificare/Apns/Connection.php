@@ -4,24 +4,35 @@ namespace Wrep\Notificare\Apns;
 
 class Connection
 {
+	// Endpoint constants
 	const ENDPOINT_PRODUCTION = 'ssl://gateway.push.apple.com:2195';
 	const ENDPOINT_SANDBOX = 'ssl://gateway.sandbox.push.apple.com:2195';
 
+	// Socket read/write constants
 	const SEND_INTERVAL = 10000; // microseconds, so this equals 0.1 seconds
 	const READ_TIMEOUT = 1000000; // microseconds, so this equals 1.0 seconds
 
+	// APNS response constants
 	const ERROR_RESPONSE_COMMAND = 8; // Command APNS does send on error
 	const ERROR_RESPONSE_SIZE = 6; // Size of the APNS error response
 
+	// Settings of the connection
 	private $certificate;
 	private $connectTimeout;
-	private $connection;
 	private $endpoint;
 
+	// Current state of the connection
+	private $connection;
 	private $lastMessageId;
 	private $sendQueue;
 	private $messages;
 
+	/**
+	 * Construct Connection
+	 *
+	 * @param $certificate Certificate The certificate to use when connecting to APNS
+	 * @param $endpoint string Optional the endpoint to connect to, APNS production is the default
+	 */
 	public function __construct(Certificate $certificate, $endpoint = self::ENDPOINT_PRODUCTION)
 	{
 		// A certificate is required
@@ -37,14 +48,21 @@ class Connection
 		// Save the given parameters
 		$this->certificate = $certificate;
 		$this->connectTimeout = ini_get('default_socket_timeout');
-		$this->connection = null;
 		$this->endpoint = $endpoint;
 
+		// Setup the current state
+		$this->connection = null;
 		$this->lastMessageId = 0;
 		$this->sendQueue = new \SplQueue();
 		$this->messages = array();
 	}
 
+	/**
+	 * Queue a message for sending
+	 *
+	 * @param $message Message The message object to queue for sending
+	 * @return MessageEnvelope
+	 */
 	public function queue(Message $message)
 	{
 		// Put the message in an envelope
@@ -58,6 +76,9 @@ class Connection
 		return $envelope;
 	}
 
+	/**
+	 * Send all queued messages
+	 */
 	public function flush()
 	{
 		// Don't do anything if the queue is empty
@@ -124,6 +145,9 @@ class Connection
 		}
 	}
 
+	/**
+	 * Check the connection for an error response from APNS
+	 */
 	private function checkForErrorResponse()
 	{
 		// Check if there is something to read from the socket
