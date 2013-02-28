@@ -23,7 +23,7 @@ class Sender
 	 *
 	 * @param $defaultCertificate Certificate|null The certificate to use when no certificate is given in the message itself
 	 */
-	public function setDefaultCertificate(Certificate $defaultCertificate)
+	public function setDefaultCertificate(Certificate $defaultCertificate = null)
 	{
 		$this->defaultCertificate = $defaultCertificate;
 	}
