@@ -5,7 +5,6 @@ namespace Wrep\Notificare\Apns;
 class Message
 {
 	private $deviceToken;
-
 	private $alert;
 	private $badge;
 	private $sound;

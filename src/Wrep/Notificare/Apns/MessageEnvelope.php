@@ -5,9 +5,9 @@ namespace Wrep\Notificare\Apns;
 class MessageEnvelope
 {
 	// Statuscode constants
-	const STATUS_NOERRORS = 0;
-	const STATUS_SENDFAILED = 256;
-	const STATUS_EARLIERERROR = 257;
+	const STATUS_NOERRORS 		= 0;
+	const STATUS_SENDFAILED 	= 256;
+	const STATUS_EARLIERERROR 	= 257;
 
 	// Binary message constants
 	const BINARY_COMMAND = 1;
@@ -17,6 +17,7 @@ class MessageEnvelope
 	private $identifier;
 	private $message;
 	private $status;
+	private $retryEnvelope;
 
 	// Get human readable strings for the statuscodes
 	private static $statusDescriptionMapping = array(
@@ -59,6 +60,7 @@ class MessageEnvelope
 		$this->identifier = $identifier;
 		$this->message = $message;
 		$this->status = -1;
+		$this->retryEnvelope = null;
 	}
 
 	/**
@@ -79,6 +81,26 @@ class MessageEnvelope
 	public function getMessage()
 	{
 		return $this->message;
+	}
+
+	/**
+	 * Set the envelope used in the retry of this envelope
+	 *
+	 * @param $envelope MessageEnvelope Envelope for the retry of this MessageEnvelope
+	 */
+	public function setRetryEnvelope(MessageEnvelope $envelope)
+	{
+		$this->retryEnvelope = $envelope;
+	}
+
+	/**
+	 * Get the envelope used for the retry
+	 *
+	 * @return MessageEnvelope
+	 */
+	public function getRetryEnvelope()
+	{
+		return $this->retryEnvelope;
 	}
 
 	/**
