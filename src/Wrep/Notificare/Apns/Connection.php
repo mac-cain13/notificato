@@ -42,6 +42,7 @@ class Connection
 
 		$this->lastMessageId = 0;
 		$this->sendQueue = new \SplQueue();
+		$this->messages = array();
 	}
 
 	public function queue(Message $message)
@@ -53,6 +54,8 @@ class Connection
 		// Queue the message and save the message so we can track it
 		$this->messages[$envelope->getIdentifier()] = $envelope;
 		$this->sendQueue->enqueue($envelope);
+
+		return $envelope;
 	}
 
 	public function flush()
@@ -83,8 +86,14 @@ class Connection
 			$bytesSend = (int)fwrite($this->connection, $binaryMessage);
 			if (strlen($binaryMessage) !== $bytesSend)
 			{
-				// Something did go wrong while sending this message
-				$this->handleSendingError($messageEnvelope);
+				// Something did go wrong while sending this message, requeue
+				$messageEnvelope->setStatus(MessageEnvelope::STATUS_SENDFAILED);
+				$this->queue( $messageEnvelope->getMessage() );
+			}
+			else
+			{
+				// Mark the message as send without errors
+				$messageEnvelope->setStatus(MessageEnvelope::STATUS_NOERRORS);
 			}
 
 			// Take a nap to give PHP some time to relax after doing stuff with the socket
@@ -115,12 +124,6 @@ class Connection
 		}
 	}
 
-	private function handleSendingError($messageEnvelope)
-	{
-		// TODO: Handle error and requeue messages affected
-		throw new \Exception('handleSendingError not implemented.');
-	}
-
 	private function checkForErrorResponse()
 	{
 		// Check if there is something to read from the socket
@@ -132,8 +135,33 @@ class Connection
 			// Decode the error response
 			$errorMessage = unpack('Ccommand/Cstatus/Nidentifier', $errorResponse);
 
-			// TODO: Handle error and requeue messages affected
-			print_r($errorMessage);
+			// Validate the message
+			if (self::ERROR_RESPONSE_COMMAND != $errorMessage['command']) {
+				throw new \RuntimeException('APNS responded with corrupt errormessage.');
+			}
+
+			// Mark the message that triggered the error as failed
+			$failedMessageEnvelope = $this->messages[$errorMessage['identifier']];
+			$failedMessageEnvelope->setStatus($errorMessage['status']);
+
+			// All messages that are send after the failed message should be send again
+			$messageId = (int)$errorMessage['identifier'] + 1;
+			while ( isset($this->messages[$messageId]) )
+			{
+				// Get the message envelope
+				$messageEnvelope = $this->messages[$messageId];
+
+				// Check if it's send without errors
+				if ($messageEnvelope->getStatus() == STATUS_NOERRORS)
+				{
+					// Mark the message as failed due earlier error and queue the message again
+					$messageEnvelope->setStatus(MessageEnvelope::STATUS_EARLIERERROR);
+					$this->queue( $messageEnvelope->getMessage() );
+				}
+
+				// Next message ID
+				$messageId++;
+			}
 
 			// Reconnect and go on
 			$this->connect();
@@ -179,7 +207,8 @@ class Connection
 		{
 			// Disconnect and unset the connection variable
 			fclose($this->connection);
-			$this->connection = null;
 		}
+
+		$this->connection = null;
 	}
 }

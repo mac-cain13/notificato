@@ -80,18 +80,16 @@ class MessageEnvelope
 
 		// Save it!
 		$this->status = $status;
-
-		echo 'MessageEnvelope #' . $this->getIdentifier() . ' is marked as ' . $this->getStatusDescription() . PHP_EOL;
 	}
 
 	public function getStatus()
 	{
-		return $this->getStatus;
+		return $this->status;
 	}
 
 	public function getStatusDescription()
 	{
-		return self::$statusDescriptionMapping[$this->getStatus];
+		return self::$statusDescriptionMapping[$this->getStatus()];
 	}
 
 	public function getBinaryMessage()
