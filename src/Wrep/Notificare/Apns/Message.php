@@ -23,6 +23,16 @@ class Message
 			throw new \InvalidArgumentException('No device token given.');
 		}
 
+		// Check if the devicetoken is a valid hexadecimal string
+		if (!ctype_xdigit($deviceToken)) {
+			throw new \InvalidArgumentException('Invalid device token given, no hexadecimal: ' . $deviceToken);
+		}
+
+		// Check if the length of the devicetoken is correct
+		if (64 != strlen($deviceToken)) {
+			throw new \InvalidArgumentException('Invalid device token given, incorrect length: (' .strlen($deviceToken) . ') ' . $deviceToken);
+		}
+
 		// Set the devicetoken
 		$this->deviceToken = (string)$deviceToken;
 

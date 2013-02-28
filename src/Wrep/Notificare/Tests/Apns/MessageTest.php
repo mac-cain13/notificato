@@ -18,7 +18,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testInvalidConstruction($deviceToken)
 	{
-		$this->setExpectedException('InvalidArgumentException', 'No device token given.');
+		$this->setExpectedException('InvalidArgumentException');
 		$message = new Message($deviceToken);
 	}
 
@@ -26,7 +26,9 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 	{
 		return array(
 			array( null ),
-			array( '' )
+			array( '' ),
+			array( 'aef1234' ),
+			array( 'thisisnotanhexstring!' )
 			);
 	}
 
