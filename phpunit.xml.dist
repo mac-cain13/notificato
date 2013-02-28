@@ -15,8 +15,14 @@
     </php>
 
     <testsuites>
-        <testsuite name="Notificare Test Suite">
+        <testsuite name="Notificare">
             <directory>./src/Wrep/Notificare/Tests/</directory>
         </testsuite>
     </testsuites>
+
+    <groups>
+        <exclude>
+            <group>pushtest</group>
+        </exclude>
+    </groups>
 </phpunit>

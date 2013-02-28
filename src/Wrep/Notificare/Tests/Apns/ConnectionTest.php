@@ -11,6 +11,7 @@ class ConnectionTests extends \PHPUnit_Framework_TestCase
 {
 	/**
 	 * @dataProvider pushArguments
+	 * @group pushtest
 	 */
 	public function testPush(Certificate $certificate, $deviceToken)
 	{
@@ -42,7 +43,7 @@ class ConnectionTests extends \PHPUnit_Framework_TestCase
 	{
 		return array(
 			// Add a valid certificate and pushtoken here to run this test
-			//array(new Certificate(__DIR__ . '/../resources/paspas.pem'), '95e3097b302dd0634c4300d0386b582efc51d740bb8869412a73b52c0fda6d7c')
+			array(new Certificate(__DIR__ . '/../resources/paspas.pem'), '2f9a6ca974ce0b4897fcc171c6a4a9a28f98c36b32962566ab83bbfa0e372c19')
 			);
 	}
 }
