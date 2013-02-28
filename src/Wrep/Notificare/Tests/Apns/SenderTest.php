@@ -11,6 +11,28 @@ use \Wrep\Notificare\Apns\MessageEnvelope;
 class SenderTests extends \PHPUnit_Framework_TestCase
 {
 	/**
+	 * @dataProvider defaultCertificateArguments
+	 */
+	public function testDefaultCertificate($constructionCert, $setCert)
+	{
+		$sender = new Sender($constructionCert);
+		$this->assertEquals($constructionCert, $sender->getDefaultCertificate());
+
+		$sender->setDefaultCertificate($setCert);
+		$this->assertEquals($setCert, $sender->getDefaultCertificate());
+	}
+
+	public function defaultCertificateArguments()
+	{
+		return array(
+			array(null, null),
+			array(new Certificate(__DIR__ . '/.././resources/../resources/certificate_corrupt.pem'), null),
+			array(null, new Certificate(__DIR__ . '/.././resources/../resources/certificate_corrupt.pem')),
+			array(new Certificate(__DIR__ . '/.././resources/../resources/certificate_corrupt.pem'), new Certificate(__DIR__ . '/.././resources/../resources/certificate_corrupt.pem'))
+			);
+	}
+
+	/**
 	 * @dataProvider pushArguments
 	 */
 	public function testPush(Certificate $certificate, $deviceToken)

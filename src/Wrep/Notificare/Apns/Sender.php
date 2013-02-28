@@ -81,7 +81,7 @@ class Sender
 		// Check if we must flush a specific connection
 		if (null == $certificate)
 		{
-			// No flush the whole connection pool
+			// No, flush the whole connection pool
 			foreach ($this->connectionPool as $connection)
 			{
 				$connection->flush();
