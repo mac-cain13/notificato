@@ -122,7 +122,7 @@ class Connection
 		// Did waiting for the response succeed?
 		if (false === $changedStreams)
 		{
-			throw new \UnexpectedValueException('Could not stream_select the APNS connection.');
+			throw new \RuntimeException('Could not stream_select the APNS connection.');
 		}
 		// Did we receive a response?
 		else if ($changedStreams > 0)
