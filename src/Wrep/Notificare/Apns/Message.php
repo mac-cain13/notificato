@@ -6,6 +6,7 @@ class Message
 {
 	private $deviceToken;
 	private $certificate;
+	private $expiresAt;
 
 	private $alert;
 	private $badge;
@@ -38,6 +39,7 @@ class Message
 		// Set the devicetoken
 		$this->deviceToken = $deviceToken;
 		$this->certificate = $certificate;
+		$this->expiresAt = 0;
 
 		// Set the defaults
 		$this->alert = null;
@@ -64,6 +66,27 @@ class Message
 	public function getCertificate()
 	{
 		return $this->certificate;
+	}
+
+	/**
+	 * Get the moment this message expires
+	 *
+	 * @return int Unix timestamp of expiry moment or zero if no specific expiry moment is set
+	 */
+	public function getExpiresAt()
+	{
+		return $this->expiresAt;
+	}
+
+	/**
+	 * Set the moment this message should expire or null if APNS should not store the message at all
+	 *  The last message for a device is stored at APNS for delivery until this moment if the device is offline
+	 *
+	 * @param $expiresAt DateTime|null Date until the message should be stored for delivery
+	 */
+	public function setExpiresAt(\DateTime $expiresAt = null)
+	{
+		$this->expiresAt = (null == $expiresAt) ? 0 : $expiresAt->format('U');
 	}
 
 	/**

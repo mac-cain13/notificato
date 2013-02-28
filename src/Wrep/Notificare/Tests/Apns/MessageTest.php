@@ -33,6 +33,34 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * @dataProvider correctExpiryArguments
+	 */
+	public function testExpiry($expiryDate)
+	{
+		$message = new Message('2635d2cb3e51b705bcdf277498ffffce4c64e48ec313d2ccb9f603e2ffff98ef');
+		$this->assertEquals(0, $message->getExpiresAt());
+
+		$message->setExpiresAt($expiryDate);
+		if (null == $expiryDate)
+		{
+			$this->assertEquals(0, $message->getExpiresAt());
+		}
+		else
+		{
+			$this->assertEquals($expiryDate->format('U'), $message->getExpiresAt());
+		}
+	}
+
+	public function correctExpiryArguments()
+	{
+		return array(
+			array(new \DateTime('2020-12-12 12:12:12')),
+			array(new \DateTime('tomorrow')),
+			array(null)
+			);
+	}
+
+	/**
 	 * @dataProvider correctAlertArguments
 	 */
 	public function testAlert($body, $actionLocKey, $launchImage, $result)

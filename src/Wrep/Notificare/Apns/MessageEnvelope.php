@@ -21,9 +21,11 @@ class MessageEnvelope
 
 	// Get human readable strings for the statuscodes
 	private static $statusDescriptionMapping = array(
+			// Non-final states that can still change
 			 -1 => 'Not send to APNS',
-
 			  0 => '[APNS] No errors encountered',
+
+			// APNS final states
 			  1 => '[APNS] Processing error',
 			  2 => '[APNS] Missing device token',
 			  3 => '[APNS] Missing topic',
@@ -34,6 +36,7 @@ class MessageEnvelope
 			  8 => '[APNS] Invalid token',
 			255 => '[APNS] Unknown error',
 
+			// Notificare internal final states
 			256 => 'Sending failed, will retry with other envelope',
 			257 => 'Failed due earlier error, will retry with other envelope',
 		);
@@ -160,7 +163,7 @@ class MessageEnvelope
 		$jsonMessage = $this->getMessage()->getJson();
 		$jsonMessageLength = strlen($jsonMessage);
 
-		$binaryMessage = pack('CNNnH*', self::BINARY_COMMAND, $this->getIdentifier(), 0, self::BINARY_DEVICETOKEN_SIZE, $this->getMessage()->getDeviceToken()) . pack('n', $jsonMessageLength);
+		$binaryMessage = pack('CNNnH*', self::BINARY_COMMAND, $this->getIdentifier(), $this->getMessage()->getExpiresAt(), self::BINARY_DEVICETOKEN_SIZE, $this->getMessage()->getDeviceToken()) . pack('n', $jsonMessageLength);
 		return $binaryMessage . $jsonMessage;
 	}
 }
