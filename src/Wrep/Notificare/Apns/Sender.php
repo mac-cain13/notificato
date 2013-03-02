@@ -37,6 +37,22 @@ class Sender
 	}
 
 	/**
+	 * Queues a message and flushes the connection it must be send over immediately
+	 *
+	 * @param $message Message The message to send
+	 * @return MessageEnvelope
+	 */
+	public function send(Message $message)
+	{
+		// Queue the message and flush the associated connection
+		$messageEnvelope = $this->queue($message);
+		$this->flush( $message->getCertificate() );
+
+		// Return the envelope
+		return $messageEnvelope;
+	}
+
+	/**
 	 * Queue a message on the correct APNS connection
 	 * Note: A certificate must be set in the message or as default to make this method work
 	 *

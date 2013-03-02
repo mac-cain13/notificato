@@ -10,30 +10,46 @@ use \Wrep\Notificare\Apns\MessageEnvelope;
 
 class SenderTests extends \PHPUnit_Framework_TestCase
 {
+	private $sender;
+
+	public function setUp()
+	{
+		// Get our sender
+		$this->sender = new Sender($certificate);
+		$this->sender->setConnectionFactory(new MockConnectionFactory());
+	}
+
+	private function getCertificate($fingerprint)
+	{
+		// Create cert
+		$certificate = $this->getMockBuilder('\Wrep\Notificare\Apns\Certificate')
+							->disableOriginalConstructor()
+							->getMock();
+		$certificate->expects($this->any())
+					->method('getFingerprint')
+					->will($this->returnValue($fingerprint));
+
+		return $certificate;
+	}
+
+	public function testSend()
+	{
+		$messageFactory = new MessageFactory( $this->getCertificate('a') );
+		$message = $messageFactory->createMessage('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff');
+
+		$this->assertEquals(0, $this->sender->getQueueLength());
+		$messageEnvelope = $this->sender->send($message);
+		$this->assertEquals(0, $this->sender->getQueueLength());
+		$this->assertEquals(MessageEnvelope::STATUS_NOERRORS, $messageEnvelope->getStatus());
+	}
+
 	public function testQueueAndFlush()
 	{
-		$certificateA = $this->getMockBuilder('\Wrep\Notificare\Apns\Certificate')
-							 ->disableOriginalConstructor()
-							 ->getMock();
-		$certificateA->expects($this->any())
-					 ->method('getFingerprint')
-					 ->will($this->returnValue('a'));
+		$certificateA = $this->getCertificate('a');
+		$certificateB = $this->getCertificate('b');
+		$certificateC = $this->getCertificate('c');
 
-		$certificateB = $this->getMockBuilder('\Wrep\Notificare\Apns\Certificate')
-							 ->disableOriginalConstructor()
-							 ->getMock();
-		$certificateB->expects($this->any())
-					 ->method('getFingerprint')
-					 ->will($this->returnValue('b'));
-
-		$certificateC = $this->getMockBuilder('\Wrep\Notificare\Apns\Certificate')
-							 ->disableOriginalConstructor()
-							 ->getMock();
-		$certificateC->expects($this->any())
-					 ->method('getFingerprint')
-					 ->will($this->returnValue('c'));
-
-		// Create a correct and incorrect message
+		// Create messages
 		$messageFactory = new MessageFactory($certificateA);
 		$messageA = $messageFactory->createMessage('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff');
 		$messageB = $messageFactory->createMessage('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificateB);
