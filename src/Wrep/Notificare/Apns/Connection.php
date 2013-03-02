@@ -107,9 +107,8 @@ class Connection
 			if (strlen($binaryMessage) !== $bytesSend)
 			{
 				// Something did go wrong while sending this message, requeue
-				$messageEnvelope->setStatus(MessageEnvelope::STATUS_SENDFAILED);
 				$retryMessageEnvelope = $this->queue( $messageEnvelope->getMessage() );
-				$messageEnvelope->setRetryEnvelope($retryMessageEnvelope);
+				$messageEnvelope->setStatus(MessageEnvelope::STATUS_SENDFAILED, $retryMessageEnvelope);
 			}
 			else
 			{
@@ -180,9 +179,8 @@ class Connection
 				if ($messageEnvelope->getStatus() == STATUS_NOERRORS)
 				{
 					// Mark the message as failed due earlier error and queue the message again
-					$messageEnvelope->setStatus(MessageEnvelope::STATUS_EARLIERERROR);
 					$retryMessageEnvelope = $this->queue( $messageEnvelope->getMessage() );
-					$messageEnvelope->setRetryEnvelope($retryMessageEnvelope);
+					$messageEnvelope->setStatus(MessageEnvelope::STATUS_EARLIERERROR, $retryMessageEnvelope);
 				}
 
 				// Next message ID

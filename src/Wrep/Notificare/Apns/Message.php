@@ -4,10 +4,12 @@ namespace Wrep\Notificare\Apns;
 
 class Message
 {
+	// Attributes that go into the binary APNS comminucation
 	private $deviceToken;
 	private $certificate;
 	private $expiresAt;
 
+	// Attributes that go into the payload
 	private $alert;
 	private $badge;
 	private $sound;

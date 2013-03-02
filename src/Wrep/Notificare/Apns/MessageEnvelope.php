@@ -50,7 +50,7 @@ class MessageEnvelope
 	public function __construct($identifier, Message $message)
 	{
 		// A message id greater then 0 is required
-		if (!($identifier > 0)) {
+		if ( !(is_int($identifier) && $identifier > 0) ) {
 			throw new \InvalidArgumentException('Message ID #' . $identifier . ' is invalid, must be an integer above zero.');
 		}
 
@@ -87,16 +87,6 @@ class MessageEnvelope
 	}
 
 	/**
-	 * Set the envelope used in the retry of this envelope
-	 *
-	 * @param $envelope MessageEnvelope Envelope for the retry of this MessageEnvelope
-	 */
-	public function setRetryEnvelope(MessageEnvelope $envelope)
-	{
-		$this->retryEnvelope = $envelope;
-	}
-
-	/**
 	 * Get the envelope used for the retry
 	 *
 	 * @return MessageEnvelope
@@ -111,14 +101,10 @@ class MessageEnvelope
 	 *  only possible if there is no final state set yet.
 	 *
 	 * @param $status int One of the keys in self::$statusDescriptionMapping
+	 * @param $envelope MessageEnvelope|null Envelope for the retry of this MessageEnvelope
 	 */
-	public function setStatus($status)
+	public function setStatus($status, $envelope = null)
 	{
-		// Ignore if status stays the same
-		if ($this->getStatus() == $status) {
-			return;
-		}
-
 		// Check if we're not in a final state yet
 		if ($this->status > 0) {
 			throw new \RuntimeException('Cannot change status from final state ' . $this->status . ' to state ' . $status . '.');
@@ -129,8 +115,14 @@ class MessageEnvelope
 			throw new \InvalidArgumentException('Status ' . $status . ' is not a valid status.');
 		}
 
+		// Check if the retry envelope is not this envelope
+		if ($this === $envelope) {
+			throw new \InvalidArgumentException('Retry envelope cannot be set to this envelope.');
+		}
+
 		// Save it!
 		$this->status = $status;
+		$this->retryEnvelope = $envelope;
 	}
 
 	/**
