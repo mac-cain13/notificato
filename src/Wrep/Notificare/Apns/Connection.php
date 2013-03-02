@@ -142,7 +142,8 @@ class Connection
 	{
 		// Check if there is something to read from the socket
 		$errorResponse = fread($this->connection, self::ERROR_RESPONSE_SIZE);
-		if (false !== $errorResponse && self::ERROR_RESPONSE_SIZE === strlen($errorResponse)) {
+		if (false !== $errorResponse && self::ERROR_RESPONSE_SIZE === strlen($errorResponse))
+		{
 			// Got an error, disconnect
 			$this->disconnect();
 

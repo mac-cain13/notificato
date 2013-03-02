@@ -5,6 +5,7 @@ namespace Wrep\Notificare\Apns;
 class Sender
 {
 	private $defaultCertificate;
+	private $connectionFactory;
 	private $connectionPool;
 
 	/**
@@ -15,6 +16,7 @@ class Sender
 	public function __construct(Certificate $defaultCertificate = null)
 	{
 		$this->setDefaultCertificate($defaultCertificate);
+		$this->setConnectionFactory(new ConnectionFactory());
 		$this->connectionPool = array();
 	}
 
@@ -36,6 +38,26 @@ class Sender
 	public function getDefaultCertificate()
 	{
 		return $this->defaultCertificate;
+	}
+
+	/**
+	 * Set the connection factory to use for creating connections to APNS
+	 *
+	 * @param $connectionFactory ConnectionFactory The connection factory to use
+	 */
+	public function setConnectionFactory(ConnectionFactory $connectionFactory)
+	{
+		$this->connectionFactory = $connectionFactory;
+	}
+
+	/**
+	 * Get the current connection factory
+	 *
+	 * @return ConnectionFactory
+	 */
+	public function getConnectionFactory()
+	{
+		return $this->connectionFactory;
 	}
 
 	/**
@@ -105,7 +127,7 @@ class Sender
 		// If no connection is available for this certificate create one
 		if ( !isset($this->connectionPool[$certificate->getFingerprint()]) )
 		{
-			$this->connectionPool[$certificate->getFingerprint()] = new Connection($certificate);
+			$this->connectionPool[$certificate->getFingerprint()] = $this->getConnectionFactory()->createConnection($certificate);
 		}
 
 		// Return the connection for this certificate
