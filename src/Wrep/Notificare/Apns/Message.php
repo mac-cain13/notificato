@@ -289,6 +289,16 @@ class Message
 	}
 
 	/**
+	 * Checks if the length of the message is acceptable for the APNS
+	 *
+	 * @return boolean True when the length is okay, false when you should shorten the payload
+	 */
+	public function validateLength()
+	{
+		return (strlen($this->getJson()) <= 256);
+	}
+
+	/**
 	 * Get the JSON payload that should be send to the APNS
 	 *
 	 * @return string

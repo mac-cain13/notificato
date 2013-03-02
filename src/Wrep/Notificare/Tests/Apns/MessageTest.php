@@ -202,6 +202,28 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * @dataProvider longPayloadArguments
+	 */
+	public function testTooLongPayload($lengthOk, $payload)
+	{
+		$this->assertTrue($this->message->validateLength(), 'Empty message payload shouldn\'t be too long.');
+		$this->message->setPayload(array($payload));
+		$this->assertEquals($lengthOk, $this->message->validateLength());
+	}
+
+	public function longPayloadArguments()
+	{
+		return array(
+			array(true, array('p' => str_pad('a', 100))),
+			array(true, array('p' => str_pad('a', 200))),
+			array(true, array('p' => str_pad('a', 242))),
+			array(false, array('p' => str_pad('a', 243))),
+			array(false, array('p' => str_pad('a', 300))),
+			array(false, array('p' => str_pad('a', 400)))
+			);
+	}
+
+	/**
 	 * @dataProvider incorrectPayloadArguments
 	 */
 	public function testInvalidPayload($payload)

@@ -39,6 +39,7 @@ class MessageEnvelope
 			// Notificare internal final states
 			256 => 'Sending failed, will retry with other envelope',
 			257 => 'Failed due earlier error, will retry with other envelope',
+			258 => 'Payload exceeds 256 bytes, will not send message to APNS'
 		);
 
 	/**
