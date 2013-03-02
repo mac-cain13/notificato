@@ -12,6 +12,7 @@ class Message
 	private $badge;
 	private $sound;
 	private $payload;
+	private $contentAvailable;
 
 	/**
 	 * Construct Message
@@ -46,6 +47,7 @@ class Message
 		$this->badge = null;
 		$this->sound = null;
 		$this->payload = null;
+		$this->contentAvailable = false;
 	}
 
 	/**
@@ -215,11 +217,31 @@ class Message
 	/**
 	 * Get the sound that will be played when this message is received
 	 *
-	 * @param $sound string|null
+	 * @return $sound string|null
 	 */
 	public function getSound()
 	{
 		return $this->sound;
+	}
+
+	/**
+	 * Set newsstand content availability flag that will trigger the newsstand item to download new content
+	 *
+	 * @param $contentAvailable boolean True when new content is available, false when not
+	 */
+	public function setContentAvailable($contentAvailable)
+	{
+		$this->contentAvailable = (bool)$contentAvailable;
+	}
+
+	/**
+	 * Get newsstand content availability flag that will trigger the newsstand item to download new content
+	 *
+	 * @return $contentAvailable boolean True when new content is available, false when not
+	 */
+	public function getContentAvailable()
+	{
+		return $this->contentAvailable;
 	}
 
 	/**
@@ -271,8 +293,9 @@ class Message
 	 */
 	public function getJson()
 	{
-		// Get message array to create JSON from
+		// Get message and aps array to create JSON from
 		$message = array();
+		$aps = array();
 
 		// If we have a payload replace the message object by the payload
 		if (null !== $this->payload) {
@@ -281,17 +304,27 @@ class Message
 
 		// Add the alert if any
 		if (null !== $this->alert) {
-			$message['alert'] = $this->alert;
+			$aps['alert'] = $this->alert;
 		}
 
 		// Add the badge if any
 		if (null !== $this->badge) {
-			$message['badge'] = $this->badge;
+			$aps['badge'] = $this->badge;
 		}
 
 		// Add the sound if any
 		if (null !== $this->sound) {
-			$message['sound'] = $this->sound;
+			$aps['sound'] = $this->sound;
+		}
+
+		// Add the content-available flag if set
+		if (true == $this->contentAvailable) {
+			$aps['content-available'] = 1;
+		}
+
+		// Check if APS data is set
+		if (count($aps) > 0) {
+			$message['aps'] = $aps;
 		}
 
 		// Encode as JSON object

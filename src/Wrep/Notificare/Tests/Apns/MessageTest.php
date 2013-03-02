@@ -164,6 +164,17 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 		$this->assertNull($this->message->getSound(), 'Unsetting the sound did not persist.');
 	}
 
+	public function testContentAvailable()
+	{
+		$this->assertEquals(false, $this->message->getContentAvailable(), 'ContentAvailable not false on creation of message.');
+
+		$this->message->setContentAvailable(true);
+		$this->assertEquals(true, $this->message->getContentAvailable(), 'Setting ContentAvailable to 999 did not persist.');
+
+		$this->message->setContentAvailable(false);
+		$this->assertEquals(false, $this->message->getContentAvailable(), 'Clearing the ContentAvailable did not persist.');
+	}
+
 	/**
 	 * @dataProvider correctPayloadArguments
 	 */
@@ -219,12 +230,15 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 		$this->assertJsonStringEqualsJsonString(json_encode(array('payload' => array( 'some' => 'payloadhere' )), JSON_FORCE_OBJECT), $this->message->getJson());
 
 		$this->message->setBadge(9);
-		$this->assertJsonStringEqualsJsonString(json_encode(array('payload' => array( 'some' => 'payloadhere' ), 'badge' => 9), JSON_FORCE_OBJECT), $this->message->getJson());
+		$this->assertJsonStringEqualsJsonString(json_encode(array('payload' => array( 'some' => 'payloadhere' ), 'aps' => array('badge' => 9)), JSON_FORCE_OBJECT), $this->message->getJson());
 
 		$this->message->setAlert('thisismyalert');
-		$this->assertJsonStringEqualsJsonString(json_encode(array('payload' => array( 'some' => 'payloadhere' ), 'badge' => 9, 'alert' => 'thisismyalert'), JSON_FORCE_OBJECT), $this->message->getJson());
+		$this->assertJsonStringEqualsJsonString(json_encode(array('payload' => array( 'some' => 'payloadhere' ), 'aps' => array('badge' => 9, 'alert' => 'thisismyalert')), JSON_FORCE_OBJECT), $this->message->getJson());
 
 		$this->message->setSound('thisismysound');
-		$this->assertJsonStringEqualsJsonString(json_encode(array('payload' => array( 'some' => 'payloadhere' ), 'badge' => 9, 'alert' => 'thisismyalert', 'sound' => 'thisismysound'), JSON_FORCE_OBJECT), $this->message->getJson());
+		$this->assertJsonStringEqualsJsonString(json_encode(array('payload' => array( 'some' => 'payloadhere' ), 'aps' => array('badge' => 9, 'alert' => 'thisismyalert', 'sound' => 'thisismysound')), JSON_FORCE_OBJECT), $this->message->getJson());
+
+		$this->message->setContentAvailable(true);
+		$this->assertJsonStringEqualsJsonString(json_encode(array('payload' => array( 'some' => 'payloadhere' ), 'aps' => array('badge' => 9, 'alert' => 'thisismyalert', 'sound' => 'thisismysound', 'content-available' => 1)), JSON_FORCE_OBJECT), $this->message->getJson());
 	}
 }

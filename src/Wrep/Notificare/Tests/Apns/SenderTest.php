@@ -38,7 +38,9 @@ class SenderTests extends \PHPUnit_Framework_TestCase
 		$message = $messageFactory->createMessage('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff');
 
 		$this->assertEquals(0, $this->sender->getQueueLength());
+
 		$messageEnvelope = $this->sender->send($message);
+
 		$this->assertEquals(0, $this->sender->getQueueLength());
 		$this->assertEquals(MessageEnvelope::STATUS_NOERRORS, $messageEnvelope->getStatus());
 	}
