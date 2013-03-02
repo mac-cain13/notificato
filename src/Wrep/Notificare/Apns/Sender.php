@@ -94,6 +94,23 @@ class Sender
 	}
 
 	/**
+	 * Count of all queued messages
+	 *
+	 * @return int
+	 */
+	public function getQueueLength()
+	{
+		$queueLength = 0;
+
+		foreach ($this->connectionPool as $connection)
+		{
+			$queueLength += $connection->getQueueLength();
+		}
+
+		return $queueLength;
+	}
+
+	/**
 	 * Send all queued messages
 	 *
 	 * @param $certificate Certificate|null When given only the connection for the given certificate is flushed

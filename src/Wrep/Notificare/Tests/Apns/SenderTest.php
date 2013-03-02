@@ -32,41 +32,48 @@ class SenderTests extends \PHPUnit_Framework_TestCase
 			);
 	}
 
-	/**
-	 * @dataProvider pushArguments
-	 * @group pushtest
-	 */
-	public function testPush(Certificate $certificate, $deviceToken)
+	public function testQueueAndFlush()
 	{
+		$certificateA = $this->getMockBuilder('\Wrep\Notificare\Apns\Certificate')
+							 ->disableOriginalConstructor()
+							 ->getMock();
+		$certificateA->expects($this->any())
+					 ->method('getFingerprint')
+					 ->will($this->returnValue('a'));
+
+		$certificateB = $this->getMockBuilder('\Wrep\Notificare\Apns\Certificate')
+							 ->disableOriginalConstructor()
+							 ->getMock();
+		$certificateB->expects($this->any())
+					 ->method('getFingerprint')
+					 ->will($this->returnValue('b'));
+
+		$certificateC = $this->getMockBuilder('\Wrep\Notificare\Apns\Certificate')
+							 ->disableOriginalConstructor()
+							 ->getMock();
+		$certificateC->expects($this->any())
+					 ->method('getFingerprint')
+					 ->will($this->returnValue('c'));
+
 		// Create a correct and incorrect message
-		$message = new Message($deviceToken);
-		$incorrectMessage = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff');
+		$messageA = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff');
+		$messageB = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificateB);
+		$messageC = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificateC);
 
 		// Connect and queue the messages
-		$sender = new Sender($certificate);
-		$successEnvelope	= $sender->queue($message);
-		$failEnvelope 		= $sender->queue($incorrectMessage);
-		$retryEnvelope 		= $sender->queue($message);
+		$sender = new Sender($certificateA);
+		$sender->setConnectionFactory(new MockConnectionFactory());
+
+		for ($i = 1; $i <= 5; $i++)
+		{
+			$sender->queue($messageA);
+			$sender->queue($messageB);
+			$sender->queue($messageC);
+			$this->assertEquals($i * 3, $sender->getQueueLength());
+		}
 
 		// Send the messages
 		$sender->flush();
-
-		// Get the retry envelope
-		$retrySuccessEnvelope = $retryEnvelope->getRetryEnvelope();
-		$this->assertInstanceOf('\Wrep\Notificare\Apns\MessageEnvelope', $retrySuccessEnvelope, 'Retried message has no retry envelope.');
-
-		// Check for the expected statusses
-		$this->assertEquals(MessageEnvelope::STATUS_NOERRORS, $successEnvelope->getStatus());
-		$this->assertEquals(8, $failEnvelope->getStatus());
-		$this->assertEquals(MessageEnvelope::STATUS_EARLIERERROR, $retryEnvelope->getStatus());
-		$this->assertEquals(MessageEnvelope::STATUS_NOERRORS, $retrySuccessEnvelope->getStatus());
-	}
-
-	public function pushArguments()
-	{
-		return array(
-			// Add a valid certificate and pushtoken here to run this test
-			array(new Certificate(__DIR__ . '/../resources/paspas.pem'), '95e3097b302dd0634c4300d0386b582efc51d740bb8869412a73b52c0fda6d7c')
-			);
+		$this->assertEquals(0, $sender->getQueueLength());
 	}
 }

@@ -20,8 +20,8 @@ class Connection
 	// Current state of the connection
 	private $connection;
 	private $lastMessageId;
-	private $sendQueue;
 	private $messages;
+	protected $sendQueue;
 
 	/**
 	 * Construct Connection
@@ -42,8 +42,8 @@ class Connection
 		// Setup the current state
 		$this->connection = null;
 		$this->lastMessageId = 0;
-		$this->sendQueue = new \SplQueue();
 		$this->messages = array();
+		$this->sendQueue = new \SplQueue();
 	}
 
 	/**
@@ -63,6 +63,16 @@ class Connection
 		$this->sendQueue->enqueue($envelope);
 
 		return $envelope;
+	}
+
+	/**
+	 * Count of all queued messages
+	 *
+	 * @return int
+	 */
+	public function getQueueLength()
+	{
+		return $this->sendQueue->count();
 	}
 
 	/**
