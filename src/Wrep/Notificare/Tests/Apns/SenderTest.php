@@ -53,7 +53,7 @@ class SenderTests extends \PHPUnit_Framework_TestCase
 
 		// Get the retry envelope
 		$retrySuccessEnvelope = $retryEnvelope->getRetryEnvelope();
-		$this->assertInstanceOf('\Wrep\Notificare\Apns\MessageEnvelope', $retrySuccessEnvelope, 'Retried message has no retry enveloped.');
+		$this->assertInstanceOf('\Wrep\Notificare\Apns\MessageEnvelope', $retrySuccessEnvelope, 'Retried message has no retry envelope.');
 
 		// Check for the expected statusses
 		$this->assertEquals(MessageEnvelope::STATUS_NOERRORS, $successEnvelope->getStatus());
