@@ -3,14 +3,22 @@
 namespace Wrep\Notificare\Tests\Apns;
 
 use \Wrep\Notificare\Apns\Message;
+use \Wrep\Notificare\Apns\Certificate;
 
 class MessageTest extends \PHPUnit_Framework_TestCase
 {
+	private $message;
+
+	public function setUp()
+	{
+		$certificate = new Certificate(__DIR__ . '/../resources/certificate_corrupt.pem');
+		$this->message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate);
+	}
+
 	public function testConstruction()
 	{
-		$message = new Message('2635d2cb3e51b705bcdf277498ffffce4c64e48ec313d2ccb9f603e2ffff98ef');
-		$this->assertInstanceOf('\Wrep\Notificare\Apns\Message', $message, 'Message of incorrect classtype.');
-		$this->assertEquals('2635d2cb3e51b705bcdf277498ffffce4c64e48ec313d2ccb9f603e2ffff98ef', $message->getDeviceToken(), 'Incorrect token retrieved.');
+		$this->assertInstanceOf('\Wrep\Notificare\Apns\Message', $this->message, 'Message of incorrect classtype.');
+		$this->assertEquals('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $this->message->getDeviceToken(), 'Incorrect token retrieved.');
 	}
 
 	/**
@@ -19,7 +27,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 	public function testInvalidConstruction($deviceToken)
 	{
 		$this->setExpectedException('InvalidArgumentException');
-		$message = new Message($deviceToken);
+		$message = new Message($deviceToken, new Certificate(__DIR__ . '/../resources/certificate_corrupt.pem'));
 	}
 
 	public function incorrectConstructorArguments()
@@ -37,17 +45,16 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testExpiry($expiryDate)
 	{
-		$message = new Message('2635d2cb3e51b705bcdf277498ffffce4c64e48ec313d2ccb9f603e2ffff98ef');
-		$this->assertEquals(0, $message->getExpiresAt());
+		$this->assertEquals(0, $this->message->getExpiresAt());
 
-		$message->setExpiresAt($expiryDate);
+		$this->message->setExpiresAt($expiryDate);
 		if (null == $expiryDate)
 		{
-			$this->assertEquals(0, $message->getExpiresAt());
+			$this->assertEquals(0, $this->message->getExpiresAt());
 		}
 		else
 		{
-			$this->assertEquals($expiryDate->format('U'), $message->getExpiresAt());
+			$this->assertEquals($expiryDate->format('U'), $this->message->getExpiresAt());
 		}
 	}
 
@@ -65,11 +72,10 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testAlert($body, $actionLocKey, $launchImage, $result)
 	{
-		$message = new Message('2635d2cb3e51b705bcdf277498ffffce4c64e48ec313d2ccb9f603e2ffff98ef');
-		$this->assertNull($message->getAlert(), 'Alert not null on creation of message.');
+		$this->assertNull($this->message->getAlert(), 'Alert not null on creation of message.');
 
-		$message->setAlert($body, $actionLocKey, $launchImage);
-		$this->assertEquals($result, $message->getAlert());
+		$this->message->setAlert($body, $actionLocKey, $launchImage);
+		$this->assertEquals($result, $this->message->getAlert());
 	}
 
 	public function correctAlertArguments()
@@ -88,11 +94,10 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testInvalidAlert($body, $actionLocKey, $launchImage)
 	{
-		$message = new Message('2635d2cb3e51b705bcdf277498ffffce4c64e48ec313d2ccb9f603e2ffff98ef');
-		$this->assertNull($message->getAlert(), 'Alert not null on creation of message.');
+		$this->assertNull($this->message->getAlert(), 'Alert not null on creation of message.');
 
 		$this->setExpectedException('InvalidArgumentException');
-		$message->setAlert($body, $actionLocKey, $launchImage);
+		$this->message->setAlert($body, $actionLocKey, $launchImage);
 	}
 
 	public function incorrectAlertArguments()
@@ -108,11 +113,10 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testAlertLocalized($locKey, $locArgs, $actionLocKey, $launchImage, $result)
 	{
-		$message = new Message('2635d2cb3e51b705bcdf277498ffffce4c64e48ec313d2ccb9f603e2ffff98ef');
-		$this->assertNull($message->getAlert(), 'Alert not null on creation of message.');
+		$this->assertNull($this->message->getAlert(), 'Alert not null on creation of message.');
 
-		$message->setAlertLocalized($locKey, $locArgs, $actionLocKey, $launchImage);
-		$this->assertEquals($result, $message->getAlert());
+		$this->message->setAlertLocalized($locKey, $locArgs, $actionLocKey, $launchImage);
+		$this->assertEquals($result, $this->message->getAlert());
 	}
 
 	public function correctAlertLocalizedArguments()
@@ -134,32 +138,30 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 
 	public function testBadge()
 	{
-		$message = new Message('2635d2cb3e51b705bcdf277498ffffce4c64e48ec313d2ccb9f603e2ffff98ef');
-		$this->assertNull($message->getBadge(), 'Badge not null on creation of message.');
+		$this->assertNull($this->message->getBadge(), 'Badge not null on creation of message.');
 
-		$message->setBadge(999);
-		$this->assertEquals(999, $message->getBadge(), 'Setting badge to 999 did not persist.');
+		$this->message->setBadge(999);
+		$this->assertEquals(999, $this->message->getBadge(), 'Setting badge to 999 did not persist.');
 
-		$message->clearBadge();
-		$this->assertEquals(0, $message->getBadge(), 'Clearing the badge did not persist.');
+		$this->message->clearBadge();
+		$this->assertEquals(0, $this->message->getBadge(), 'Clearing the badge did not persist.');
 
-		$message->setBadge(null);
-		$this->assertNull($message->getBadge(), 'Unsetting the badge did not persist.');
+		$this->message->setBadge(null);
+		$this->assertNull($this->message->getBadge(), 'Unsetting the badge did not persist.');
 	}
 
 	public function testSound()
 	{
-		$message = new Message('2635d2cb3e51b705bcdf277498ffffce4c64e48ec313d2ccb9f603e2ffff98ef');
-		$this->assertNull($message->getSound(), 'Sound not null on creation of message.');
+		$this->assertNull($this->message->getSound(), 'Sound not null on creation of message.');
 
-		$message->setSound('funkybeat');
-		$this->assertEquals('funkybeat', $message->getSound(), 'Setting sound to funkybeat did not persist.');
+		$this->message->setSound('funkybeat');
+		$this->assertEquals('funkybeat', $this->message->getSound(), 'Setting sound to funkybeat did not persist.');
 
-		$message->setSound();
-		$this->assertEquals('default', $message->getSound(), 'Setting sound to default did not persist.');
+		$this->message->setSound();
+		$this->assertEquals('default', $this->message->getSound(), 'Setting sound to default did not persist.');
 
-		$message->setSound(null);
-		$this->assertNull($message->getSound(), 'Unsetting the sound did not persist.');
+		$this->message->setSound(null);
+		$this->assertNull($this->message->getSound(), 'Unsetting the sound did not persist.');
 	}
 
 	/**
@@ -167,17 +169,16 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testPayload($payload, $referencePayload)
 	{
-		$message = new Message('2635d2cb3e51b705bcdf277498ffffce4c64e48ec313d2ccb9f603e2ffff98ef');
-		$this->assertNull($message->getPayload(), 'Payload not null on creation of message.');
+		$this->assertNull($this->message->getPayload(), 'Payload not null on creation of message.');
 
-		$message->setPayload($payload);
-		$this->assertEquals($referencePayload, $message->getPayload(), 'Setting payload as array did not persist.');
+		$this->message->setPayload($payload);
+		$this->assertEquals($referencePayload, $this->message->getPayload(), 'Setting payload as array did not persist.');
 
-		$message->setPayload(null);
-		$this->assertNull($message->getPayload(), 'Unsetting the payload did not persist.');
+		$this->message->setPayload(null);
+		$this->assertNull($this->message->getPayload(), 'Unsetting the payload did not persist.');
 
-		$message->setPayload(json_encode($payload));
-		$this->assertEquals($referencePayload, $message->getPayload(), 'Setting payload as JSON string did not persist.');
+		$this->message->setPayload(json_encode($payload));
+		$this->assertEquals($referencePayload, $this->message->getPayload(), 'Setting payload as JSON string did not persist.');
 	}
 
 	public function correctPayloadArguments()
@@ -194,11 +195,10 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testInvalidPayload($payload)
 	{
-		$message = new Message('2635d2cb3e51b705bcdf277498ffffce4c64e48ec313d2ccb9f603e2ffff98ef');
-		$this->assertNull($message->getPayload(), 'Payload not null on creation of message.');
+		$this->assertNull($this->message->getPayload(), 'Payload not null on creation of message.');
 
 		$this->setExpectedException('InvalidArgumentException', 'Invalid payload for message.');
-		$message->setPayload($payload);
+		$this->message->setPayload($payload);
 	}
 
 	public function incorrectPayloadArguments()
@@ -213,19 +213,18 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 
 	public function testGetJson()
 	{
-		$message = new Message('2635d2cb3e51b705bcdf277498ffffce4c64e48ec313d2ccb9f603e2ffff98ef');
-		$this->assertEquals(json_encode(array(), JSON_FORCE_OBJECT), $message->getJson());
+		$this->assertEquals(json_encode(array(), JSON_FORCE_OBJECT), $this->message->getJson());
 
-		$message->setPayload( array('payload' => array( 'some' => 'payloadhere' )) );
-		$this->assertJsonStringEqualsJsonString(json_encode(array('payload' => array( 'some' => 'payloadhere' )), JSON_FORCE_OBJECT), $message->getJson());
+		$this->message->setPayload( array('payload' => array( 'some' => 'payloadhere' )) );
+		$this->assertJsonStringEqualsJsonString(json_encode(array('payload' => array( 'some' => 'payloadhere' )), JSON_FORCE_OBJECT), $this->message->getJson());
 
-		$message->setBadge(9);
-		$this->assertJsonStringEqualsJsonString(json_encode(array('payload' => array( 'some' => 'payloadhere' ), 'badge' => 9), JSON_FORCE_OBJECT), $message->getJson());
+		$this->message->setBadge(9);
+		$this->assertJsonStringEqualsJsonString(json_encode(array('payload' => array( 'some' => 'payloadhere' ), 'badge' => 9), JSON_FORCE_OBJECT), $this->message->getJson());
 
-		$message->setAlert('thisismyalert');
-		$this->assertJsonStringEqualsJsonString(json_encode(array('payload' => array( 'some' => 'payloadhere' ), 'badge' => 9, 'alert' => 'thisismyalert'), JSON_FORCE_OBJECT), $message->getJson());
+		$this->message->setAlert('thisismyalert');
+		$this->assertJsonStringEqualsJsonString(json_encode(array('payload' => array( 'some' => 'payloadhere' ), 'badge' => 9, 'alert' => 'thisismyalert'), JSON_FORCE_OBJECT), $this->message->getJson());
 
-		$message->setSound('thisismysound');
-		$this->assertJsonStringEqualsJsonString(json_encode(array('payload' => array( 'some' => 'payloadhere' ), 'badge' => 9, 'alert' => 'thisismyalert', 'sound' => 'thisismysound'), JSON_FORCE_OBJECT), $message->getJson());
+		$this->message->setSound('thisismysound');
+		$this->assertJsonStringEqualsJsonString(json_encode(array('payload' => array( 'some' => 'payloadhere' ), 'badge' => 9, 'alert' => 'thisismyalert', 'sound' => 'thisismysound'), JSON_FORCE_OBJECT), $this->message->getJson());
 	}
 }

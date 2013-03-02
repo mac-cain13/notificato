@@ -19,7 +19,7 @@ class Message
 	 * @param $deviceToken string Receiver of this message
 	 * @param $certificate Certificate The certificate that must be used for the APNS connection this message is send over
 	 */
-	public function __construct($deviceToken, Certificate $certificate = null)
+	public function __construct($deviceToken, Certificate $certificate)
 	{
 		// Check if a devicetoken is given
 		if (null == $deviceToken) {

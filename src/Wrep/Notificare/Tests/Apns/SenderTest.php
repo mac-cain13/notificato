@@ -5,33 +5,11 @@ namespace Wrep\Notificare\Tests\Apns;
 use \Wrep\Notificare\Apns\Sender;
 use \Wrep\Notificare\Apns\Certificate;
 use \Wrep\Notificare\Apns\Connection;
-use \Wrep\Notificare\Apns\Message;
+use \Wrep\Notificare\Apns\MessageFactory;
 use \Wrep\Notificare\Apns\MessageEnvelope;
 
 class SenderTests extends \PHPUnit_Framework_TestCase
 {
-	/**
-	 * @dataProvider defaultCertificateArguments
-	 */
-	public function testDefaultCertificate($constructionCert, $setCert)
-	{
-		$sender = new Sender($constructionCert);
-		$this->assertEquals($constructionCert, $sender->getDefaultCertificate());
-
-		$sender->setDefaultCertificate($setCert);
-		$this->assertEquals($setCert, $sender->getDefaultCertificate());
-	}
-
-	public function defaultCertificateArguments()
-	{
-		return array(
-			array(null, null),
-			array(new Certificate(__DIR__ . '/.././resources/../resources/certificate_corrupt.pem'), null),
-			array(null, new Certificate(__DIR__ . '/.././resources/../resources/certificate_corrupt.pem')),
-			array(new Certificate(__DIR__ . '/.././resources/../resources/certificate_corrupt.pem'), new Certificate(__DIR__ . '/.././resources/../resources/certificate_corrupt.pem'))
-			);
-	}
-
 	public function testQueueAndFlush()
 	{
 		$certificateA = $this->getMockBuilder('\Wrep\Notificare\Apns\Certificate')
@@ -56,9 +34,10 @@ class SenderTests extends \PHPUnit_Framework_TestCase
 					 ->will($this->returnValue('c'));
 
 		// Create a correct and incorrect message
-		$messageA = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff');
-		$messageB = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificateB);
-		$messageC = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificateC);
+		$messageFactory = new MessageFactory($certificateA);
+		$messageA = $messageFactory->createMessage('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff');
+		$messageB = $messageFactory->createMessage('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificateB);
+		$messageC = $messageFactory->createMessage('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificateC);
 
 		// Connect and queue the messages
 		$sender = new Sender($certificateA);

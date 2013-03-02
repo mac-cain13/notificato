@@ -4,40 +4,16 @@ namespace Wrep\Notificare\Apns;
 
 class Sender
 {
-	private $defaultCertificate;
 	private $connectionFactory;
 	private $connectionPool;
 
 	/**
 	 * Construct Sender
-	 *
-	 * @param $defaultCertificate Certificate|null The certificate to use when no certificate is given in the message itself
 	 */
-	public function __construct(Certificate $defaultCertificate = null)
+	public function __construct()
 	{
-		$this->setDefaultCertificate($defaultCertificate);
 		$this->setConnectionFactory(new ConnectionFactory());
 		$this->connectionPool = array();
-	}
-
-	/**
-	 * Set a default certificate
-	 *
-	 * @param $defaultCertificate Certificate|null The certificate to use when no certificate is given in the message itself
-	 */
-	public function setDefaultCertificate(Certificate $defaultCertificate = null)
-	{
-		$this->defaultCertificate = $defaultCertificate;
-	}
-
-	/**
-	 * Get the current default certificate
-	 *
-	 * @return Certificate|null
-	 */
-	public function getDefaultCertificate()
-	{
-		return $this->defaultCertificate;
 	}
 
 	/**
@@ -69,25 +45,8 @@ class Sender
 	 */
 	public function queue(Message $message)
 	{
-		// Get specific certificate from the message
-		$certificate = $message->getCertificate();
-
-		// Check if a specific certificate is found
-		if (null == $certificate)
-		{
-			// No, fallback to the default certificate
-			$certificate = $this->getDefaultCertificate();
-
-			// Check if the default certificate was found
-			if (null == $certificate)
-			{
-				// No certificate at all, this is not going to work
-				throw new \RuntimeException('No APNS certificate found, unable to queue message: ' . $message->getJson());
-			}
-		}
-
 		// Get the connection for the certificate
-		$connection = $this->getConnectionForCertificate($certificate);
+		$connection = $this->getConnectionForCertificate( $message->getCertificate() );
 
 		// Queue the message
 		return $connection->queue($message);

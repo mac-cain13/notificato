@@ -3,13 +3,17 @@
 namespace Wrep\Notificare\Tests\Apns;
 
 use \Wrep\Notificare\Apns\MessageEnvelope;
-use \Wrep\Notificare\Apns\Message;
+use \Wrep\Notificare\Apns\MessageFactory;
 
 class MessageEnvelopeTest extends \PHPUnit_Framework_TestCase
 {
 	public function testStatus()
 	{
-		$messageEnvelope = new MessageEnvelope(1, new Message('2635d2cb3e51b705bcdf277498ffffce4c64e48ec313d2ccb9f603e2ffff98ef'));
+		$message = $this->getMockBuilder('\Wrep\Notificare\Apns\Message')
+						->disableOriginalConstructor()
+						->getMock();
+
+		$messageEnvelope = new MessageEnvelope(1, $message);
 		$this->assertEquals(-1, $messageEnvelope->getStatus());
 
 		$messageEnvelope->setStatus(0);
