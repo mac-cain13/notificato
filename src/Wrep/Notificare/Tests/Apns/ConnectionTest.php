@@ -77,7 +77,7 @@ class ConnectionTests extends \PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @group pushtest
+	 * @group realpush
 	 */
 	public function testFlush()
 	{

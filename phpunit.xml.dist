@@ -22,7 +22,15 @@
 
     <groups>
         <exclude>
-            <group>pushtest</group>
+            <group>slow</group>
+            <group>realpush</group>
         </exclude>
     </groups>
+
+    <filter>
+        <blacklist>
+            <directory>./vendor</directory>
+            <directory>./src/Wrep/Notificare/Tests</directory>
+        </blacklist>
+    </filter>
 </phpunit>
