@@ -29,9 +29,9 @@ Note that if you use [Symfony2](http://symfony.com) you should consider using th
 <?php
 namespace \Wrep\Example;
 
-use \Wrep\Notificare\Apns\Service;
-use \Wrep\Notificare\Apns\MessageFactory;
 use \Wrep\Notificare\Apns\Certificate;
+use \Wrep\Notificare\Apns\MessageFactory;
+use \Wrep\Notificare\Apns\Service;
 
 class NotificareExample
 {
