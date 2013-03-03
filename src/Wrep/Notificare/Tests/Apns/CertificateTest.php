@@ -51,6 +51,15 @@ class CertificateTests extends \PHPUnit_Framework_TestCase
 		$this->assertEquals($fingerprint, $certificate->getFingerprint(), 'Got incorrect fingerprint of PEM file.');
 	}
 
+	/**
+	 * @dataProvider correctConstructorArguments
+	 */
+	public function testGetEndpoint($pemFile, $passphrase, $endpoint, $hasPassphrase, $fingerprint)
+	{
+		$certificate = new Certificate($pemFile, $passphrase, $endpoint);
+		$this->assertEquals($endpoint, $certificate->getEndpoint(), 'Got incorrect endpoint.');
+	}
+
 	public function correctConstructorArguments()
 	{
 		return array(
@@ -64,24 +73,25 @@ class CertificateTests extends \PHPUnit_Framework_TestCase
 	/**
 	 * @dataProvider incorrectConstructorArguments
 	 */
-	public function testIncorrectConstruction($pemFile, $passphrase)
+	public function testIncorrectConstruction($pemFile, $passphrase, $endpoint)
 	{
-		$this->setExpectedException('InvalidArgumentException', 'Could not find the given PEM file');
-		new Certificate($pemFile, $passphrase);
+		$this->setExpectedException('InvalidArgumentException');
+		new Certificate($pemFile, $passphrase, $endpoint);
 	}
 
 	public function incorrectConstructorArguments()
 	{
 		return array(
-			array(null, null),
-			array(null, ''),
-			array(null, 'thisIsThePassphrase'),
-			array('', null),
-			array('', ''),
-			array('', 'thisIsThePassphrase'),
-			array(__DIR__ . '/../resources/certificate_doesnotexists.pem', null),
-			array(__DIR__ . '/../resources/certificate_doesnotexists.pem', ''),
-			array(__DIR__ . '/../resources/certificate_doesnotexists.pem', 'thisIsThePassphrase')
+			array(null, null, Certificate::ENDPOINT_PRODUCTION),
+			array(null, '', Certificate::ENDPOINT_PRODUCTION),
+			array(null, 'thisIsThePassphrase', Certificate::ENDPOINT_PRODUCTION),
+			array('', null, Certificate::ENDPOINT_PRODUCTION),
+			array('', '', Certificate::ENDPOINT_PRODUCTION),
+			array('', 'thisIsThePassphrase', Certificate::ENDPOINT_PRODUCTION),
+			array(__DIR__ . '/../resources/certificate_doesnotexists.pem', null, Certificate::ENDPOINT_PRODUCTION),
+			array(__DIR__ . '/../resources/certificate_doesnotexists.pem', '', Certificate::ENDPOINT_PRODUCTION),
+			array(__DIR__ . '/../resources/certificate_doesnotexists.pem', 'thisIsThePassphrase', Certificate::ENDPOINT_PRODUCTION),
+			array(__DIR__ . '/../resources/certificate_corrupt.pem', 'thisIsThePassphrase', null)
 			);
 	}
 }
