@@ -15,7 +15,7 @@ class SenderTests extends \PHPUnit_Framework_TestCase
 	public function setUp()
 	{
 		// Get our sender
-		$this->sender = new Sender($certificate);
+		$this->sender = new Sender();
 		$this->sender->setConnectionFactory(new MockConnectionFactory());
 	}
 
