@@ -69,6 +69,8 @@ $gettingStarted = new GettingStarted();
 $gettingStarted->sendOnePushNotification();
 ```
 
+More examples can be found in the [Notificare examples repository](https://github.com/wrep/notificare-examples).
+
 ## License
 
 Notificare is released under the [MIT License](License) so you can use it in commercial and non-commercial projects.
