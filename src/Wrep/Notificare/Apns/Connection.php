@@ -187,7 +187,7 @@ class Connection
 				$messageEnvelope = $this->messages[$messageId];
 
 				// Check if it's send without errors
-				if ($messageEnvelope->getStatus() == STATUS_NOERRORS)
+				if ($messageEnvelope->getStatus() == MessageEnvelope::STATUS_NOERRORS)
 				{
 					// Mark the message as failed due earlier error and queue the message again
 					$retryMessageEnvelope = $this->queue( $messageEnvelope->getMessage() );
