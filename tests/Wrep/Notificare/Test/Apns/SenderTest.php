@@ -7,6 +7,8 @@ use \Wrep\Notificare\Apns\Certificate;
 use \Wrep\Notificare\Apns\Connection;
 use \Wrep\Notificare\Apns\MessageFactory;
 use \Wrep\Notificare\Apns\MessageEnvelope;
+use \Wrep\Notificare\Test\Apns\Mock\MockConnectionFactory;
+use \Wrep\Notificare\Test\Apns\Mock\MockConnection;
 
 class SenderTests extends \PHPUnit_Framework_TestCase
 {

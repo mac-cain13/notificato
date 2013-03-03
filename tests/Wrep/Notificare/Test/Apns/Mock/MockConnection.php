@@ -1,6 +1,6 @@
 <?php
 
-namespace Wrep\Notificare\Tests\Apns;
+namespace Wrep\Notificare\Test\Apns\Mock;
 
 use Wrep\Notificare\Apns\Connection;
 use Wrep\Notificare\Apns\MessageEnvelope;
