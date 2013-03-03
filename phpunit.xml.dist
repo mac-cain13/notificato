@@ -30,7 +30,7 @@
     <filter>
         <blacklist>
             <directory>./vendor</directory>
-            <directory>./src/Wrep/Notificare/Tests</directory>
+            <directory>./tests</directory>
         </blacklist>
     </filter>
 </phpunit>
