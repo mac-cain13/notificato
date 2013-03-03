@@ -58,9 +58,15 @@ class Connection
 		$this->lastMessageId++;
 		$envelope = new MessageEnvelope($this->lastMessageId, $message);
 
-		// Queue the message and save the message so we can track it
+		// Save the message so we can track it
 		$this->messages[$envelope->getIdentifier()] = $envelope;
-		$this->sendQueue->enqueue($envelope);
+
+		// If valid, queue or else update status and return the envelope
+		if ($message->validateLength()) {
+			$this->sendQueue->enqueue($envelope);
+		} else {
+			$envelope->setStatus(MessageEnvelope::STATUS_PAYLOADTOOLONG);
+		}
 
 		return $envelope;
 	}

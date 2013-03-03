@@ -5,9 +5,11 @@ namespace Wrep\Notificare\Apns;
 class MessageEnvelope
 {
 	// Statuscode constants
+	const STATUS_NOTSEND 		= -1;
 	const STATUS_NOERRORS 		= 0;
 	const STATUS_SENDFAILED 	= 256;
 	const STATUS_EARLIERERROR 	= 257;
+	const STATUS_PAYLOADTOOLONG	= 258;
 
 	// Binary message constants
 	const BINARY_COMMAND = 1;
@@ -22,8 +24,8 @@ class MessageEnvelope
 	// Get human readable strings for the statuscodes
 	private static $statusDescriptionMapping = array(
 			// Non-final states that can still change
-			 -1 => 'Not send to APNS',
-			  0 => '[APNS] No errors encountered',
+			self::STATUS_NOTSEND 	=> 'Not send to APNS',
+			self::STATUS_NOERRORS 	=> '[APNS] No errors encountered',
 
 			// APNS final states
 			  1 => '[APNS] Processing error',
@@ -37,9 +39,9 @@ class MessageEnvelope
 			255 => '[APNS] Unknown error',
 
 			// Notificare internal final states
-			256 => 'Sending failed, will retry with other envelope',
-			257 => 'Failed due earlier error, will retry with other envelope',
-			258 => 'Payload exceeds 256 bytes, will not send message to APNS'
+			self::STATUS_SENDFAILED 	=> 'Sending failed, will retry with other envelope',
+			self::STATUS_EARLIERERROR 	=> 'Failed due earlier error, will retry with other envelope',
+			self::STATUS_PAYLOADTOOLONG => 'Payload exceeds 256 bytes, will not send message to APNS'
 		);
 
 	/**
