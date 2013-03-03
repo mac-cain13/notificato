@@ -30,11 +30,6 @@ class Connection
 	 */
 	public function __construct(Certificate $certificate)
 	{
-		// A certificate is required
-		if (null == $certificate) {
-			throw new \InvalidArgumentException('No certificate given.');
-		}
-
 		// Save the given parameters
 		$this->certificate = $certificate;
 		$this->connectTimeout = ini_get('default_socket_timeout');
@@ -44,6 +39,16 @@ class Connection
 		$this->lastMessageId = 0;
 		$this->messages = array();
 		$this->sendQueue = new \SplQueue();
+	}
+
+	/**
+	 * Get the certificate used with this connection
+	 *
+	 * @return Certificate
+	 */
+	public function getCertificate()
+	{
+		return $this->certificate;
 	}
 
 	/**
@@ -213,12 +218,18 @@ class Connection
 
 		// Open the connection
 		$errorCode = $errorString = null;
-		$this->connection = stream_socket_client($this->certificate->getEndpoint(), $errorCode, $errorString, $this->connectTimeout, STREAM_CLIENT_CONNECT, $streamContext);
+		$this->connection = @stream_socket_client($this->certificate->getEndpoint(), $errorCode, $errorString, $this->connectTimeout, STREAM_CLIENT_CONNECT, $streamContext);
 
 		// Check if the connection succeeded
 		if (false == $this->connection)
 		{
 			$this->connection = null;
+
+			// Set a somewhat more clear error message on error 0
+			if (0 == $errorCode) {
+				$errorString = 'Error before connecting, please check your certificate and passphrase.';
+			}
+
 			throw new \UnexpectedValueException('Failed to connect to APNS at ' . $this->certificate->getEndpoint() . ' with error #' . $errorCode . ' "' . $errorString . '".');
 		}
 
