@@ -51,23 +51,41 @@ class CertificateTests extends \PHPUnit_Framework_TestCase
 		$this->assertEquals($fingerprint, $certificate->getFingerprint(), 'Got incorrect fingerprint of PEM file.');
 	}
 
-	/**
-	 * @dataProvider correctConstructorArguments
-	 */
-	public function testGetEndpoint($pemFile, $passphrase, $endpoint, $hasPassphrase, $fingerprint)
-	{
-		$certificate = new Certificate($pemFile, $passphrase, $endpoint);
-		$this->assertEquals($endpoint, $certificate->getEndpoint(), 'Got incorrect endpoint.');
-	}
-
 	public function correctConstructorArguments()
 	{
 		return array(
-			array(__DIR__ . '/.././resources/../resources/certificate_corrupt.pem', null, Certificate::ENDPOINT_PRODUCTION, false, '2d13b9d6fa8245594c521fd614e6ff53e3716038'),
-			array(__DIR__ . '/.././resources/../resources/certificate_corrupt.pem', '', Certificate::ENDPOINT_PRODUCTION, false, '2d13b9d6fa8245594c521fd614e6ff53e3716038'),
-			array(__DIR__ . '/../resources/certificate_corrupt.pem', 'thisIsThePassphrase', Certificate::ENDPOINT_PRODUCTION, true, '2d13b9d6fa8245594c521fd614e6ff53e3716038'),
-			array(__DIR__ . '/../resources/certificate_corrupt.pem', 'thisIsThePassphrase', Certificate::ENDPOINT_SANDBOX, true, '73b085b7c0fd359fdb6c07f307b25ed92931d8f5')
+			array(__DIR__ . '/.././resources/../resources/certificate_corrupt.pem', null, Certificate::ENDPOINT_ENV_PRODUCTION, false, '9f1db6cc07170c41001b0e92e943747a3bee3aa2'),
+			array(__DIR__ . '/.././resources/../resources/certificate_corrupt.pem', '', Certificate::ENDPOINT_ENV_PRODUCTION, false, '9f1db6cc07170c41001b0e92e943747a3bee3aa2'),
+			array(__DIR__ . '/../resources/certificate_corrupt.pem', 'thisIsThePassphrase', Certificate::ENDPOINT_ENV_PRODUCTION, true, '9f1db6cc07170c41001b0e92e943747a3bee3aa2'),
+			array(__DIR__ . '/../resources/certificate_corrupt.pem', 'thisIsThePassphrase', Certificate::ENDPOINT_ENV_SANDBOX, true, '8f34cc9e3de410bd045f777b1f36e004a2449aa7')
 			);
+	}
+
+	public function testGetEndpoint()
+	{
+		$certificate = new Certificate(__DIR__ . '/.././resources/../resources/certificate_corrupt.pem', null, Certificate::ENDPOINT_ENV_PRODUCTION);
+		$this->assertEquals('ssl://gateway.push.apple.com:2195', $certificate->getEndpoint(), 'Got incorrect production default endpoint.');
+		$this->assertEquals('ssl://gateway.push.apple.com:2195', $certificate->getEndpoint(Certificate::ENDPOINT_TYPE_GATEWAY), 'Got incorrect production gateway endpoint.');
+		$this->assertEquals('ssl://feedback.push.apple.com:2196', $certificate->getEndpoint(Certificate::ENDPOINT_TYPE_FEEDBACK), 'Got incorrect production feedback endpoint.');
+
+		$certificate = new Certificate(__DIR__ . '/.././resources/../resources/certificate_corrupt.pem', null, Certificate::ENDPOINT_ENV_SANDBOX);
+		$this->assertEquals('ssl://gateway.sandbox.push.apple.com:2195', $certificate->getEndpoint(), 'Got incorrect sandbox default endpoint.');
+		$this->assertEquals('ssl://gateway.sandbox.push.apple.com:2195', $certificate->getEndpoint(Certificate::ENDPOINT_TYPE_GATEWAY), 'Got incorrect sandbox gateway endpoint.');
+		$this->assertEquals('ssl://feedback.sandbox.push.apple.com:2196', $certificate->getEndpoint(Certificate::ENDPOINT_TYPE_FEEDBACK), 'Got incorrect sandbox feedback endpoint.');
+	}
+
+	public function testInvalidGetEndpointProduction()
+	{
+		$certificate = new Certificate(__DIR__ . '/.././resources/../resources/certificate_corrupt.pem', null, Certificate::ENDPOINT_ENV_PRODUCTION);
+		$this->setExpectedException('InvalidArgumentException', 'is not a valid endpoint type.');
+		$certificate->getEndpoint('invalid');
+	}
+
+	public function testInvalidGetEndpointSandbox()
+	{
+		$certificate = new Certificate(__DIR__ . '/.././resources/../resources/certificate_corrupt.pem', null, Certificate::ENDPOINT_ENV_SANDBOX);
+		$this->setExpectedException('InvalidArgumentException', 'is not a valid endpoint type.');
+		$certificate->getEndpoint('invalid');
 	}
 
 	/**
@@ -82,15 +100,15 @@ class CertificateTests extends \PHPUnit_Framework_TestCase
 	public function incorrectConstructorArguments()
 	{
 		return array(
-			array(null, null, Certificate::ENDPOINT_PRODUCTION),
-			array(null, '', Certificate::ENDPOINT_PRODUCTION),
-			array(null, 'thisIsThePassphrase', Certificate::ENDPOINT_PRODUCTION),
-			array('', null, Certificate::ENDPOINT_PRODUCTION),
-			array('', '', Certificate::ENDPOINT_PRODUCTION),
-			array('', 'thisIsThePassphrase', Certificate::ENDPOINT_PRODUCTION),
-			array(__DIR__ . '/../resources/certificate_doesnotexists.pem', null, Certificate::ENDPOINT_PRODUCTION),
-			array(__DIR__ . '/../resources/certificate_doesnotexists.pem', '', Certificate::ENDPOINT_PRODUCTION),
-			array(__DIR__ . '/../resources/certificate_doesnotexists.pem', 'thisIsThePassphrase', Certificate::ENDPOINT_PRODUCTION),
+			array(null, null, Certificate::ENDPOINT_ENV_PRODUCTION),
+			array(null, '', Certificate::ENDPOINT_ENV_PRODUCTION),
+			array(null, 'thisIsThePassphrase', Certificate::ENDPOINT_ENV_PRODUCTION),
+			array('', null, Certificate::ENDPOINT_ENV_PRODUCTION),
+			array('', '', Certificate::ENDPOINT_ENV_PRODUCTION),
+			array('', 'thisIsThePassphrase', Certificate::ENDPOINT_ENV_PRODUCTION),
+			array(__DIR__ . '/../resources/certificate_doesnotexists.pem', null, Certificate::ENDPOINT_ENV_PRODUCTION),
+			array(__DIR__ . '/../resources/certificate_doesnotexists.pem', '', Certificate::ENDPOINT_ENV_PRODUCTION),
+			array(__DIR__ . '/../resources/certificate_doesnotexists.pem', 'thisIsThePassphrase', Certificate::ENDPOINT_ENV_PRODUCTION),
 			array(__DIR__ . '/../resources/certificate_corrupt.pem', 'thisIsThePassphrase', null)
 			);
 	}
