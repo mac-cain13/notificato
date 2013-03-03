@@ -1,26 +1,22 @@
 # Notificare [![Build Status of Master](https://travis-ci.org/wrep/notificare.png?branch=master)](https://travis-ci.org/wrep/notificare)
 **Notificare takes care of push notifications in your PHP projects.**
 
-> **notify** |ˈnəʊtɪfʌɪ|
->
-> verb ( **notifies, notifying, notified** ) [ with obj. ]
->
-> from Latin **notificare ‘make known’**
+> **notify** |ˈnəʊtɪfʌɪ| from Latin **notificare ‘make known’**
 
 ## Why use Notificare instead of X?
 Notificare has some advantages not all other PHP push libraries have:
 
-- Supports multiple certificates, so you can push to multiple Apps/Passes/Newsstand Apps
-- Takes care of PHPs horrible SSL-sockets and handles all quirks and error responses for you
+- Supports multiple certificates, so you can push to multiple Apps/Passbook Passes
+- Takes excellent care of PHPs buggy SSL-sockets, handles all quirks and error responses correctly
 - Well tested with unit tests
 
 ## Installation
-Installation with [composer](http://getcomposer.org) is recommended:
+Installation with [Composer](http://getcomposer.org) is recommended:
 
 1. Add `wrep/notificare` to the requirements in your `composer.json` file
 2. Run `composer install` and start using Notificate!
 
-Alternatives:
+*Alternatives:*
 If you don't want to use composer, but use a [PSR-0](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md) compatible autoloader you should be able to drop the Notificare classes into your project quite easily. Of course you can also just throw the classes into you project and incluse them yourself, but you should really look into composer if you're considering this.
 
 ## State of the project
