@@ -149,6 +149,33 @@ class MessageEnvelope
 	}
 
 	/**
+	 * Get the final status after all retries
+	 *  Use this method to know how the message ended up after all retries.
+	 *
+	 * @return int
+	 */
+	public function getFinalStatus()
+	{
+		$currentEnvelope = $this;
+		while ( null != $currentEnvelope->getRetryEnvelope() ) {
+			$currentEnvelope = $currentEnvelope->getRetryEnvelope();
+		}
+
+		return $currentEnvelope->getStatus();
+	}
+
+	/**
+	 * Get a description of the final status after all retries
+	 *  Use this method to know how the message ended up after all retries.
+	 *
+	 * @return string
+	 */
+	public function getFinalStatusDescription()
+	{
+		return self::$statusDescriptionMapping[$this->getFinalStatus()];
+	}
+
+	/**
 	 * Get the message that this envelope contains in binary APNS compatible format
 	 *
 	 * @return string

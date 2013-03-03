@@ -72,6 +72,30 @@ class MessageEnvelopeTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals(257, $this->messageEnvelope->getStatus());
 	}
 
+	public function testStatusDescription()
+	{
+		$this->messageEnvelope->setStatus(MessageEnvelope::STATUS_EARLIERERROR);
+		$this->assertEquals('Failed due earlier error, will retry with other envelope', $this->messageEnvelope->getStatusDescription());
+	}
+
+	public function testFinalStatus()
+	{
+		$retryEnvelope = new MessageEnvelope(2, $this->messageEnvelope->getMessage());
+		$this->messageEnvelope->setStatus(257, $retryEnvelope);
+
+		$retryEnvelope->setStatus(8);
+		$this->assertEquals(8, $this->messageEnvelope->getFinalStatus());
+	}
+
+	public function testFinalStatusDescription()
+	{
+		$retryEnvelope = new MessageEnvelope(2, $this->messageEnvelope->getMessage());
+		$this->messageEnvelope->setStatus(257, $retryEnvelope);
+
+		$retryEnvelope->setStatus(8);
+		$this->assertEquals('[APNS] Invalid token', $this->messageEnvelope->getFinalStatusDescription());
+	}
+
 	public function testSetOurselfsAsRetryEnvelope()
 	{
 		$this->setExpectedException('InvalidArgumentException', 'Retry envelope cannot be set to this envelope.');
