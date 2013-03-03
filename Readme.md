@@ -27,35 +27,46 @@ Note that if you use [Symfony2](http://symfony.com) you should consider using th
 
 ```php
 <?php
-namespace \Wrep\Example;
+require_once('vendor/autoload.php');
 
 use \Wrep\Notificare\Apns\Certificate;
 use \Wrep\Notificare\Apns\MessageFactory;
-use \Wrep\Notificare\Apns\Service;
+use \Wrep\Notificare\Apns\Sender;
 
-class NotificareExample
+class GettingStarted
 {
-	public function sendPushNotification()
-	{
-		// Get the certificate that we want to use
-		$certificate = new Certificate('/path/to/your/certificate.pem', 'passphrase-of-the-certificate', Certificate::ENDPOINT_SANDBOX);
+	/**
+	 * This example sends one pushnotification with an alert to Apples production push servers
+	 */
+    public function sendOnePushNotification()
+    {
+        // First we get the certificate that we want to use to connect to Apple
+        $certificate = new Certificate('./apns-certificate.pem', 'passphrase-to-use');
 
-		// Create the pushmessage object
-		$messageFactory = new MessageFactory();
-		$message = $messageFactory->createMessage('the-receiving-device-pushtoken-goes-here', $certificate);
+        // Then we get the message factory that will help us to create the pushmessages
+        $messageFactory = new MessageFactory();
 
-		// Configure the pushmessage
-		$message->setAlert('This will be the alert body text.');
+        // Get a message object from the factory
+        //  This message will be send to device with pushtoken 'fffff...'
+        //  and we pass the certificate so Notificare knows what connection to send it over
+        $message = $messageFactory->createMessage('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate);
 
-		// Queue and send the pushmessage
-		$sender = new Sender();
-		$messageEnvelope = $sender->queue($message);
-		$sender->flush();
+        // Let's set the alert text of the message
+        $message->setAlert('This will be the alert body text.');
 
-		// Print the resulting state of our pushmessage
-		echo $messageEnvelope->getStatusDescription();
-	}
+        // Now get a Sender object that will do sending for us
+        $sender = new Sender();
+
+        // Send the pushmessage, we'll get an envelope back from the Sender
+        $messageEnvelope = $sender->send($message);
+
+        // The envelope contains usefull information about how many retries were needed and if sending succeeded
+        echo $messageEnvelope->getStatusDescription();
+    }
 }
+
+$gettingStarted = new GettingStarted();
+$gettingStarted->sendOnePushNotification();
 ```
 
 ## License
