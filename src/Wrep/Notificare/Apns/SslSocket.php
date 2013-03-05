@@ -75,7 +75,7 @@ abstract class SslSocket
 				$errorString = 'Error before connecting, please check your certificate and passphrase.';
 			}
 
-			throw new \UnexpectedValueException('Failed to connect to APNS at ' . $this->certificate->getEndpoint() . ' with error #' . $errorCode . ' "' . $errorString . '".');
+			throw new \UnexpectedValueException('Failed to connect to ' . $this->certificate->getEndpoint() . ' with error #' . $errorCode . ' "' . $errorString . '".');
 		}
 
 		// Set stream in non-blocking mode and make writes unbuffered
@@ -84,7 +84,7 @@ abstract class SslSocket
 	}
 
 	/**
-	 * Disconnect from the APNS endpoint
+	 * Disconnect from the endpoint
 	 */
 	protected function disconnect()
 	{
