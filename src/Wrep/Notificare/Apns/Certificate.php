@@ -31,7 +31,7 @@ class Certificate
 	 * APNS Certificate constructor
 	 *
 	 * @param $pemFile string Path to the PEM certificate file
-	 * @param $passphrase string Passphrase to use with the PEM file
+	 * @param $passphrase string|null Passphrase to use with the PEM file
 	 * @param $endpointEnv string APNS environment this certificate is valid for
 	 */
 	public function __construct($pemFile, $passphrase = null, $endpointEnv = self::ENDPOINT_ENV_PRODUCTION)
