@@ -5,22 +5,36 @@ namespace Wrep\Notificare\Apns;
 class Certificate
 {
 	// Endpoint constants
-	const ENDPOINT_PRODUCTION = 'ssl://gateway.push.apple.com:2195';
-	const ENDPOINT_SANDBOX = 'ssl://gateway.sandbox.push.apple.com:2195';
+	const ENDPOINT_ENV_PRODUCTION = 'production';
+	const ENDPOINT_ENV_SANDBOX = 'sandbox';
+
+	const ENDPOINT_TYPE_GATEWAY = 'gateway';
+	const ENDPOINT_TYPE_FEEDBACK = 'feedback';
+
+	private static $endpoints = array(
+			self::ENDPOINT_ENV_PRODUCTION => array(
+				self::ENDPOINT_TYPE_GATEWAY  => 'ssl://gateway.push.apple.com:2195',
+				self::ENDPOINT_TYPE_FEEDBACK => 'ssl://feedback.push.apple.com:2196'
+				),
+			self::ENDPOINT_ENV_SANDBOX => array(
+				self::ENDPOINT_TYPE_GATEWAY  => 'ssl://gateway.sandbox.push.apple.com:2195',
+				self::ENDPOINT_TYPE_FEEDBACK => 'ssl://feedback.sandbox.push.apple.com:2196'
+				)
+		);
 
 	private $pemFile;
 	private $passphrase;
-	private $endpoint;
+	private $endpointEnv;
 	private $fingerprint;
 
 	/**
 	 * APNS Certificate constructor
 	 *
 	 * @param $pemFile string Path to the PEM certificate file
-	 * @param $passphrase string Passphrase to use with the PEM file
-	 * @param $endpoint string APNS endpoint this certificate is valid for
+	 * @param $passphrase string|null Passphrase to use with the PEM file
+	 * @param $endpointEnv string APNS environment this certificate is valid for
 	 */
-	public function __construct($pemFile, $passphrase = null, $endpoint = self::ENDPOINT_PRODUCTION)
+	public function __construct($pemFile, $passphrase = null, $endpointEnv = self::ENDPOINT_ENV_PRODUCTION)
 	{
 		// Expand the path to the PEM file
 		$pemFile = realpath($pemFile);
@@ -31,14 +45,14 @@ class Certificate
 		}
 
 		// An endpoint is required
-		if (null == $endpoint) {
+		if (null == $endpointEnv) {
 			throw new \InvalidArgumentException('No endpoint given.');
 		}
 
 		// Save the given parameters
 		$this->pemFile = $pemFile;
 		$this->passphrase = $passphrase;
-		$this->endpoint = $endpoint;
+		$this->endpointEnv = $endpointEnv;
 		$this->fingerprint = null;
 	}
 
@@ -75,11 +89,17 @@ class Certificate
 	/**
 	 * Get the endpoint this certificate is valid for
 	 *
+	 * @param $endpointType string The type of endpoint you want
 	 * @return string
 	 */
-	public function getEndpoint()
+	public function getEndpoint($endpointType = self::ENDPOINT_TYPE_GATEWAY)
 	{
-		return $this->endpoint;
+		// Check if the endpoint type is valid
+		if (self::ENDPOINT_TYPE_GATEWAY !== $endpointType && self::ENDPOINT_TYPE_FEEDBACK !== $endpointType ) {
+			throw new \InvalidArgumentException($endpointType . ' is not a valid endpoint type.');
+		}
+
+		return self::$endpoints[$this->endpointEnv][$endpointType];
 	}
 
 	/**
@@ -93,7 +113,7 @@ class Certificate
 		// Calculate fingerprint if unknown
 		if (null == $this->fingerprint)
 		{
-			$this->fingerprint = sha1( $this->endpoint . sha1_file($this->getPemFile()) );
+			$this->fingerprint = sha1( $this->endpointEnv . sha1_file($this->getPemFile()) );
 		}
 
 		return $this->fingerprint;

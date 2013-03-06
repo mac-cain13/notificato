@@ -49,6 +49,11 @@ class MessageFactory
 			$certificate = $this->getDefaultCertificate();
 		}
 
+		// Check if there is a certificate to use after falling back on the default certificate
+		if (null == $certificate) {
+			throw new \RuntimeException('No certificate given for the creation of the message and no default certificate available.');
+		}
+
 		// Create and return the new Message
 		return new Message($deviceToken, $certificate);
 	}
