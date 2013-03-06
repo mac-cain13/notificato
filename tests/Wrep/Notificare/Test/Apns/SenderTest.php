@@ -4,11 +4,11 @@ namespace Wrep\Notificare\Tests\Apns;
 
 use \Wrep\Notificare\Apns\Sender;
 use \Wrep\Notificare\Apns\Certificate;
-use \Wrep\Notificare\Apns\Connection;
+use \Wrep\Notificare\Apns\Gateway;
 use \Wrep\Notificare\Apns\MessageFactory;
 use \Wrep\Notificare\Apns\MessageEnvelope;
-use \Wrep\Notificare\Test\Apns\Mock\MockConnectionFactory;
-use \Wrep\Notificare\Test\Apns\Mock\MockConnection;
+use \Wrep\Notificare\Test\Apns\Mock\MockGatewayFactory;
+use \Wrep\Notificare\Test\Apns\Mock\MockGateway;
 
 class SenderTests extends \PHPUnit_Framework_TestCase
 {
@@ -18,7 +18,7 @@ class SenderTests extends \PHPUnit_Framework_TestCase
 	{
 		// Get our sender
 		$this->sender = new Sender();
-		$this->sender->setConnectionFactory(new MockConnectionFactory());
+		$this->sender->setGatewayFactory(new MockGatewayFactory());
 	}
 
 	private function getCertificate($fingerprint)
@@ -61,7 +61,7 @@ class SenderTests extends \PHPUnit_Framework_TestCase
 
 		// Connect and queue the messages
 		$sender = new Sender($certificateA);
-		$sender->setConnectionFactory(new MockConnectionFactory());
+		$sender->setGatewayFactory(new MockGatewayFactory());
 
 		for ($i = 1; $i <= 5; $i++)
 		{

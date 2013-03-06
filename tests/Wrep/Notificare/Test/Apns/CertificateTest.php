@@ -4,7 +4,7 @@ namespace Wrep\Notificare\Tests\Apns;
 
 use \Wrep\Notificare\Apns\Certificate;
 
-class CertificateTests extends \PHPUnit_Framework_TestCase
+class CertificateTest extends \PHPUnit_Framework_TestCase
 {
 	/**
 	 * @dataProvider correctConstructorArguments

@@ -2,10 +2,10 @@
 
 namespace Wrep\Notificare\Test\Apns\Mock;
 
-use Wrep\Notificare\Apns\Connection;
+use Wrep\Notificare\Apns\Gateway;
 use Wrep\Notificare\Apns\MessageEnvelope;
 
-class MockConnection extends Connection
+class MockGateway extends Gateway
 {
 	public function flush()
 	{

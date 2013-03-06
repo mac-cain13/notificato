@@ -8,7 +8,7 @@ use \Wrep\Notificare\Apns\Certificate;
 class Feedback extends SslSocket
 {
 	/**
-	 * Feedback contructor
+	 * Construct Feedback
 	 *
 	 * @param $certificate Certificate The certificate to use to connect to APNS
 	 */

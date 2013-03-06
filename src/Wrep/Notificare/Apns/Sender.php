@@ -4,47 +4,48 @@ namespace Wrep\Notificare\Apns;
 
 class Sender
 {
-	private $connectionFactory;
-	private $connectionPool;
+	private $gatewayFactory;
+	private $gatewayPool;
 
 	/**
 	 * Construct Sender
 	 */
 	public function __construct()
 	{
-		$this->setConnectionFactory(new ConnectionFactory());
-		$this->connectionPool = array();
+		$this->setGatewayFactory(new GatewayFactory());
+		$this->gatewayPool = array();
 	}
 
 	/**
-	 * Set the connection factory to use for creating connections to APNS
+	 * Set the gateway factory to use for creating connections to the APNS gateway
 	 *
-	 * @param $connectionFactory ConnectionFactory The connection factory to use
+	 * @param $gatewayFactory GatewayFactory The gateway factory to use
 	 */
-	public function setConnectionFactory(ConnectionFactory $connectionFactory)
+	public function setGatewayFactory(GatewayFactory $gatewayFactory)
 	{
-		$this->connectionFactory = $connectionFactory;
+		$this->gatewayFactory = $gatewayFactory;
 	}
 
 	/**
-	 * Get the current connection factory
+	 * Get the current gateway factory
 	 *
-	 * @return ConnectionFactory
+	 * @return GatewayFactory
 	 */
-	public function getConnectionFactory()
+	public function getGatewayFactory()
 	{
-		return $this->connectionFactory;
+		return $this->gatewayFactory;
 	}
 
 	/**
-	 * Queues a message and flushes the connection it must be send over immediately
+	 * Queues a message and flushes the gateway connection it must be send over immediately
+	 *  Note: If you send multiple messages queue as many as possible and flush them at once for maximum performance
 	 *
 	 * @param $message Message The message to send
 	 * @return MessageEnvelope
 	 */
 	public function send(Message $message)
 	{
-		// Queue the message and flush the associated connection
+		// Queue the message and flush the associated gateway
 		$messageEnvelope = $this->queue($message);
 		$this->flush( $message->getCertificate() );
 
@@ -53,7 +54,7 @@ class Sender
 	}
 
 	/**
-	 * Queue a message on the correct APNS connection
+	 * Queue a message on the correct APNS gateway connection
 	 * Note: A certificate must be set in the message or as default to make this method work
 	 *
 	 * @param $message Message The message to queue
@@ -61,11 +62,11 @@ class Sender
 	 */
 	public function queue(Message $message)
 	{
-		// Get the connection for the certificate
-		$connection = $this->getConnectionForCertificate( $message->getCertificate() );
+		// Get the gateway for the certificate
+		$gateway = $this->getGatewayForCertificate( $message->getCertificate() );
 
 		// Queue the message
-		return $connection->queue($message);
+		return $gateway->queue($message);
 	}
 
 	/**
@@ -77,9 +78,9 @@ class Sender
 	{
 		$queueLength = 0;
 
-		foreach ($this->connectionPool as $connection)
+		foreach ($this->gatewayPool as $gateway)
 		{
-			$queueLength += $connection->getQueueLength();
+			$queueLength += $gateway->getQueueLength();
 		}
 
 		return $queueLength;
@@ -88,41 +89,41 @@ class Sender
 	/**
 	 * Send all queued messages
 	 *
-	 * @param $certificate Certificate|null When given only the connection for the given certificate is flushed
+	 * @param $certificate Certificate|null When given only the gateway connection for the given certificate is flushed
 	 */
 	public function flush(Certificate $certificate = null)
 	{
-		// Check if we must flush a specific connection
+		// Check if we must flush a specific gateway
 		if (null == $certificate)
 		{
-			// No, flush the whole connection pool
-			foreach ($this->connectionPool as $connection)
+			// No, flush the whole gateway pool
+			foreach ($this->gatewayPool as $gateway)
 			{
-				$connection->flush();
+				$gateway->flush();
 			}
 		}
 		else
 		{
-			// Yes, flush only the requested connection
-			$this->getConnectionForCertificate($certificate)->flush();
+			// Yes, flush only the requested gateway
+			$this->getGatewayForCertificate($certificate)->flush();
 		}
 	}
 
 	/**
-	 * Get/create the connection associated with the given certificate
+	 * Get/create the gateway associated with the given certificate
 	 *
-	 * @param $certificate Certificate The certificate to get the connection for
-	 * @return Connection
+	 * @param $certificate Certificate The certificate to get the gateway conenction for
+	 * @return Gateway
 	 */
-	private function getConnectionForCertificate(Certificate $certificate)
+	private function getGatewayForCertificate(Certificate $certificate)
 	{
-		// If no connection is available for this certificate create one
-		if ( !isset($this->connectionPool[$certificate->getFingerprint()]) )
+		// If no gateway is available for this certificate create one
+		if ( !isset($this->gatewayPool[$certificate->getFingerprint()]) )
 		{
-			$this->connectionPool[$certificate->getFingerprint()] = $this->getConnectionFactory()->createConnection($certificate);
+			$this->gatewayPool[$certificate->getFingerprint()] = $this->getGatewayFactory()->createGateway($certificate);
 		}
 
-		// Return the connection for this certificate
-		return $this->connectionPool[$certificate->getFingerprint()];
+		// Return the gateway connection for this certificate
+		return $this->gatewayPool[$certificate->getFingerprint()];
 	}
 }

@@ -2,11 +2,11 @@
 
 namespace Wrep\Notificare\Apns;
 
-class Connection extends SslSocket
+class Gateway extends SslSocket
 {
 	// APNS response constants
-	const ERROR_RESPONSE_COMMAND = 8; // Command APNS does send on error
-	const ERROR_RESPONSE_SIZE = 6; // Size of the APNS error response
+	const ERROR_RESPONSE_COMMAND = 8;	// Command APNS does send on error
+	const ERROR_RESPONSE_SIZE = 6;		// Size of the APNS error response
 
 	// Current state of the connection
 	private $lastMessageId;
@@ -14,7 +14,7 @@ class Connection extends SslSocket
 	protected $sendQueue;
 
 	/**
-	 * Construct Connection
+	 * Construct Gateway
 	 *
 	 * @param $certificate Certificate The certificate to use when connecting to APNS
 	 */

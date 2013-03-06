@@ -2,15 +2,15 @@
 
 namespace Wrep\Notificare\Apns;
 
-class ConnectionFactory
+class GatewayFactory
 {
 	/**
-	 * Create a Connect object
+	 * Create a Gateway object
 	 *
 	 * @param $certificate Certificate The certificate to use when connecting to APNS
 	 */
 	public function createConnection(Certificate $certificate)
 	{
-		return new Connection($certificate);
+		return new Gateway($certificate);
 	}
 }

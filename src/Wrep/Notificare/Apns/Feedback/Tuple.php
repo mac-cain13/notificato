@@ -13,7 +13,7 @@ class Tuple
 	private $certificate;
 
 	/**
-	 * Tuple constructor
+	 * Construct Tuple
 	 *
 	 * @param $invalidatedAtTimestamp int Unix timestamp of the moment the device token was marked as unregistered
 	 * @param $deviceToken string Hexadecimal string of the device token that unregistered
