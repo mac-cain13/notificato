@@ -7,6 +7,11 @@ use \Wrep\Notificare\Apns\Certificate;
 
 class Feedback extends SslSocket
 {
+	/**
+	 * Feedback contructor
+	 *
+	 * @param $certificate Certificate The certificate to use to connect to APNS
+	 */
 	public function __construct(Certificate $certificate)
 	{
 		parent::__construct($certificate);
@@ -59,8 +64,7 @@ class Feedback extends SslSocket
 			// Did waiting for the response succeed?
 			if (false === $changedStreams)
 			{
-				// We'll just stop reading and do not throw an error,
-				//  because we don't want to loose any tuples
+				// We'll just stop reading and do not throw an error, because we don't want to loose any tuples
 				break;
 			}
 		}
