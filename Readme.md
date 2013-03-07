@@ -6,21 +6,21 @@
 ## Why use Notificare instead of X?
 Notificare has some advantages not all other PHP push libraries have:
 
-- Supports multiple certificates, so you can push to multiple Apps/Passbook Passes
-- Takes excellent care of PHPs buggy SSL-sockets, handles all quirks and error responses correctly
-- Well tested with unit tests
+1. Supports multiple APNS certificates, so you can push to multiple Apps/Passbook Passes
+2. Takes excellent care of PHPs buggy SSL-sockets, handles all quirks and error responses correctly
+3. Well tested with unit tests and nice Object-Oriented structure
 
 ## Installation
 Installation with [Composer](http://getcomposer.org) is recommended:
 
 1. Add `wrep/notificare` to the requirements in your `composer.json` file
-2. Run `composer install` and start using Notificate!
+2. Run `composer install` and start using Notificare!
 
 *Alternatives:*
 If you don't want to use composer, but use a [PSR-0](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md) compatible autoloader you should be able to drop the Notificare classes into your project quite easily. Of course you can also just throw the classes into you project and incluse them yourself, but you should really look into composer if you're considering this.
 
 ## State of the project
-We're still in a alpha state, coding hard and changing the API without any backward compatibility. The library isn't production ready yet, but contributions are welcome and feel free to give Notificare a try.
+We're still in a alpha state and changing the API without considering backward compatibility. The codebase itself quite stable and we hope to release 1.0.0 quite soon, but until then, you've been warned. :)
 
 ## Getting started
 Note that if you use [Symfony2](http://symfony.com) you should consider using the [Notificare Symfony bundle](https://github.com/wrep/notificare-symfony).
