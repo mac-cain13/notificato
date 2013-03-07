@@ -63,10 +63,32 @@ class GettingStarted
         // The envelope contains usefull information about how many retries were needed and if sending succeeded
         echo $messageEnvelope->getStatusDescription();
     }
+
+    /**
+     * This example reads all unregistered devices from Apples feedback service
+     */
+    public function readFeedbackService()
+    {
+        // First we get the certificate that we want to use to connect to Apple
+        $certificate = new Certificate('./apns-certificate.pem', 'passphrase-to-use');
+
+        // Now get a connection to the feedback service
+        $feedback = new Feedback($this->certificate);
+
+        // Read all "tuples" from the feedback service
+        $tuples = $feedback->receive();
+
+        // The envelopes contain usefull information about how many retries were needed and if sending succeeded
+        foreach ($tuples as $tuple)
+        {
+            echo 'Device ' . $tuple->getDeviceToken() . ' invalidated at ' . $tuple->getInvalidatedAt()->format(\DateTime::ISO8601) . PHP_EOL;
+        }
+    }
 }
 
 $gettingStarted = new GettingStarted();
-$gettingStarted->sendOnePushNotification();
+$gettingStarted->sendMultiplePushNotification();
+$gettingStarted->readFeedbackService();
 ```
 
 More examples can be found in the [Notificare examples repository](https://github.com/wrep/notificare-examples).
