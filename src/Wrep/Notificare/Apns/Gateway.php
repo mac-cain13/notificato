@@ -32,13 +32,14 @@ class Gateway extends SslSocket
 	 * Queue a message for sending
 	 *
 	 * @param $message Message The message object to queue for sending
+	 * @param $retryLimit int The times Notificare should retry to deliver the message on failure
 	 * @return MessageEnvelope
 	 */
-	public function queue(Message $message)
+	public function queue(Message $message, $retryLimit = MessageEnvelope::DEFAULT_RETRY_LIMIT)
 	{
 		// Put the message in an envelope
 		$this->lastMessageId++;
-		$envelope = new MessageEnvelope($this->lastMessageId, $message);
+		$envelope = new MessageEnvelope($this->lastMessageId, $message, $retryLimit);
 
 		// Save the message so we can track it
 		$this->messages[$envelope->getIdentifier()] = $envelope;
@@ -94,9 +95,16 @@ class Gateway extends SslSocket
 			$bytesSend = (int)fwrite($this->getConnection(), $binaryMessage);
 			if (strlen($binaryMessage) !== $bytesSend)
 			{
-				// Something did go wrong while sending this message, requeue
-				$retryMessageEnvelope = $this->queue( $messageEnvelope->getMessage() );
-				$messageEnvelope->setStatus(MessageEnvelope::STATUS_SENDFAILED, $retryMessageEnvelope);
+				// Something did go wrong while sending this message, retry if allowed
+				if ($messageEnvelope->getRetryLimit() > 0)
+				{
+					$retryMessageEnvelope = $this->queue( $messageEnvelope->getMessage(), $messageEnvelope->getRetryLimit()-1 );
+					$messageEnvelope->setStatus(MessageEnvelope::STATUS_SENDFAILED, $retryMessageEnvelope);
+				}
+				else
+				{
+					$messageEnvelope->setStatus(MessageEnvelope::STATUS_TOOMANYRETRIES);
+				}
 			}
 			else
 			{
@@ -166,9 +174,16 @@ class Gateway extends SslSocket
 				// Check if it's send without errors
 				if ($messageEnvelope->getStatus() == MessageEnvelope::STATUS_NOERRORS)
 				{
-					// Mark the message as failed due earlier error and queue the message again
-					$retryMessageEnvelope = $this->queue( $messageEnvelope->getMessage() );
-					$messageEnvelope->setStatus(MessageEnvelope::STATUS_EARLIERERROR, $retryMessageEnvelope);
+					// Mark the message as failed due earlier error and requeue the message again if allowed
+					if ($messageEnvelope->getRetryLimit() > 0)
+					{
+						$retryMessageEnvelope = $this->queue( $messageEnvelope->getMessage(), $messageEnvelope->getRetryLimit()-1 );
+						$messageEnvelope->setStatus(MessageEnvelope::STATUS_EARLIERERROR, $retryMessageEnvelope);
+					}
+					else
+					{
+						$messageEnvelope->setStatus(MessageEnvelope::STATUS_TOOMANYRETRIES);
+					}
 				}
 
 				// Next message ID

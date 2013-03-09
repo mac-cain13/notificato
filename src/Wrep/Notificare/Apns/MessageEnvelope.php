@@ -10,6 +10,10 @@ class MessageEnvelope
 	const STATUS_SENDFAILED 	= 256;
 	const STATUS_EARLIERERROR 	= 257;
 	const STATUS_PAYLOADTOOLONG	= 258;
+	const STATUS_TOOMANYRETRIES = 259;
+
+	// Retry const
+	const DEFAULT_RETRY_LIMIT = 5;
 
 	// Binary message constants
 	const BINARY_COMMAND = 1;
@@ -19,6 +23,7 @@ class MessageEnvelope
 	private $identifier;
 	private $message;
 	private $status;
+	private $retryLimit;
 	private $retryEnvelope;
 
 	// Get human readable strings for the statuscodes
@@ -41,7 +46,8 @@ class MessageEnvelope
 			// Notificare internal final states
 			self::STATUS_SENDFAILED 	=> 'Sending failed, will retry with other envelope',
 			self::STATUS_EARLIERERROR 	=> 'Failed due earlier error, will retry with other envelope',
-			self::STATUS_PAYLOADTOOLONG => 'Payload exceeds 256 bytes, will not send message to APNS'
+			self::STATUS_PAYLOADTOOLONG => 'Payload exceeds 256 bytes, will not send message to APNS',
+			self::STATUS_TOOMANYRETRIES => 'Sending failed, too many retries'
 		);
 
 	/**
@@ -49,8 +55,9 @@ class MessageEnvelope
 	 *
 	 * @param $identifier int Unique number to the relevant APNS connection to identify this message
 	 * @param $message Message The message that's is contained by this envelope
+	 * @param $retryLimit int The times Notificare should retry to deliver the message on failure
 	 */
-	public function __construct($identifier, Message $message)
+	public function __construct($identifier, Message $message, $retryLimit = MessageEnvelope::DEFAULT_RETRY_LIMIT)
 	{
 		// A message id greater then 0 is required
 		if ( !(is_int($identifier) && $identifier > 0) ) {
@@ -62,10 +69,16 @@ class MessageEnvelope
 			throw new \InvalidArgumentException('No message given.');
 		}
 
+		// Check the retrylimit
+		if ((int)$retryLimit < 0) {
+			throw new \InvalidArgumentException('Retry limit must be >= 0, ' . $retryLimit . ' given.');
+		}
+
 		// Save the given parameters
 		$this->identifier = $identifier;
 		$this->message = $message;
 		$this->status = -1;
+		$this->retryLimit = $retryLimit;
 		$this->retryEnvelope = null;
 	}
 
@@ -87,6 +100,16 @@ class MessageEnvelope
 	public function getMessage()
 	{
 		return $this->message;
+	}
+
+	/**
+	 * The number of times sending should be retried if it fails
+	 *
+	 * @return int
+	 */
+	public function getRetryLimit()
+	{
+		return $this->retryLimit;
 	}
 
 	/**

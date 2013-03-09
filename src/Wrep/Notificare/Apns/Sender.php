@@ -58,15 +58,16 @@ class Sender
 	 * Note: A certificate must be set in the message or as default to make this method work
 	 *
 	 * @param $message Message The message to queue
+	 * @param $retryLimit int The times Notificare should retry to deliver the message on failure
 	 * @return MessageEnvelope
 	 */
-	public function queue(Message $message)
+	public function queue(Message $message, $retryLimit = MessageEnvelope::DEFAULT_RETRY_LIMIT)
 	{
 		// Get the gateway for the certificate
 		$gateway = $this->getGatewayForCertificate( $message->getCertificate() );
 
 		// Queue the message
-		return $gateway->queue($message);
+		return $gateway->queue($message, $retryLimit);
 	}
 
 	/**

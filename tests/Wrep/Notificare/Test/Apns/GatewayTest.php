@@ -107,4 +107,35 @@ class GatewayTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals(MessageEnvelope::STATUS_EARLIERERROR, $retryEnvelope->getStatus());
 		$this->assertEquals(MessageEnvelope::STATUS_NOERRORS, $retrySuccessEnvelope->getStatus());
 	}
+
+	/**
+	 * @group realpush
+	 */
+	public function testRetry()
+	{
+		$this->certificate = new Certificate(__DIR__ . '/../resources/paspas.pem');
+		$this->gateway = new Gateway($this->certificate);
+
+		// Create a correct and incorrect message
+		$message = new Message('2f9a6ca974ce0b4897fcc171c6a4a9a28f98c36b32962566ab83bbfa0e372c19', $this->certificate);
+		$incorrectMessage = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $this->certificate);
+
+		// Connect and queue the messages
+		$gateway = new Gateway($this->certificate);
+		$successEnvelope	= $gateway->queue($message);
+		$failEnvelope 		= $gateway->queue($incorrectMessage);
+		$retryEnvelope 		= $gateway->queue($message, 0);
+
+		// Send the messages
+		$gateway->flush();
+
+		// Get the retry envelope
+		$retrySuccessEnvelope = $retryEnvelope->getRetryEnvelope();
+		$this->assertNull($retrySuccessEnvelope, 'Retried message has an unexpected retry envelope.');
+
+		// Check for the expected statusses
+		$this->assertEquals(MessageEnvelope::STATUS_NOERRORS, $successEnvelope->getStatus());
+		$this->assertEquals(8, $failEnvelope->getStatus());
+		$this->assertEquals(MessageEnvelope::STATUS_TOOMANYRETRIES, $retryEnvelope->getStatus());
+	}
 }
