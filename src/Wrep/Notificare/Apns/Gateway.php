@@ -8,9 +8,13 @@ class Gateway extends SslSocket
 	const ERROR_RESPONSE_COMMAND = 8;	// Command APNS does send on error
 	const ERROR_RESPONSE_SIZE = 6;		// Size of the APNS error response
 
+	// Gateway configuration constants
+	const MAX_RECOVERY_SIZE = 50;
+	const MESSAGE_ENVELOPE_STORE_PREFIX = 'id#';
+
 	// Current state of the connection
 	private $lastMessageId;
-	private $messages;
+	protected $messageEnvelopeStore;
 	protected $sendQueue;
 
 	/**
@@ -24,7 +28,7 @@ class Gateway extends SslSocket
 
 		// Setup the current state
 		$this->lastMessageId = 0;
-		$this->messages = array();
+		$this->messageEnvelopeStore = array();
 		$this->sendQueue = new \SplQueue();
 	}
 
@@ -42,7 +46,7 @@ class Gateway extends SslSocket
 		$envelope = new MessageEnvelope($this->lastMessageId, $message, $retryLimit);
 
 		// Save the message so we can track it
-		$this->messages[$envelope->getIdentifier()] = $envelope;
+		$this->storeMessageEnvelope($envelope);
 
 		// If valid, queue or else update status and return the envelope
 		if ($message->validateLength()) {
@@ -161,15 +165,15 @@ class Gateway extends SslSocket
 			}
 
 			// Mark the message that triggered the error as failed
-			$failedMessageEnvelope = $this->messages[$errorMessage['identifier']];
+			$failedMessageEnvelope = $this->retrieveMessageEnvelope($errorMessage['identifier']);
 			$failedMessageEnvelope->setStatus($errorMessage['status']);
 
 			// All messages that are send after the failed message should be send again
 			$messageId = (int)$errorMessage['identifier'] + 1;
-			while ( isset($this->messages[$messageId]) )
+			while ( null !== $this->retrieveMessageEnvelope($messageId) )
 			{
 				// Get the message envelope
-				$messageEnvelope = $this->messages[$messageId];
+				$messageEnvelope = $this->retrieveMessageEnvelope($messageId);
 
 				// Check if it's send without errors
 				if ($messageEnvelope->getStatus() == MessageEnvelope::STATUS_NOERRORS)
@@ -193,5 +197,37 @@ class Gateway extends SslSocket
 			// Reconnect and go on
 			$this->connect();
 		}
+	}
+
+	/**
+	 * Store a message envelope for later reference (error handling etc)
+	 *  Only up to self::MAX_RECOVERY_SIZE envelopes will be stored,
+	 *  the oldest envelope is purged if self::MAX_RECOVERY_SIZE is exceeded
+	 *
+	 * @param $envelope MessageEnvelope The envelope to story
+	 */
+	protected function storeMessageEnvelope(MessageEnvelope $envelope)
+	{
+		// Add the given anvelope to the messages array
+		$this->messageEnvelopeStore[self::MESSAGE_ENVELOPE_STORE_PREFIX . $envelope->getIdentifier()] = $envelope;
+
+		// Remove all oldest elements, so we don't get bigger then self::MAX_RECOVERY_SIZE
+		if (count($this->messageEnvelopeStore) > self::MAX_RECOVERY_SIZE) {
+			array_splice($this->messageEnvelopeStore, 0, count($this->messageEnvelopeStore) - self::MAX_RECOVERY_SIZE);
+		}
+	}
+
+	/**
+	 * Retrieve a stored envelope
+	 *
+	 * @return MessageEnvelope|null
+	 */
+	protected function retrieveMessageEnvelope($identifier)
+	{
+		if ( !isset($this->messageEnvelopeStore[self::MESSAGE_ENVELOPE_STORE_PREFIX . $identifier]) ) {
+			return null;
+		}
+
+		return $this->messageEnvelopeStore[self::MESSAGE_ENVELOPE_STORE_PREFIX . $identifier];
 	}
 }

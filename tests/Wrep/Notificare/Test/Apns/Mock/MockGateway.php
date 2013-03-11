@@ -17,4 +17,14 @@ class MockGateway extends Gateway
 			$messageEnvelope->setStatus(MessageEnvelope::STATUS_NOERRORS);
 		}
 	}
+
+	public function getMessageEnvelopeStore()
+	{
+		return $this->messageEnvelopeStore;
+	}
+
+	public function retrieveMessageEnvelope($identifier)
+	{
+		return parent::retrieveMessageEnvelope($identifier);
+	}
 }
