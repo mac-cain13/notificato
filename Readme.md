@@ -11,19 +11,18 @@ Notificare has some advantages not all other PHP push libraries have:
 3. Well tested with unit tests and nice Object-Oriented structure
 
 ## Installation
-Installation with [Composer](http://getcomposer.org) is recommended:
+Installation with [Composer](http://getcomposer.org) is recommended. Run the require command to add Notificare to your project:
 
-1. Add `wrep/notificare` to the requirements in your `composer.json` file
-2. Run `composer install` and start using Notificare!
+`composer require wrep/notificare`
 
 *Alternatives:*
-If you don't want to use composer, but use a [PSR-0](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md) compatible autoloader you should be able to drop the Notificare classes into your project quite easily. Of course you can also just throw the classes into you project and incluse them yourself, but you should really look into composer if you're considering this.
+There is also a [Notificare for Symfony2 bundle](https://github.com/wrep/notificare-symfony) available, highly recommended for Symfony2 users.
 
 ## State of the project
-We're still in a alpha state and changing the API without considering backward compatibility. The codebase itself quite stable and we hope to release 1.0.0 quite soon, but until then, you've been warned. :)
+We're quite stable and using this library in some of our own projects, but we're still changing the API without considering backward compatibility. We hope to release 1.0.0 quite soon, but until then, consider this beta (or maybe even alpha) software. You've been warned! :)
 
 ## Getting started
-Note that if you use [Symfony2](http://symfony.com) you should consider using the [Notificare Symfony bundle](https://github.com/wrep/notificare-symfony).
+Notificare examples can be found in the [Notificare examples repository](https://github.com/wrep/notificare-examples). Make sure you look though the PHP files in that repository! To get you started right away a push and read feedback snippet:
 
 ```php
 <?php
@@ -90,8 +89,6 @@ $gettingStarted = new GettingStarted();
 $gettingStarted->sendMultiplePushNotification();
 $gettingStarted->readFeedbackService();
 ```
-
-More examples can be found in the [Notificare examples repository](https://github.com/wrep/notificare-examples).
 
 ## License
 
