@@ -47,6 +47,8 @@ class Certificate
 		// An endpoint is required
 		if (null == $endpointEnv) {
 			throw new \InvalidArgumentException('No endpoint given.');
+		} else if (self::ENDPOINT_ENV_PRODUCTION !== $endpointEnv && self::ENDPOINT_ENV_SANDBOX !== $endpointEnv) {
+			throw new \InvalidArgumentException('Invalid endpoint given: ' . $endpointEnv);
 		}
 
 		// Save the given parameters
