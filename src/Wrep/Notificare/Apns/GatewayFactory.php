@@ -9,7 +9,7 @@ class GatewayFactory
 	 *
 	 * @param $certificate Certificate The certificate to use when connecting to APNS
 	 */
-	public function createConnection(Certificate $certificate)
+	public function createGateway(Certificate $certificate)
 	{
 		return new Gateway($certificate);
 	}
