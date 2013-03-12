@@ -224,10 +224,13 @@ class Gateway extends SslSocket
 	 */
 	protected function retrieveMessageEnvelope($identifier)
 	{
-		if ( !isset($this->messageEnvelopeStore[self::MESSAGE_ENVELOPE_STORE_PREFIX . $identifier]) ) {
-			return null;
+		$envelope = null;
+
+		// Fetch the requested anvelope if we have any
+		if ( isset($this->messageEnvelopeStore[self::MESSAGE_ENVELOPE_STORE_PREFIX . $identifier]) ) {
+			$envelope = $this->messageEnvelopeStore[self::MESSAGE_ENVELOPE_STORE_PREFIX . $identifier];
 		}
 
-		return $this->messageEnvelopeStore[self::MESSAGE_ENVELOPE_STORE_PREFIX . $identifier];
+		return $envelope;
 	}
 }
