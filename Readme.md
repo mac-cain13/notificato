@@ -77,7 +77,7 @@ class GettingStarted
         // Read all "tuples" from the feedback service
         $tuples = $feedback->receive();
 
-        // The envelopes contain usefull information about how many retries were needed and if sending succeeded
+        // The tuple contains information about what device unregistered and when it did unregister
         foreach ($tuples as $tuple)
         {
             echo 'Device ' . $tuple->getDeviceToken() . ' invalidated at ' . $tuple->getInvalidatedAt()->format(\DateTime::ISO8601) . PHP_EOL;
