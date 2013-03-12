@@ -36,11 +36,9 @@ class Certificate
 	 */
 	public function __construct($pemFile, $passphrase = null, $endpointEnv = self::ENDPOINT_ENV_PRODUCTION)
 	{
-		// Expand the path to the PEM file
-		$pemFile = realpath($pemFile);
-
-		// Check if the given PEM file does exists
-		if (!is_file($pemFile)) {
+		// Check if the given PEM file does exists and expand the path
+		$absolutePemFilePath = realpath($pemFile);
+		if (false === $absolutePemFilePath) {
 			throw new \InvalidArgumentException('Could not find the given PEM file "' . $pemFile . '".');
 		}
 
@@ -52,7 +50,7 @@ class Certificate
 		}
 
 		// Save the given parameters
-		$this->pemFile = $pemFile;
+		$this->pemFile = $absolutePemFilePath;
 		$this->passphrase = $passphrase;
 		$this->endpointEnv = $endpointEnv;
 		$this->fingerprint = null;
