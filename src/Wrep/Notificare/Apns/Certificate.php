@@ -38,7 +38,7 @@ class Certificate
 	{
 		// Check if the given PEM file does exists and expand the path
 		$absolutePemFilePath = realpath($pemFile);
-		if (false === $absolutePemFilePath) {
+		if (!is_file($absolutePemFilePath)) {
 			throw new \InvalidArgumentException('Could not find the given PEM file "' . $pemFile . '".');
 		}
 
