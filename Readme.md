@@ -31,6 +31,7 @@ require_once('vendor/autoload.php');
 use \Wrep\Notificare\Apns\Certificate;
 use \Wrep\Notificare\Apns\MessageFactory;
 use \Wrep\Notificare\Apns\Sender;
+use \Wrep\Notificare\Apns\Feedback\Feedback;
 
 class GettingStarted
 {
@@ -72,7 +73,7 @@ class GettingStarted
         $certificate = new Certificate('./apns-certificate.pem', 'passphrase-to-use');
 
         // Now get a connection to the feedback service
-        $feedback = new Feedback($this->certificate);
+        $feedback = new Feedback($certificate);
 
         // Read all "tuples" from the feedback service
         $tuples = $feedback->receive();
