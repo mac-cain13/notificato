@@ -87,7 +87,7 @@ class GettingStarted
 }
 
 $gettingStarted = new GettingStarted();
-$gettingStarted->sendMultiplePushNotification();
+$gettingStarted->sendOnePushNotification();
 $gettingStarted->readFeedbackService();
 ```
 
