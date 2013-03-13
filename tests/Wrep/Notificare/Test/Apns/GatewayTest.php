@@ -72,7 +72,7 @@ class GatewayTest extends \PHPUnit_Framework_TestCase
 
 		$this->gateway->queue($message);
 
-		$this->setExpectedException('UnexpectedValueException', 'Error before connecting, please check your certificate and passphrase.');
+		$this->setExpectedException('UnexpectedValueException', 'Error before connecting, please check your certificate and passphrase combo and the given CA certificate if any.');
 		$this->gateway->flush();
 	}
 

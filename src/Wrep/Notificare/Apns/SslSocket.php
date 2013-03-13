@@ -10,7 +10,7 @@ abstract class SslSocket
 
 	// Settings of the connection
 	private $certificate;
-	private $authorityCertificate;
+	private $CACertificate;
 	private $connectTimeout;
 	private $connection;
 
@@ -18,18 +18,18 @@ abstract class SslSocket
 	 * Construct Connection
 	 *
 	 * @param $certificate Certificate The certificate to use when connecting
-	 * @param $authorityCertificate Certificate|null If given this certificate will be used to verify the SSL connection
+	 * @param $CACertificate Certificate|null If given this certificate will be used to verify the SSL connection
 	 */
-	public function __construct(Certificate $certificate, Certificate $authorityCertificate = null)
+	public function __construct(Certificate $certificate, Certificate $CACertificate = null)
 	{
 		// Check if the authority certificate has no passphrase, as this isn't supported by PHP
-		if ($authorityCertificate && null !== $authorityCertificate->getPassphrase()) {
+		if ($CACertificate && null !== $CACertificate->getPassphrase()) {
 			throw new \InvalidArgumentException('A passphrase on the authority certificate is not supported.');
 		}
 
 		// Save the given parameters
 		$this->certificate = $certificate;
-		$this->authorityCertificate = $authorityCertificate;
+		$this->CACertificate = $CACertificate;
 		$this->connectTimeout = ini_get('default_socket_timeout');
 
 		// Setup the current state
@@ -70,10 +70,10 @@ abstract class SslSocket
 		}
 
 		// Verify peer if an Authority Certificate is available
-		if (null !== $this->authorityCertificate)
+		if (null !== $this->CACertificate)
 		{
 			stream_context_set_option($streamContext, 'ssl', 'verify_peer', true);
-			stream_context_set_option($streamContext, 'ssl', 'cafile', $this->authorityCertificate->getPemFile());
+			stream_context_set_option($streamContext, 'ssl', 'cafile', $this->CACertificate->getPemFile());
 		}
 
 		// Open the connection
@@ -87,7 +87,7 @@ abstract class SslSocket
 
 			// Set a somewhat more clear error message on error 0
 			if (0 == $errorCode) {
-				$errorString = 'Error before connecting, please check your certificate and passphrase combo and the given authority certificate if any.';
+				$errorString = 'Error before connecting, please check your certificate and passphrase combo and the given CA certificate if any.';
 			}
 
 			throw new \UnexpectedValueException('Failed to connect to ' . $this->certificate->getEndpoint() . ' with error #' . $errorCode . ' "' . $errorString . '".');
