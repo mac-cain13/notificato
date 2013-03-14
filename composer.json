@@ -1,7 +1,7 @@
 {
 	"name": "wrep/notificare",
 	"type": "library",
-	"description": "Pushnotification library",
+	"description": "Send push notifications from PHP",
 	"homepage": "https://github.com/wrep/notificare",
 	"keywords": ["push", "pushnotifications", "apns", "ios"],
 	"license": "MIT",
@@ -19,7 +19,11 @@
 		"issues": "https://github.com/wrep/notificare/issues"
 	},
 	"require": {
-		"php": ">=5.3.3"
+		"php": ">=5.3.3",
+		"ext-spl": "*",
+		"ext-sockets": "*",
+		"ext-openssl": "*",
+		"lib-openssl": "*"
 	},
 	"require-dev": {
 		"phpunit/phpunit": "3.7.*"

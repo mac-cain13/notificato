@@ -104,15 +104,14 @@ class Certificate
 
 	/**
 	 * Get a unique hash of the certificate
-	 *  this can be used to check if two ApnsCertificate objects are the same
+	 *  this can be used to check if two Apns\Certificate objects are the same
 	 *
 	 * @return string
 	 */
 	public function getFingerprint()
 	{
 		// Calculate fingerprint if unknown
-		if (null == $this->fingerprint)
-		{
+		if (null == $this->fingerprint) {
 			$this->fingerprint = sha1( $this->endpointEnv . sha1_file($this->getPemFile()) );
 		}
 
