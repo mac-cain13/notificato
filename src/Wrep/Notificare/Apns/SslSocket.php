@@ -10,7 +10,7 @@ abstract class SslSocket
 
 	// Settings of the connection
 	private $certificate;
-	private $CACertificate;
+	private $CACertificatePath;
 	private $connectTimeout;
 	private $connection;
 
@@ -18,21 +18,13 @@ abstract class SslSocket
 	 * Construct Connection
 	 *
 	 * @param $certificate Certificate The certificate to use when connecting
-	 * @param $CACertificate Certificate|null If given this certificate will be used to verify the SSL connection
 	 */
-	public function __construct(Certificate $certificate, Certificate $CACertificate = null)
+	public function __construct(Certificate $certificate)
 	{
-		// Check if the authority certificate has no passphrase, as this isn't supported by PHP
-		if ($CACertificate && null !== $CACertificate->getPassphrase()) {
-			throw new \InvalidArgumentException('A passphrase on the authority certificate is not supported.');
-		}
-
-		// Save the given parameters
+		// Save the given parameters and state
 		$this->certificate = $certificate;
-		$this->CACertificate = $CACertificate;
+		$this->CACertificatePath = dirname(__FILE__) . '/entrust_2048_ca.pem';
 		$this->connectTimeout = ini_get('default_socket_timeout');
-
-		// Setup the current state
 		$this->connection = null;
 	}
 
@@ -70,10 +62,10 @@ abstract class SslSocket
 		}
 
 		// Verify peer if an Authority Certificate is available
-		if (null !== $this->CACertificate)
+		if (null !== $this->CACertificatePath)
 		{
 			stream_context_set_option($streamContext, 'ssl', 'verify_peer', true);
-			stream_context_set_option($streamContext, 'ssl', 'cafile', $this->CACertificate->getPemFile());
+			stream_context_set_option($streamContext, 'ssl', 'cafile', $this->CACertificatePath);
 		}
 
 		// Open the connection
