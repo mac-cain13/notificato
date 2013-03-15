@@ -22,7 +22,10 @@ There is also a [Notificare for Symfony2 bundle](https://github.com/wrep/notific
 We're quite stable and using this library in some of our own projects, but we're still changing the API without considering backward compatibility. We hope to release 1.0.0 quite soon, but until then, consider this beta (or maybe even alpha) software. You've been warned! :)
 
 ## Getting started
-Notificare examples can be found in the [Notificare examples repository](https://github.com/wrep/notificare-examples). Make sure you look though the PHP files in that repository! To get you started right away a push and read feedback snippet:
+1. [Create an APNS certificate](doc/certificate.md) for your App
+2. Look at the notificare examples that can be found in the [Notificare examples repository](https://github.com/wrep/notificare-examples). Make sure you look though the PHP files in that repository!
+
+To get you started right away a push and read feedback snippet:
 
 ```php
 <?php
