@@ -2,9 +2,9 @@
 
 namespace Wrep\Notificare\Apns;
 
-use Psr\Log\LoggerAwareInterface,
-	Psr\Log\LoggerInterface,
-	Psr\Log\NullLogger;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 
 class Sender implements LoggerAwareInterface
 {
