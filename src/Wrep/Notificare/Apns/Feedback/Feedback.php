@@ -72,6 +72,8 @@ class Feedback extends SslSocket
 		// And we're done, disconnect from the service
 		$this->disconnect();
 
+		$this->logger->info('Apns\Feedback recieved {tupleCount} tuples from APNS feedback service using certificate "{certificateFingerprint}"', array('tupleCount' => count($tuples), 'certificateFingerprint' => $this->getCertificate()->getFingerprint()));
+
 		return $tuples;
 	}
 }
