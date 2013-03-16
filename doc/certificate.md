@@ -12,7 +12,7 @@ You have two options to create your certificate signing request (CSR), with Keyc
 
 ### b. Using the commandline
 1. Open the terminal and go to a folder where you can put the certificate files
-2. Run `openssl req -nodes -newkey rsa:2048 -keyout apns-private.plain.key -out apns-request.csr -subj "/emailAddress=email@example.com/CN=Your Name/C=US"`
+2. Generate a new private key and CSR: `openssl req -nodes -newkey rsa:2048 -keyout apns-private.plain.key -out apns-request.csr -subj "/emailAddress=email/CN=Name/C=US"`
 3. Secure the private key with an passphrase: `openssl rsa -in apns-private.plain.key -des3 -out apns-private.key`
 
 ## 2. Generate the certificate
