@@ -2,7 +2,11 @@
 
 namespace Wrep\Notificare\Apns;
 
-abstract class SslSocket
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
+
+abstract class SslSocket implements LoggerAwareInterface
 {
 	// Socket read/write constants
 	const SEND_INTERVAL = 10000; // microseconds, so this equals 0.1 seconds
@@ -13,6 +17,7 @@ abstract class SslSocket
 	private $CACertificatePath;
 	private $connectTimeout;
 	private $connection;
+	protected $logger;
 
 	/**
 	 * Construct Connection
@@ -26,6 +31,17 @@ abstract class SslSocket
 		$this->CACertificatePath = dirname(__FILE__) . '/entrust_2048_ca.pem';
 		$this->connectTimeout = ini_get('default_socket_timeout');
 		$this->connection = null;
+		$this->setLogger(new NullLogger());
+	}
+
+	/**
+     * Sets a logger instance on the object
+     *
+     * @param LoggerInterface $logger
+     */
+	public function setLogger(LoggerInterface $logger)
+	{
+		$this->logger = $logger;
 	}
 
 	/**
@@ -53,6 +69,8 @@ abstract class SslSocket
 	 */
 	protected function connect($endpointType = Certificate::ENDPOINT_TYPE_GATEWAY)
 	{
+		$this->logger->debug('Connecting Apns\SslSocket to the APNS ' . $endpointType . ' service with certificate "' . $this->getCertificate()->getFingerprint() . '"');
+
 		// Create the SSL context
 		$streamContext = stream_context_create();
 		stream_context_set_option($streamContext, 'ssl', 'local_cert', $this->certificate->getPemFile());
@@ -95,6 +113,8 @@ abstract class SslSocket
 	 */
 	protected function disconnect()
 	{
+		$this->logger->debug('Disconnecting Apns\SslSocket from the APNS service with certificate "' . $this->getCertificate()->getFingerprint() . '"');
+
 		// Check if there is a socket to disconnect
 		if (is_resource($this->connection))
 		{

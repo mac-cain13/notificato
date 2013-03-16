@@ -6,7 +6,7 @@ use Wrep\Notificare\Apns\Certificate;
 
 class Tuple
 {
-	const BINARY_LENGTH = 38; // 4 timestamp + 2 token;ength + 32 token
+	const BINARY_LENGTH = 38; // 4 timestamp + 2 tokenlength + 32 token
 
 	private $invalidatedAt;
 	private $deviceToken;
