@@ -14,7 +14,7 @@ class GatewayTest extends \PHPUnit_Framework_TestCase
 
 	public function setUp()
 	{
-		$this->certificate = new Certificate(__DIR__ . '/../resources/certificate_corrupt.pem');
+		$this->certificate = new Certificate(__DIR__ . '/../resources/certificate_corrupt.pem', null, false, Certificate::ENDPOINT_ENV_PRODUCTION);
 		$this->gateway = new Gateway($this->certificate);
 	}
 
@@ -67,7 +67,7 @@ class GatewayTest extends \PHPUnit_Framework_TestCase
 				->method('validateLength')
 				->will($this->returnValue(true));
 
-		$this->certificate = new Certificate(__DIR__ . '/../resources/certificate_corrupt.pem', 'passphrase');
+		$this->certificate = new Certificate(__DIR__ . '/../resources/certificate_corrupt.pem', 'passphrase', false, Certificate::ENDPOINT_ENV_PRODUCTION);
 		$this->gateway = new Gateway($this->certificate);
 
 		$this->gateway->queue($message);

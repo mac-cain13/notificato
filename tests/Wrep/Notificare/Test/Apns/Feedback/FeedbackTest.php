@@ -12,7 +12,7 @@ class FeedbackTests extends \PHPUnit_Framework_TestCase
 
 	public function setUp()
 	{
-		$this->certificate = new Certificate(__DIR__ . '/../../resources/certificate_corrupt.pem');
+		$this->certificate = new Certificate(__DIR__ . '/../../resources/certificate_corrupt.pem', null, false, Certificate::ENDPOINT_ENV_PRODUCTION);
 		$this->feedback = new Feedback($this->certificate);
 	}
 

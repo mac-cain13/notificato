@@ -100,7 +100,7 @@ abstract class SslSocket implements LoggerAwareInterface
 				$errorString = 'Error before connecting, please check your certificate and passphrase combo and the given CA certificate if any.';
 			}
 
-			throw new \UnexpectedValueException('Failed to connect to ' . $this->certificate->getEndpoint() . ' with error #' . $errorCode . ' "' . $errorString . '".');
+			throw new \UnexpectedValueException('Failed to connect to ' . $this->certificate->getEndpoint($endpointType) . ' with error #' . $errorCode . ' "' . $errorString . '".');
 		}
 
 		// Set stream in non-blocking mode and make writes unbuffered

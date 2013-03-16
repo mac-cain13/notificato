@@ -12,7 +12,7 @@ class TupleTests extends \PHPUnit_Framework_TestCase
 
 	public function setUp()
 	{
-		$this->certificate = new Certificate(__DIR__ . '/../../resources/certificate_corrupt.pem');
+		$this->certificate = new Certificate(__DIR__ . '/../../resources/certificate_corrupt.pem', null, false, Certificate::ENDPOINT_ENV_PRODUCTION);
 		$this->tuple = new Tuple(1362432924, 'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $this->certificate);
 	}
 

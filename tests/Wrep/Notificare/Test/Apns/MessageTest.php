@@ -11,7 +11,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 
 	public function setUp()
 	{
-		$certificate = new Certificate(__DIR__ . '/../resources/certificate_corrupt.pem');
+		$certificate = new Certificate(__DIR__ . '/../resources/certificate_corrupt.pem', null, false, Certificate::ENDPOINT_ENV_PRODUCTION);
 		$this->message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate);
 	}
 
@@ -27,7 +27,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 	public function testInvalidConstruction($deviceToken)
 	{
 		$this->setExpectedException('InvalidArgumentException');
-		$message = new Message($deviceToken, new Certificate(__DIR__ . '/../resources/certificate_corrupt.pem'));
+		$message = new Message($deviceToken, new Certificate(__DIR__ . '/../resources/certificate_corrupt.pem', null, false, Certificate::ENDPOINT_ENV_PRODUCTION));
 	}
 
 	public function incorrectConstructorArguments()
