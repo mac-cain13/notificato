@@ -69,7 +69,7 @@ abstract class SslSocket implements LoggerAwareInterface
 	 */
 	protected function connect($endpointType = Certificate::ENDPOINT_TYPE_GATEWAY)
 	{
-		$this->logger->debug('Connecting Apns\SslSocket to the APNS {endpointType} service with certificate "{certificateFingerprint}"', array('endpointType' => $endpointType, 'certificateFingerprint' => $this->getCertificate()->getFingerprint()));
+		$this->logger->debug('Connecting Apns\SslSocket to the APNS ' . $endpointType . ' service with certificate "' . $this->getCertificate()->getFingerprint() . '"');
 
 		// Create the SSL context
 		$streamContext = stream_context_create();
@@ -113,7 +113,7 @@ abstract class SslSocket implements LoggerAwareInterface
 	 */
 	protected function disconnect()
 	{
-		$this->logger->debug('Disconnecting Apns\SslSocket from the APNS service with certificate "{certificateFingerprint}"', array('certificateFingerprint' => $this->getCertificate()->getFingerprint()));
+		$this->logger->debug('Disconnecting Apns\SslSocket from the APNS service with certificate "' . $this->getCertificate()->getFingerprint() . '"');
 
 		// Check if there is a socket to disconnect
 		if (is_resource($this->connection))

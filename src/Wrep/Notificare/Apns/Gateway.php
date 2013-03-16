@@ -47,16 +47,16 @@ class Gateway extends SslSocket
 		// Put the message in an envelope
 		$envelope = new MessageEnvelope($this->lastMessageId, $message, $retryLimit);
 
-		// Save the message so we can track it
+		// Save the message so we can update it later on
 		$this->storeMessageEnvelope($envelope);
 
 		// If valid, queue or else update status and return the envelope
 		if ($message->validateLength()) {
-			$this->logger->debug('Queuing Apns\Message #{messageId} with retrylimit {retryLimit} to device "{deviceToken}" on Apns\Gateway with certificate "{certificateFingerprint}"', array('messageId' => $this->lastMessageId, 'retryLimit' => $retryLimit, 'deviceToken' => $message->getDeviceToken(), 'certificateFingerprint' => $this->getCertificate()->getFingerprint()) );
+			$this->logger->debug('Queuing Apns\Message #' . $this->lastMessageId . ' with retrylimit ' . $retryLimit . ' to device "' . $message->getDeviceToken() . '" on Apns\Gateway with certificate "' . $this->getCertificate()->getFingerprint() . '"');
 			$this->sendQueue->enqueue($envelope);
 		} else {
 			$envelope->setStatus(MessageEnvelope::STATUS_PAYLOADTOOLONG);
-			$this->logger->warning('Failed queuing Apns\Message #{messageId} "{statusDescription}" with retrylimit {retryLimit} to device "{deviceToken}" on Apns\Gateway with certificate "{certificateFingerprint}"', array('messageId' => $this->lastMessageId, 'statusDescription' => $envelope->getStatusDescription(), 'retryLimit' => $retryLimit, 'deviceToken' => $message->getDeviceToken(), 'certificateFingerprint' => $this->getCertificate()->getFingerprint()) );
+			$this->logger->warning('Failed queuing Apns\Message #' . $this->lastMessageId . ' "' . $envelope->getStatusDescription() . '" with retrylimit ' . $retryLimit . ' to device "' . $message->getDeviceToken() . '" on Apns\Gateway with certificate "' . $this->getCertificate()->getFingerprint() . '"');
 		}
 
 		return $envelope;
@@ -79,7 +79,7 @@ class Gateway extends SslSocket
 	{
 		// Don't do anything if the queue is empty
 		if ($this->sendQueue->isEmpty()) {
-			$this->logger->info('Flushing the already empty queue of Apns\Gateway with certificate "{certificateFingerprint}"', array('certificateFingerprint' => $this->getCertificate()->getFingerprint()) );
+			$this->logger->info('Flushing the already empty queue of Apns\Gateway with certificate "' . $this->getCertificate()->getFingerprint() . '"');
 			return;
 		}
 
@@ -88,7 +88,7 @@ class Gateway extends SslSocket
 			$this->connect();
 		}
 
-		$this->logger->info('Flushing {queueLength} messages from the queue of Apns\Gateway with certificate "{certificateFingerprint}"', array('queueLength' => $this->getQueueLength(), 'certificateFingerprint' => $this->getCertificate()->getFingerprint()) );
+		$this->logger->info('Flushing ' . $this->getQueueLength() . ' messages from the queue of Apns\Gateway with certificate "' . $this->getCertificate()->getFingerprint() . '"');
 
 		// Handle all messages in the queue
 		while (!$this->sendQueue->isEmpty())
@@ -111,12 +111,12 @@ class Gateway extends SslSocket
 				{
 					$retryMessageEnvelope = $this->queue( $messageEnvelope->getMessage(), $messageEnvelope->getRetryLimit()-1 );
 					$messageEnvelope->setStatus(MessageEnvelope::STATUS_SENDFAILED, $retryMessageEnvelope);
-					$this->logger->debug('Failed to send message #{messageId} "{statusDescription}" to device "{deviceToken}" from the queue of Apns\Gateway with certificate "{certificateFingerprint}"', array('messageId' => $messageEnvelope->getIdentifier(), 'statusDescription' => $messageEnvelope->getStatusDescription(), 'deviceToken' => $messageEnvelope->getMessage()->getDeviceToken(), 'certificateFingerprint' => $this->getCertificate()->getFingerprint()) );
+					$this->logger->debug('Failed to send Apns\Message #' . $this->lastMessageId . ' "' . $envelope->getStatusDescription() . '" to device "' . $envelope->getMessage()->getDeviceToken() . '" on Apns\Gateway with certificate "' . $this->getCertificate()->getFingerprint() . '"');
 				}
 				else
 				{
 					$messageEnvelope->setStatus(MessageEnvelope::STATUS_TOOMANYRETRIES);
-					$this->logger->warning('Failed to send message #{messageId} "{statusDescription}" to device "{deviceToken}" from the queue of Apns\Gateway with certificate "{certificateFingerprint}"', array('messageId' => $messageEnvelope->getIdentifier(), 'statusDescription' => $messageEnvelope->getStatusDescription(), 'deviceToken' => $messageEnvelope->getMessage()->getDeviceToken(), 'certificateFingerprint' => $this->getCertificate()->getFingerprint()) );
+					$this->logger->warning('Failed to send Apns\Message #' . $this->lastMessageId . ' "' . $envelope->getStatusDescription() . '" to device "' . $envelope->getMessage()->getDeviceToken() . '" on Apns\Gateway with certificate "' . $this->getCertificate()->getFingerprint() . '"');
 				}
 			}
 			else
@@ -178,11 +178,12 @@ class Gateway extends SslSocket
 			// Mark the message that triggered the error as failed
 			$failedMessageEnvelope = $this->retrieveMessageEnvelope($errorMessage['identifier']);
 			$failedMessageEnvelope->setStatus($errorMessage['status']);
-			$this->logger->warning('Failed to send message #{messageId} "{statusDescription}" to device "{deviceToken}" from the queue of Apns\Gateway with certificate "{certificateFingerprint}"', array('messageId' => $failedMessageEnvelope->getIdentifier(), 'statusDescription' => $failedMessageEnvelope->getStatusDescription(), 'deviceToken' => $failedMessageEnvelope->getMessage()->getDeviceToken(), 'certificateFingerprint' => $this->getCertificate()->getFingerprint()) );
+			$this->logger->warning('Failed to send message #' . $failedMessageEnvelope->getIdentifier() . ' "' . $failedMessageEnvelope->getStatusDescription() . '" to device "' . $failedMessageEnvelope->getMessage()->getDeviceToken() . '" from the queue of Apns\Gateway with certificate "' . $this->getCertificate()->getFingerprint() . '"');
 
 			// All messages that are send after the failed message should be send again
-			$this->logger->info('Requeueing {requeueCount} messages that where send after the failed message to the queue of Apns\Gateway with certificate "{certificateFingerprint}"', array('requeueCount' => ($this->lastMessageId - $errorMessage['identifier'] ), 'certificateFingerprint' => $this->getCertificate()->getFingerprint()) );
-			for ($messageId = $errorMessage['identifier'] + 1; $this->lastMessageId <= $messageId; $messageId++)
+			$this->logger->info('Requeueing ' . ($this->lastMessageId - $errorMessage['identifier']) . ' messages that where send after the failed message to the queue of Apns\Gateway with certificate "' . $this->getCertificate()->getFingerprint() . '"');
+			$lastMessageToResend = $this->lastMessageId;
+			for ($messageId = $errorMessage['identifier'] + 1; $lastMessageToResend >= $messageId; $messageId++)
 			{
 				// Get the message envelope
 				$messageEnvelope = $this->retrieveMessageEnvelope($messageId);
@@ -195,17 +196,17 @@ class Gateway extends SslSocket
 					{
 						$retryMessageEnvelope = $this->queue( $messageEnvelope->getMessage(), $messageEnvelope->getRetryLimit()-1 );
 						$messageEnvelope->setStatus(MessageEnvelope::STATUS_EARLIERERROR, $retryMessageEnvelope);
-						$this->logger->debug('Failed to send message #{messageId} "{statusDescription}" to device "{deviceToken}" from the queue of Apns\Gateway with certificate "{certificateFingerprint}"', array('messageId' => $messageEnvelope->getIdentifier(), 'statusDescription' => $messageEnvelope->getStatusDescription(), 'deviceToken' => $messageEnvelope->getMessage()->getDeviceToken(), 'certificateFingerprint' => $this->getCertificate()->getFingerprint()) );
+						$this->logger->debug('Failed to send Apns\Message #' . $this->lastMessageId . ' "' . $messageEnvelope->getStatusDescription() . '" to device "' . $messageEnvelope->getMessage()->getDeviceToken() . '" on Apns\Gateway with certificate "' . $this->getCertificate()->getFingerprint() . '"');
 					}
 					else
 					{
 						$messageEnvelope->setStatus(MessageEnvelope::STATUS_TOOMANYRETRIES);
-						$this->logger->warning('Failed to send message #{messageId} "{statusDescription}" to device "{deviceToken}" from the queue of Apns\Gateway with certificate "{certificateFingerprint}"', array('messageId' => $messageEnvelope->getIdentifier(), 'statusDescription' => $messageEnvelope->getStatusDescription(), 'deviceToken' => $messageEnvelope->getMessage()->getDeviceToken(), 'certificateFingerprint' => $this->getCertificate()->getFingerprint()) );
+						$this->logger->warning('Failed to send Apns\Message #' . $this->lastMessageId . ' "' . $messageEnvelope->getStatusDescription() . '" to device "' . $messageEnvelope->getMessage()->getDeviceToken() . '" on Apns\Gateway with certificate "' . $this->getCertificate()->getFingerprint() . '"');
 					}
 				}
 				else
 				{
-					$this->logger->warning('Could not requeue message #{messageId} "Envelope already purged from envelope store" to the queue of Apns\Gateway with certificate "{certificateFingerprint}"', array('messageId' => $messageId, 'certificateFingerprint' => $this->getCertificate()->getFingerprint()) );
+					$this->logger->warning('Could not requeue message #' . $this->lastMessageId . ' "Envelope already purged from envelope store" to the queue of Apns\Gateway with certificate "' . $this->getCertificate()->getFingerprint() . '"');
 				}
 			}
 
@@ -229,7 +230,7 @@ class Gateway extends SslSocket
 		// Remove all oldest elements, so we don't get bigger then self::MAX_RECOVERY_SIZE
 		if (count($this->messageEnvelopeStore) > self::MAX_RECOVERY_SIZE) {
 			array_splice($this->messageEnvelopeStore, 0, count($this->messageEnvelopeStore) - self::MAX_RECOVERY_SIZE);
-			$this->logger->debug('Purged {envelopesPurged} from the envelope store of Apns\Gateway with certificate "{certificateFingerprint}"', array('envelopesPurged' => (count($this->messageEnvelopeStore) - self::MAX_RECOVERY_SIZE), 'certificateFingerprint' => $this->getCertificate()->getFingerprint()));
+			$this->logger->debug('Purged ' . (count($this->messageEnvelopeStore) - self::MAX_RECOVERY_SIZE) . ' from the envelope store of Apns\Gateway with certificate "' . $this->getCertificate()->getFingerprint() . '"');
 		}
 	}
 
