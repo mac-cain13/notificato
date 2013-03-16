@@ -53,6 +53,7 @@ You now have your certificate, time to convert it to a Notificare compatible for
 ### b. If you used the commandline for CSR generation
 1. Make sure the downloaded `.cer`-file is in the same folder as the other generated files
 2. Open the terminal and go to the folder the certificate files are in
-3. Run `cat apns-development.cer apns-private.key > apns-certificate.pem`
+3. Convert Apples certificate to PEM format: `openssl x509 -inform der -in aps_development.cer -out apns-development.pem`
+3. Then add the key and certificate together: `cat apns-development.pem apns-private.key > apns-certificate.pem`
 
 Now you have your certificate to push to the choosen APNS environment for the App/Passbook Pass you generated this certificate for. Now go on and push something!
