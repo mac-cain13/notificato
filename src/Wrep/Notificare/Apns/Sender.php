@@ -2,10 +2,15 @@
 
 namespace Wrep\Notificare\Apns;
 
-class Sender
+use Psr\Log\LoggerAwareInterface,
+	Psr\Log\LoggerInterface,
+	Psr\Log\NullLogger;
+
+class Sender implements LoggerAwareInterface
 {
 	private $gatewayFactory;
 	private $gatewayPool;
+	private $logger;
 
 	/**
 	 * Construct Sender
@@ -14,6 +19,7 @@ class Sender
 	{
 		$this->setGatewayFactory(new GatewayFactory());
 		$this->gatewayPool = array();
+		$this->setLogger(new NullLogger());
 	}
 
 	/**
@@ -34,6 +40,16 @@ class Sender
 	public function getGatewayFactory()
 	{
 		return $this->gatewayFactory;
+	}
+
+	/**
+     * Sets a logger instance on the object
+     *
+     * @param LoggerInterface $logger
+     */
+	public function setLogger(LoggerInterface $logger)
+	{
+		$this->logger = $logger;
 	}
 
 	/**
@@ -118,13 +134,17 @@ class Sender
 	 */
 	private function getGatewayForCertificate(Certificate $certificate)
 	{
+		// Get the fingerprint of the certificate
+		$fingerprint = $certificate->getFingerprint();
+
 		// If no gateway is available for this certificate create one
-		if ( !isset($this->gatewayPool[$certificate->getFingerprint()]) )
+		if ( !isset($this->gatewayPool[$fingerprint]) )
 		{
-			$this->gatewayPool[$certificate->getFingerprint()] = $this->getGatewayFactory()->createGateway($certificate);
+			$this->gatewayPool[$fingerprint] = $this->getGatewayFactory()->createGateway($certificate);
+			$this->gatewayPool[$fingerprint]->setLogger($this->logger);
 		}
 
 		// Return the gateway connection for this certificate
-		return $this->gatewayPool[$certificate->getFingerprint()];
+		return $this->gatewayPool[$fingerprint];
 	}
 }
