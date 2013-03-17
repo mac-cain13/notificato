@@ -31,63 +31,63 @@
                     <tr>
                 <td>STATUS_NOTSEND</td>
                 <td class="last">
-                    <p><em></em></p>
+                    <p><em>Statuscode: Message not (yet) send to APNS</em></p>
                     <p></p>
                 </td>
             </tr>
                     <tr>
                 <td>STATUS_NOERRORS</td>
                 <td class="last">
-                    <p><em></em></p>
+                    <p><em>Statuscode: Message send, no errors encountered so far</em></p>
                     <p></p>
                 </td>
             </tr>
                     <tr>
                 <td>STATUS_SENDFAILED</td>
                 <td class="last">
-                    <p><em></em></p>
+                    <p><em>Statuscode: Sending message failed, will retry with other envelope</em></p>
                     <p></p>
                 </td>
             </tr>
                     <tr>
                 <td>STATUS_EARLIERERROR</td>
                 <td class="last">
-                    <p><em></em></p>
+                    <p><em>Statuscode: Failed to send message due earlier error, will retry with other envelope</em></p>
                     <p></p>
                 </td>
             </tr>
                     <tr>
                 <td>STATUS_PAYLOADTOOLONG</td>
                 <td class="last">
-                    <p><em></em></p>
+                    <p><em>Statuscode: Payload of message exceeds 256 bytes, will not send message to APNS</em></p>
                     <p></p>
                 </td>
             </tr>
                     <tr>
                 <td>STATUS_TOOMANYRETRIES</td>
                 <td class="last">
-                    <p><em></em></p>
+                    <p><em>Statuscode: Sending message failed, too many retries</em></p>
                     <p></p>
                 </td>
             </tr>
                     <tr>
                 <td>DEFAULT_RETRY_LIMIT</td>
                 <td class="last">
-                    <p><em></em></p>
+                    <p><em>Default retry limit</em></p>
                     <p></p>
                 </td>
             </tr>
                     <tr>
                 <td>BINARY_COMMAND</td>
                 <td class="last">
-                    <p><em></em></p>
+                    <p><em>Binary command to send a message to the APNS gateway (Internal use)</em></p>
                     <p></p>
                 </td>
             </tr>
                     <tr>
                 <td>BINARY_DEVICETOKEN_SIZE</td>
                 <td class="last">
-                    <p><em></em></p>
+                    <p><em>Binary size of a device token (Internal use)</em></p>
                     <p></p>
                 </td>
             </tr>
@@ -103,7 +103,7 @@
                     
                 </td>
                 <td class="last">
-                    <a href="#method___construct">__construct</a>(<abbr title="Wrep\Notificare\Apns\$identifier">$identifier</abbr> $identifier, <a href="../../../Wrep/Notificare/Apns/Message.html"><abbr title="Wrep\Notificare\Apns\Message">Message</abbr></a> $message, <abbr title="Wrep\Notificare\Apns\$retryLimit">$retryLimit</abbr> $retryLimit = MessageEnvelope::DEFAULT_RETRY_LIMIT)
+                    <a href="#method___construct">__construct</a>(int $identifier, <a href="../../../Wrep/Notificare/Apns/Message.html"><abbr title="Wrep\Notificare\Apns\Message">Message</abbr></a> $message, int $retryLimit = MessageEnvelope::DEFAULT_RETRY_LIMIT)
                     <p>Construct MessageEnvelope</p>
                 </td>
                 <td></td>
@@ -153,7 +153,7 @@
                     
                 </td>
                 <td class="last">
-                    <a href="#method_setStatus">setStatus</a>(<abbr title="Wrep\Notificare\Apns\$status">$status</abbr> $status, <abbr title="Wrep\Notificare\Apns\$envelope">$envelope</abbr> $envelope = null)
+                    <a href="#method_setStatus">setStatus</a>(int $status, <a href="../../../Wrep/Notificare/Apns/MessageEnvelope.html"><abbr title="Wrep\Notificare\Apns\MessageEnvelope">MessageEnvelope</abbr></a>|null $envelope = null)
                     <p>Set the status of this message envelope  only possible if there is no final state set yet.</p>
                 </td>
                 <td></td>
@@ -184,7 +184,7 @@
                 </td>
                 <td class="last">
                     <a href="#method_getFinalStatus">getFinalStatus</a>()
-                    <p>Get the final status after all retries  Use this method to know how the message ended up after all retries.</p>
+                    <p>Get the final status after all retries.</p>
                 </td>
                 <td></td>
             </tr>
@@ -194,7 +194,7 @@
                 </td>
                 <td class="last">
                     <a href="#method_getFinalStatusDescription">getFinalStatusDescription</a>()
-                    <p>Get a description of the final status after all retries  Use this method to know how the message ended up after all retries.</p>
+                    <p>Get a description of the final status after all retries.</p>
                 </td>
                 <td></td>
             </tr>
@@ -214,9 +214,9 @@
         <h2>Details</h2>
 
                         <h3 id="method___construct">
-        <div class="location">at line 60</div>
+        <div class="location">at line 90</div>
         <code>            public            
-    <strong>__construct</strong>(<abbr title="Wrep\Notificare\Apns\$identifier">$identifier</abbr> $identifier, <a href="../../../Wrep/Notificare/Apns/Message.html"><abbr title="Wrep\Notificare\Apns\Message">Message</abbr></a> $message, <abbr title="Wrep\Notificare\Apns\$retryLimit">$retryLimit</abbr> $retryLimit = MessageEnvelope::DEFAULT_RETRY_LIMIT)</code>
+    <strong>__construct</strong>(int $identifier, <a href="../../../Wrep/Notificare/Apns/Message.html"><abbr title="Wrep\Notificare\Apns\Message">Message</abbr></a> $message, int $retryLimit = MessageEnvelope::DEFAULT_RETRY_LIMIT)</code>
     </h3>
     <div class="details">
         <p>Construct MessageEnvelope</p>
@@ -226,19 +226,19 @@
 
                     <table>
                     <tr>
-                <td><abbr title="Wrep\Notificare\Apns\$identifier">$identifier</abbr></td>
+                <td>int</td>
                 <td>$identifier</td>
-                <td>int Unique number to the relevant APNS connection to identify this message</td>
+                <td>Unique number to the relevant APNS connection to identify this message</td>
             </tr>
                     <tr>
                 <td><a href="../../../Wrep/Notificare/Apns/Message.html"><abbr title="Wrep\Notificare\Apns\Message">Message</abbr></a></td>
                 <td>$message</td>
-                <td>Message The message that&#039;s is contained by this envelope</td>
+                <td>The message that&#039;s is contained by this envelope</td>
             </tr>
                     <tr>
-                <td><abbr title="Wrep\Notificare\Apns\$retryLimit">$retryLimit</abbr></td>
+                <td>int</td>
                 <td>$retryLimit</td>
-                <td>int The times Notificare should retry to deliver the message on failure</td>
+                <td>The times Notificare should retry to deliver the message on failure</td>
             </tr>
             </table>
 
@@ -249,7 +249,7 @@
     </div>
 
                 <h3 id="method_getIdentifier">
-        <div class="location">at line 90</div>
+        <div class="location">at line 120</div>
         <code>            public            int
     <strong>getIdentifier</strong>()</code>
     </h3>
@@ -273,7 +273,7 @@
     </div>
 
                 <h3 id="method_getMessage">
-        <div class="location">at line 100</div>
+        <div class="location">at line 130</div>
         <code>            public            <a href="../../../Wrep/Notificare/Apns/Message.html"><abbr title="Wrep\Notificare\Apns\Message">Message</abbr></a>
     <strong>getMessage</strong>()</code>
     </h3>
@@ -297,7 +297,7 @@
     </div>
 
                 <h3 id="method_getRetryLimit">
-        <div class="location">at line 110</div>
+        <div class="location">at line 140</div>
         <code>            public            int
     <strong>getRetryLimit</strong>()</code>
     </h3>
@@ -321,7 +321,7 @@
     </div>
 
                 <h3 id="method_getRetryEnvelope">
-        <div class="location">at line 120</div>
+        <div class="location">at line 150</div>
         <code>            public            <a href="../../../Wrep/Notificare/Apns/MessageEnvelope.html"><abbr title="Wrep\Notificare\Apns\MessageEnvelope">MessageEnvelope</abbr></a>
     <strong>getRetryEnvelope</strong>()</code>
     </h3>
@@ -345,9 +345,9 @@
     </div>
 
                 <h3 id="method_setStatus">
-        <div class="location">at line 132</div>
+        <div class="location">at line 162</div>
         <code>            public            
-    <strong>setStatus</strong>(<abbr title="Wrep\Notificare\Apns\$status">$status</abbr> $status, <abbr title="Wrep\Notificare\Apns\$envelope">$envelope</abbr> $envelope = null)</code>
+    <strong>setStatus</strong>(int $status, <a href="../../../Wrep/Notificare/Apns/MessageEnvelope.html"><abbr title="Wrep\Notificare\Apns\MessageEnvelope">MessageEnvelope</abbr></a>|null $envelope = null)</code>
     </h3>
     <div class="details">
         <p>Set the status of this message envelope  only possible if there is no final state set yet.</p>
@@ -357,14 +357,14 @@
 
                     <table>
                     <tr>
-                <td><abbr title="Wrep\Notificare\Apns\$status">$status</abbr></td>
+                <td>int</td>
                 <td>$status</td>
-                <td>int One of the keys in self::$statusDescriptionMapping</td>
+                <td>One of the keys in self::$statusDescriptionMapping</td>
             </tr>
                     <tr>
-                <td><abbr title="Wrep\Notificare\Apns\$envelope">$envelope</abbr></td>
+                <td><a href="../../../Wrep/Notificare/Apns/MessageEnvelope.html"><abbr title="Wrep\Notificare\Apns\MessageEnvelope">MessageEnvelope</abbr></a>|null</td>
                 <td>$envelope</td>
-                <td>MessageEnvelope|null Envelope for the retry of this MessageEnvelope</td>
+                <td>Envelope for the retry of this MessageEnvelope</td>
             </tr>
             </table>
 
@@ -375,7 +375,7 @@
     </div>
 
                 <h3 id="method_getStatus">
-        <div class="location">at line 159</div>
+        <div class="location">at line 189</div>
         <code>            public            int
     <strong>getStatus</strong>()</code>
     </h3>
@@ -399,7 +399,7 @@
     </div>
 
                 <h3 id="method_getStatusDescription">
-        <div class="location">at line 169</div>
+        <div class="location">at line 199</div>
         <code>            public            string
     <strong>getStatusDescription</strong>()</code>
     </h3>
@@ -423,13 +423,13 @@
     </div>
 
                 <h3 id="method_getFinalStatus">
-        <div class="location">at line 180</div>
+        <div class="location">at line 210</div>
         <code>            public            int
     <strong>getFinalStatus</strong>()</code>
     </h3>
     <div class="details">
-        <p>Get the final status after all retries  Use this method to know how the message ended up after all retries.</p>
-        <p></p>
+        <p>Get the final status after all retries.</p>
+        <p>Use this method to know how the message ended up after all retries.</p>
         <div class="tags">
             
                             <h4>Return Value</h4>
@@ -447,13 +447,13 @@
     </div>
 
                 <h3 id="method_getFinalStatusDescription">
-        <div class="location">at line 196</div>
+        <div class="location">at line 226</div>
         <code>            public            string
     <strong>getFinalStatusDescription</strong>()</code>
     </h3>
     <div class="details">
-        <p>Get a description of the final status after all retries  Use this method to know how the message ended up after all retries.</p>
-        <p></p>
+        <p>Get a description of the final status after all retries.</p>
+        <p>Use this method to know how the message ended up after all retries.</p>
         <div class="tags">
             
                             <h4>Return Value</h4>
@@ -471,7 +471,7 @@
     </div>
 
                 <h3 id="method_getBinaryMessage">
-        <div class="location">at line 206</div>
+        <div class="location">at line 236</div>
         <code>            public            string
     <strong>getBinaryMessage</strong>()</code>
     </h3>

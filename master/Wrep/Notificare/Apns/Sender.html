@@ -86,7 +86,7 @@
                     <a href="../../../Wrep/Notificare/Apns/MessageEnvelope.html"><abbr title="Wrep\Notificare\Apns\MessageEnvelope">MessageEnvelope</abbr></a>
                 </td>
                 <td class="last">
-                    <a href="#method_queue">queue</a>(<a href="../../../Wrep/Notificare/Apns/Message.html"><abbr title="Wrep\Notificare\Apns\Message">Message</abbr></a> $message, <abbr title="Wrep\Notificare\Apns\$retryLimit">$retryLimit</abbr> $retryLimit = MessageEnvelope::DEFAULT_RETRY_LIMIT)
+                    <a href="#method_queue">queue</a>(<a href="../../../Wrep/Notificare/Apns/Message.html"><abbr title="Wrep\Notificare\Apns\Message">Message</abbr></a> $message, int $retryLimit = MessageEnvelope::DEFAULT_RETRY_LIMIT)
                     <p>Queue a message on the correct APNS gateway connection</p>
                 </td>
                 <td></td>
@@ -146,7 +146,7 @@
                     <tr>
                 <td><a href="../../../Wrep/Notificare/Apns/GatewayFactory.html"><abbr title="Wrep\Notificare\Apns\GatewayFactory">GatewayFactory</abbr></a></td>
                 <td>$gatewayFactory</td>
-                <td>GatewayFactory The gateway factory to use</td>
+                <td>The gateway factory to use</td>
             </tr>
             </table>
 
@@ -220,7 +220,7 @@
                     <tr>
                 <td><a href="../../../Wrep/Notificare/Apns/Message.html"><abbr title="Wrep\Notificare\Apns\Message">Message</abbr></a></td>
                 <td>$message</td>
-                <td>Message The message to send</td>
+                <td>The message to send</td>
             </tr>
             </table>
 
@@ -242,7 +242,7 @@
                 <h3 id="method_queue">
         <div class="location">at line 84</div>
         <code>            public            <a href="../../../Wrep/Notificare/Apns/MessageEnvelope.html"><abbr title="Wrep\Notificare\Apns\MessageEnvelope">MessageEnvelope</abbr></a>
-    <strong>queue</strong>(<a href="../../../Wrep/Notificare/Apns/Message.html"><abbr title="Wrep\Notificare\Apns\Message">Message</abbr></a> $message, <abbr title="Wrep\Notificare\Apns\$retryLimit">$retryLimit</abbr> $retryLimit = MessageEnvelope::DEFAULT_RETRY_LIMIT)</code>
+    <strong>queue</strong>(<a href="../../../Wrep/Notificare/Apns/Message.html"><abbr title="Wrep\Notificare\Apns\Message">Message</abbr></a> $message, int $retryLimit = MessageEnvelope::DEFAULT_RETRY_LIMIT)</code>
     </h3>
     <div class="details">
         <p>Queue a message on the correct APNS gateway connection</p>
@@ -254,12 +254,12 @@
                     <tr>
                 <td><a href="../../../Wrep/Notificare/Apns/Message.html"><abbr title="Wrep\Notificare\Apns\Message">Message</abbr></a></td>
                 <td>$message</td>
-                <td>Message The message to queue</td>
+                <td>The message to queue</td>
             </tr>
                     <tr>
-                <td><abbr title="Wrep\Notificare\Apns\$retryLimit">$retryLimit</abbr></td>
+                <td>int</td>
                 <td>$retryLimit</td>
-                <td>int The times Notificare should retry to deliver the message on failure</td>
+                <td>The times Notificare should retry to deliver the message on failure</td>
             </tr>
             </table>
 
@@ -317,7 +317,7 @@
                     <tr>
                 <td><a href="../../../Wrep/Notificare/Apns/Certificate.html"><abbr title="Wrep\Notificare\Apns\Certificate">Certificate</abbr></a></td>
                 <td>$certificate</td>
-                <td>Certificate|null When given only the gateway connection for the given certificate is flushed</td>
+                <td>When given only the gateway connection for the given certificate is flushed</td>
             </tr>
             </table>
 

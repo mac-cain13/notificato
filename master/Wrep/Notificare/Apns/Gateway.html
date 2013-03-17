@@ -31,42 +31,42 @@
                     <tr>
                 <td>SEND_INTERVAL</td>
                 <td class="last">
-                    <p><em></em></p>
+                    <p><em>Minimum interval between sending two messages in microseconds (Internal use)</em></p>
                     <p></p>
                 </td>
             </tr>
                     <tr>
                 <td>READ_TIMEOUT</td>
                 <td class="last">
-                    <p><em></em></p>
+                    <p><em>Minimum interval to wait for a response (Internal use)</em></p>
                     <p></p>
                 </td>
             </tr>
                     <tr>
                 <td>ERROR_RESPONSE_COMMAND</td>
                 <td class="last">
-                    <p><em></em></p>
+                    <p><em>Command APNS sends back on error (Internal use)</em></p>
                     <p></p>
                 </td>
             </tr>
                     <tr>
                 <td>ERROR_RESPONSE_SIZE</td>
                 <td class="last">
-                    <p><em></em></p>
+                    <p><em>Size of the APNS error response (Internal use)</em></p>
                     <p></p>
                 </td>
             </tr>
                     <tr>
                 <td>MAX_RECOVERY_SIZE</td>
                 <td class="last">
-                    <p><em></em></p>
+                    <p><em>Maximum size of the message envelope store (Internal use)</em></p>
                     <p></p>
                 </td>
             </tr>
                     <tr>
                 <td>MESSAGE_ENVELOPE_STORE_PREFIX</td>
                 <td class="last">
-                    <p><em></em></p>
+                    <p><em>Prefix used to save message envelopes to the store (Internal use)</em></p>
                     <p></p>
                 </td>
             </tr>
@@ -112,7 +112,7 @@
                     <a href="../../../Wrep/Notificare/Apns/MessageEnvelope.html"><abbr title="Wrep\Notificare\Apns\MessageEnvelope">MessageEnvelope</abbr></a>
                 </td>
                 <td class="last">
-                    <a href="#method_queue">queue</a>(<a href="../../../Wrep/Notificare/Apns/Message.html"><abbr title="Wrep\Notificare\Apns\Message">Message</abbr></a> $message, <abbr title="Wrep\Notificare\Apns\$retryLimit">$retryLimit</abbr> $retryLimit = MessageEnvelope::DEFAULT_RETRY_LIMIT)
+                    <a href="#method_queue">queue</a>(<a href="../../../Wrep/Notificare/Apns/Message.html"><abbr title="Wrep\Notificare\Apns\Message">Message</abbr></a> $message, int $retryLimit = MessageEnvelope::DEFAULT_RETRY_LIMIT)
                     <p>Queue a message for sending</p>
                 </td>
                 <td></td>
@@ -143,7 +143,7 @@
         <h2>Details</h2>
 
                         <h3 id="method___construct">
-        <div class="location">at line 25</div>
+        <div class="location">at line 37</div>
         <code>            public            
     <strong>__construct</strong>(<a href="../../../Wrep/Notificare/Apns/Certificate.html"><abbr title="Wrep\Notificare\Apns\Certificate">Certificate</abbr></a> $certificate)</code>
     </h3>
@@ -157,7 +157,7 @@
                     <tr>
                 <td><a href="../../../Wrep/Notificare/Apns/Certificate.html"><abbr title="Wrep\Notificare\Apns\Certificate">Certificate</abbr></a></td>
                 <td>$certificate</td>
-                <td>Certificate The certificate to use when connecting to APNS</td>
+                <td>The certificate to use when connecting to APNS</td>
             </tr>
             </table>
 
@@ -168,7 +168,7 @@
     </div>
 
                 <h3 id="method_setLogger">
-        <div class="location">in <a href="../../../Wrep/Notificare/Apns/SslSocket.html#method_setLogger"><abbr title="Wrep\Notificare\Apns\SslSocket">SslSocket</abbr></a> at line 42</div>
+        <div class="location">in <a href="../../../Wrep/Notificare/Apns/SslSocket.html#method_setLogger"><abbr title="Wrep\Notificare\Apns\SslSocket">SslSocket</abbr></a> at line 48</div>
         <code>            public            
     <strong>setLogger</strong>(<abbr title="Psr\Log\LoggerInterface">LoggerInterface</abbr> $logger)</code>
     </h3>
@@ -193,7 +193,7 @@
     </div>
 
                 <h3 id="method_getCertificate">
-        <div class="location">in <a href="../../../Wrep/Notificare/Apns/SslSocket.html#method_getCertificate"><abbr title="Wrep\Notificare\Apns\SslSocket">SslSocket</abbr></a> at line 52</div>
+        <div class="location">in <a href="../../../Wrep/Notificare/Apns/SslSocket.html#method_getCertificate"><abbr title="Wrep\Notificare\Apns\SslSocket">SslSocket</abbr></a> at line 58</div>
         <code>            public            <a href="../../../Wrep/Notificare/Apns/Certificate.html"><abbr title="Wrep\Notificare\Apns\Certificate">Certificate</abbr></a>
     <strong>getCertificate</strong>()</code>
     </h3>
@@ -217,9 +217,9 @@
     </div>
 
                 <h3 id="method_queue">
-        <div class="location">at line 42</div>
+        <div class="location">at line 54</div>
         <code>            public            <a href="../../../Wrep/Notificare/Apns/MessageEnvelope.html"><abbr title="Wrep\Notificare\Apns\MessageEnvelope">MessageEnvelope</abbr></a>
-    <strong>queue</strong>(<a href="../../../Wrep/Notificare/Apns/Message.html"><abbr title="Wrep\Notificare\Apns\Message">Message</abbr></a> $message, <abbr title="Wrep\Notificare\Apns\$retryLimit">$retryLimit</abbr> $retryLimit = MessageEnvelope::DEFAULT_RETRY_LIMIT)</code>
+    <strong>queue</strong>(<a href="../../../Wrep/Notificare/Apns/Message.html"><abbr title="Wrep\Notificare\Apns\Message">Message</abbr></a> $message, int $retryLimit = MessageEnvelope::DEFAULT_RETRY_LIMIT)</code>
     </h3>
     <div class="details">
         <p>Queue a message for sending</p>
@@ -231,12 +231,12 @@
                     <tr>
                 <td><a href="../../../Wrep/Notificare/Apns/Message.html"><abbr title="Wrep\Notificare\Apns\Message">Message</abbr></a></td>
                 <td>$message</td>
-                <td>Message The message object to queue for sending</td>
+                <td>The message object to queue for sending</td>
             </tr>
                     <tr>
-                <td><abbr title="Wrep\Notificare\Apns\$retryLimit">$retryLimit</abbr></td>
+                <td>int</td>
                 <td>$retryLimit</td>
-                <td>int The times Notificare should retry to deliver the message on failure</td>
+                <td>The times Notificare should retry to deliver the message on failure</td>
             </tr>
             </table>
 
@@ -256,7 +256,7 @@
     </div>
 
                 <h3 id="method_getQueueLength">
-        <div class="location">at line 70</div>
+        <div class="location">at line 82</div>
         <code>            public            int
     <strong>getQueueLength</strong>()</code>
     </h3>
@@ -280,7 +280,7 @@
     </div>
 
                 <h3 id="method_flush">
-        <div class="location">at line 78</div>
+        <div class="location">at line 90</div>
         <code>            public            
     <strong>flush</strong>()</code>
     </h3>

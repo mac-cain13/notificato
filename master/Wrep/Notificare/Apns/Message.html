@@ -35,7 +35,7 @@
                     
                 </td>
                 <td class="last">
-                    <a href="#method___construct">__construct</a>(<abbr title="Wrep\Notificare\Apns\$deviceToken">$deviceToken</abbr> $deviceToken, <a href="../../../Wrep/Notificare/Apns/Certificate.html"><abbr title="Wrep\Notificare\Apns\Certificate">Certificate</abbr></a> $certificate)
+                    <a href="#method___construct">__construct</a>(string $deviceToken, <a href="../../../Wrep/Notificare/Apns/Certificate.html"><abbr title="Wrep\Notificare\Apns\Certificate">Certificate</abbr></a> $certificate)
                     <p>Construct Message</p>
                 </td>
                 <td></td>
@@ -76,7 +76,7 @@
                 </td>
                 <td class="last">
                     <a href="#method_setExpiresAt">setExpiresAt</a>(<abbr title="Wrep\Notificare\Apns\DateTime">DateTime</abbr> $expiresAt = null)
-                    <p>Set the moment this message should expire or null if APNS should not store the message at all  The last message for a device is stored at APNS for delivery until this moment if the device is offline</p>
+                    <p>Set the moment this message should expire or null if APNS should not store the message at all.</p>
                 </td>
                 <td></td>
             </tr>
@@ -85,8 +85,8 @@
                     
                 </td>
                 <td class="last">
-                    <a href="#method_setAlert">setAlert</a>(<abbr title="Wrep\Notificare\Apns\$body">$body</abbr> $body, <abbr title="Wrep\Notificare\Apns\$actionLocKey">$actionLocKey</abbr> $actionLocKey = null, <abbr title="Wrep\Notificare\Apns\$launchImage">$launchImage</abbr> $launchImage = null)
-                    <p>Set the alert to display  Also see: http://developer.apple.com/library/ios/#documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/ApplePushService/ApplePushService.html#//apple_ref/doc/uid/TP40008194-CH100-SW1</p>
+                    <a href="#method_setAlert">setAlert</a>(string|null $body, string|null $actionLocKey = null, string|null $launchImage = null)
+                    <p>Set the alert to display.</p>
                 </td>
                 <td></td>
             </tr>
@@ -95,8 +95,8 @@
                     
                 </td>
                 <td class="last">
-                    <a href="#method_setAlertLocalized">setAlertLocalized</a>(<abbr title="Wrep\Notificare\Apns\$locKey">$locKey</abbr> $locKey, <abbr title="Wrep\Notificare\Apns\$locArgs">$locArgs</abbr> $locArgs = array(), <abbr title="Wrep\Notificare\Apns\$actionLocKey">$actionLocKey</abbr> $actionLocKey = null, <abbr title="Wrep\Notificare\Apns\$launchImage">$launchImage</abbr> $launchImage = null)
-                    <p>Set the localized alert to display  Also see: http://developer.apple.com/library/ios/#documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/ApplePushService/ApplePushService.html#//apple_ref/doc/uid/TP40008194-CH100-SW1</p>
+                    <a href="#method_setAlertLocalized">setAlertLocalized</a>(string $locKey, array $locArgs = array(), string|null $actionLocKey = null, string|null $launchImage = null)
+                    <p>Set the localized alert to display.</p>
                 </td>
                 <td></td>
             </tr>
@@ -115,7 +115,7 @@
                     
                 </td>
                 <td class="last">
-                    <a href="#method_setBadge">setBadge</a>(<abbr title="Wrep\Notificare\Apns\$badge">$badge</abbr> $badge)
+                    <a href="#method_setBadge">setBadge</a>(int|null $badge)
                     <p>Set the badge to display on the App icon</p>
                 </td>
                 <td></td>
@@ -145,14 +145,14 @@
                     
                 </td>
                 <td class="last">
-                    <a href="#method_setSound">setSound</a>(<abbr title="Wrep\Notificare\Apns\$sound">$sound</abbr> $sound = &#039;default&#039;)
+                    <a href="#method_setSound">setSound</a>(string $sound = &#039;default&#039;)
                     <p>Set the sound that will be played when this message is received</p>
                 </td>
                 <td></td>
             </tr>
                     <tr>
                 <td class="type">
-                    <abbr title="Wrep\Notificare\Apns\$sound">$sound</abbr>
+                    string|null
                 </td>
                 <td class="last">
                     <a href="#method_getSound">getSound</a>()
@@ -165,14 +165,14 @@
                     
                 </td>
                 <td class="last">
-                    <a href="#method_setContentAvailable">setContentAvailable</a>(<abbr title="Wrep\Notificare\Apns\$contentAvailable">$contentAvailable</abbr> $contentAvailable)
+                    <a href="#method_setContentAvailable">setContentAvailable</a>(boolean $contentAvailable)
                     <p>Set newsstand content availability flag that will trigger the newsstand item to download new content</p>
                 </td>
                 <td></td>
             </tr>
                     <tr>
                 <td class="type">
-                    <abbr title="Wrep\Notificare\Apns\$contentAvailable">$contentAvailable</abbr>
+                    boolean
                 </td>
                 <td class="last">
                     <a href="#method_getContentAvailable">getContentAvailable</a>()
@@ -185,7 +185,7 @@
                     
                 </td>
                 <td class="last">
-                    <a href="#method_setPayload">setPayload</a>(<abbr title="Wrep\Notificare\Apns\$payload">$payload</abbr> $payload)
+                    <a href="#method_setPayload">setPayload</a>(array|<abbr title="Wrep\Notificare\Apns\json">json</abbr>|null $payload)
                     <p>Set custom payload to go with the message</p>
                 </td>
                 <td></td>
@@ -228,7 +228,7 @@
                         <h3 id="method___construct">
         <div class="location">at line 25</div>
         <code>            public            
-    <strong>__construct</strong>(<abbr title="Wrep\Notificare\Apns\$deviceToken">$deviceToken</abbr> $deviceToken, <a href="../../../Wrep/Notificare/Apns/Certificate.html"><abbr title="Wrep\Notificare\Apns\Certificate">Certificate</abbr></a> $certificate)</code>
+    <strong>__construct</strong>(string $deviceToken, <a href="../../../Wrep/Notificare/Apns/Certificate.html"><abbr title="Wrep\Notificare\Apns\Certificate">Certificate</abbr></a> $certificate)</code>
     </h3>
     <div class="details">
         <p>Construct Message</p>
@@ -238,14 +238,14 @@
 
                     <table>
                     <tr>
-                <td><abbr title="Wrep\Notificare\Apns\$deviceToken">$deviceToken</abbr></td>
+                <td>string</td>
                 <td>$deviceToken</td>
-                <td>string Receiver of this message</td>
+                <td>Receiver of this message</td>
             </tr>
                     <tr>
                 <td><a href="../../../Wrep/Notificare/Apns/Certificate.html"><abbr title="Wrep\Notificare\Apns\Certificate">Certificate</abbr></a></td>
                 <td>$certificate</td>
-                <td>Certificate The certificate that must be used for the APNS connection this message is send over</td>
+                <td>The certificate that must be used for the APNS connection this message is send over</td>
             </tr>
             </table>
 
@@ -333,8 +333,8 @@
     <strong>setExpiresAt</strong>(<abbr title="Wrep\Notificare\Apns\DateTime">DateTime</abbr> $expiresAt = null)</code>
     </h3>
     <div class="details">
-        <p>Set the moment this message should expire or null if APNS should not store the message at all  The last message for a device is stored at APNS for delivery until this moment if the device is offline</p>
-        <p></p>
+        <p>Set the moment this message should expire or null if APNS should not store the message at all.</p>
+        <p>The last message for a device is stored at APNS for delivery until this moment if the device is offline.</p>
         <div class="tags">
                             <h4>Parameters</h4>
 
@@ -342,7 +342,7 @@
                     <tr>
                 <td><abbr title="Wrep\Notificare\Apns\DateTime">DateTime</abbr></td>
                 <td>$expiresAt</td>
-                <td>DateTime|null Date until the message should be stored for delivery</td>
+                <td>Date until the message should be stored for delivery</td>
             </tr>
             </table>
 
@@ -355,29 +355,29 @@
                 <h3 id="method_setAlert">
         <div class="location">at line 104</div>
         <code>            public            
-    <strong>setAlert</strong>(<abbr title="Wrep\Notificare\Apns\$body">$body</abbr> $body, <abbr title="Wrep\Notificare\Apns\$actionLocKey">$actionLocKey</abbr> $actionLocKey = null, <abbr title="Wrep\Notificare\Apns\$launchImage">$launchImage</abbr> $launchImage = null)</code>
+    <strong>setAlert</strong>(string|null $body, string|null $actionLocKey = null, string|null $launchImage = null)</code>
     </h3>
     <div class="details">
-        <p>Set the alert to display  Also see: http://developer.apple.com/library/ios/#documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/ApplePushService/ApplePushService.html#//apple_ref/doc/uid/TP40008194-CH100-SW1</p>
-        <p></p>
+        <p>Set the alert to display.</p>
+        <p>See also: http://developer.apple.com/library/ios/#documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/ApplePushService/ApplePushService.html#//apple_ref/doc/uid/TP40008194-CH100-SW1</p>
         <div class="tags">
                             <h4>Parameters</h4>
 
                     <table>
                     <tr>
-                <td><abbr title="Wrep\Notificare\Apns\$body">$body</abbr></td>
+                <td>string|null</td>
                 <td>$body</td>
-                <td>string|null The text of the alert to display or null to set no alert</td>
+                <td>The text of the alert to display or null to set no alert</td>
             </tr>
                     <tr>
-                <td><abbr title="Wrep\Notificare\Apns\$actionLocKey">$actionLocKey</abbr></td>
+                <td>string|null</td>
                 <td>$actionLocKey</td>
-                <td>string|null The localization key to use for the action button</td>
+                <td>The localization key to use for the action button</td>
             </tr>
                     <tr>
-                <td><abbr title="Wrep\Notificare\Apns\$launchImage">$launchImage</abbr></td>
+                <td>string|null</td>
                 <td>$launchImage</td>
-                <td>string|null The name of the launch image to use</td>
+                <td>The name of the launch image to use</td>
             </tr>
             </table>
 
@@ -390,34 +390,34 @@
                 <h3 id="method_setAlertLocalized">
         <div class="location">at line 141</div>
         <code>            public            
-    <strong>setAlertLocalized</strong>(<abbr title="Wrep\Notificare\Apns\$locKey">$locKey</abbr> $locKey, <abbr title="Wrep\Notificare\Apns\$locArgs">$locArgs</abbr> $locArgs = array(), <abbr title="Wrep\Notificare\Apns\$actionLocKey">$actionLocKey</abbr> $actionLocKey = null, <abbr title="Wrep\Notificare\Apns\$launchImage">$launchImage</abbr> $launchImage = null)</code>
+    <strong>setAlertLocalized</strong>(string $locKey, array $locArgs = array(), string|null $actionLocKey = null, string|null $launchImage = null)</code>
     </h3>
     <div class="details">
-        <p>Set the localized alert to display  Also see: http://developer.apple.com/library/ios/#documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/ApplePushService/ApplePushService.html#//apple_ref/doc/uid/TP40008194-CH100-SW1</p>
-        <p></p>
+        <p>Set the localized alert to display.</p>
+        <p>See also: http://developer.apple.com/library/ios/#documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/ApplePushService/ApplePushService.html#//apple_ref/doc/uid/TP40008194-CH100-SW1</p>
         <div class="tags">
                             <h4>Parameters</h4>
 
                     <table>
                     <tr>
-                <td><abbr title="Wrep\Notificare\Apns\$locKey">$locKey</abbr></td>
+                <td>string</td>
                 <td>$locKey</td>
-                <td>string The localization key to use for the text of the alert</td>
+                <td>The localization key to use for the text of the alert</td>
             </tr>
                     <tr>
-                <td><abbr title="Wrep\Notificare\Apns\$locArgs">$locArgs</abbr></td>
+                <td>array</td>
                 <td>$locArgs</td>
-                <td>array The arguments that fill the gaps in the locKey text</td>
+                <td>The arguments that fill the gaps in the locKey text</td>
             </tr>
                     <tr>
-                <td><abbr title="Wrep\Notificare\Apns\$actionLocKey">$actionLocKey</abbr></td>
+                <td>string|null</td>
                 <td>$actionLocKey</td>
-                <td>string|null The localization key to use for the action button</td>
+                <td>The localization key to use for the action button</td>
             </tr>
                     <tr>
-                <td><abbr title="Wrep\Notificare\Apns\$launchImage">$launchImage</abbr></td>
+                <td>string|null</td>
                 <td>$launchImage</td>
-                <td>string|null The name of the launch image to use</td>
+                <td>The name of the launch image to use</td>
             </tr>
             </table>
 
@@ -454,7 +454,7 @@
                 <h3 id="method_setBadge">
         <div class="location">at line 180</div>
         <code>            public            
-    <strong>setBadge</strong>(<abbr title="Wrep\Notificare\Apns\$badge">$badge</abbr> $badge)</code>
+    <strong>setBadge</strong>(int|null $badge)</code>
     </h3>
     <div class="details">
         <p>Set the badge to display on the App icon</p>
@@ -464,9 +464,9 @@
 
                     <table>
                     <tr>
-                <td><abbr title="Wrep\Notificare\Apns\$badge">$badge</abbr></td>
-                <td>$badge</td>
                 <td>int|null</td>
+                <td>$badge</td>
+                <td></td>
             </tr>
             </table>
 
@@ -518,7 +518,7 @@
                 <h3 id="method_setSound">
         <div class="location">at line 214</div>
         <code>            public            
-    <strong>setSound</strong>(<abbr title="Wrep\Notificare\Apns\$sound">$sound</abbr> $sound = &#039;default&#039;)</code>
+    <strong>setSound</strong>(string $sound = &#039;default&#039;)</code>
     </h3>
     <div class="details">
         <p>Set the sound that will be played when this message is received</p>
@@ -528,9 +528,9 @@
 
                     <table>
                     <tr>
-                <td><abbr title="Wrep\Notificare\Apns\$sound">$sound</abbr></td>
+                <td>string</td>
                 <td>$sound</td>
-                <td>string Optional string of the sound to play, no string will play the default sound</td>
+                <td>Optional string of the sound to play, no string will play the default sound</td>
             </tr>
             </table>
 
@@ -542,7 +542,7 @@
 
                 <h3 id="method_getSound">
         <div class="location">at line 224</div>
-        <code>            public            <abbr title="Wrep\Notificare\Apns\$sound">$sound</abbr>
+        <code>            public            string|null
     <strong>getSound</strong>()</code>
     </h3>
     <div class="details">
@@ -554,8 +554,8 @@
 
                     <table>
         <tr>
-            <td><abbr title="Wrep\Notificare\Apns\$sound">$sound</abbr></td>
             <td>string|null</td>
+            <td></td>
         </tr>
     </table>
 
@@ -567,7 +567,7 @@
                 <h3 id="method_setContentAvailable">
         <div class="location">at line 234</div>
         <code>            public            
-    <strong>setContentAvailable</strong>(<abbr title="Wrep\Notificare\Apns\$contentAvailable">$contentAvailable</abbr> $contentAvailable)</code>
+    <strong>setContentAvailable</strong>(boolean $contentAvailable)</code>
     </h3>
     <div class="details">
         <p>Set newsstand content availability flag that will trigger the newsstand item to download new content</p>
@@ -577,9 +577,9 @@
 
                     <table>
                     <tr>
-                <td><abbr title="Wrep\Notificare\Apns\$contentAvailable">$contentAvailable</abbr></td>
+                <td>boolean</td>
                 <td>$contentAvailable</td>
-                <td>boolean True when new content is available, false when not</td>
+                <td>True when new content is available, false when not</td>
             </tr>
             </table>
 
@@ -591,7 +591,7 @@
 
                 <h3 id="method_getContentAvailable">
         <div class="location">at line 244</div>
-        <code>            public            <abbr title="Wrep\Notificare\Apns\$contentAvailable">$contentAvailable</abbr>
+        <code>            public            boolean
     <strong>getContentAvailable</strong>()</code>
     </h3>
     <div class="details">
@@ -603,8 +603,8 @@
 
                     <table>
         <tr>
-            <td><abbr title="Wrep\Notificare\Apns\$contentAvailable">$contentAvailable</abbr></td>
-            <td>boolean True when new content is available, false when not</td>
+            <td>boolean</td>
+            <td>True when new content is available, false when not</td>
         </tr>
     </table>
 
@@ -616,7 +616,7 @@
                 <h3 id="method_setPayload">
         <div class="location">at line 254</div>
         <code>            public            
-    <strong>setPayload</strong>(<abbr title="Wrep\Notificare\Apns\$payload">$payload</abbr> $payload)</code>
+    <strong>setPayload</strong>(array|<abbr title="Wrep\Notificare\Apns\json">json</abbr>|null $payload)</code>
     </h3>
     <div class="details">
         <p>Set custom payload to go with the message</p>
@@ -626,9 +626,9 @@
 
                     <table>
                     <tr>
-                <td><abbr title="Wrep\Notificare\Apns\$payload">$payload</abbr></td>
+                <td>array|<abbr title="Wrep\Notificare\Apns\json">json</abbr>|null</td>
                 <td>$payload</td>
-                <td>array|json|null The payload to send as array or JSON string</td>
+                <td>The payload to send as array or JSON string</td>
             </tr>
             </table>
 

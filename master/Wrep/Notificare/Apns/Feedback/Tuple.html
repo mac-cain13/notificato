@@ -31,8 +31,8 @@
                     <tr>
                 <td>BINARY_LENGTH</td>
                 <td class="last">
-                    <p><em></em></p>
-                    <p></p>
+                    <p><em>Length of a feedback tuple (Internal use).</em></p>
+                    <p>Equals 4 timestamp + 2 tokenlength + 32 token = 38</p>
                 </td>
             </tr>
             </table>
@@ -47,7 +47,7 @@
                     
                 </td>
                 <td class="last">
-                    <a href="#method___construct">__construct</a>(<abbr title="Wrep\Notificare\Apns\Feedback\$invalidatedAtTimestamp">$invalidatedAtTimestamp</abbr> $invalidatedAtTimestamp, <abbr title="Wrep\Notificare\Apns\Feedback\$deviceToken">$deviceToken</abbr> $deviceToken, <a href="../../../../Wrep/Notificare/Apns/Certificate.html"><abbr title="Wrep\Notificare\Apns\Certificate">Certificate</abbr></a> $certificate)
+                    <a href="#method___construct">__construct</a>(int $invalidatedAtTimestamp, string $deviceToken, <a href="../../../../Wrep/Notificare/Apns/Certificate.html"><abbr title="Wrep\Notificare\Apns\Certificate">Certificate</abbr></a> $certificate)
                     <p>Construct Tuple</p>
                 </td>
                 <td></td>
@@ -58,7 +58,7 @@
                 </td>
                 <td class="last">
                     <a href="#method_getInvalidatedAt">getInvalidatedAt</a>()
-                    <p>Moment the device unregistered  Note: Check if the device didn&#039;t re-register after this moment before deleting it!  Note: This DateTime object is in the UTC timezone, you should be aware of that.</p>
+                    <p>Moment the device unregistered.</p>
                 </td>
                 <td></td>
             </tr>
@@ -88,9 +88,9 @@
         <h2>Details</h2>
 
                         <h3 id="method___construct">
-        <div class="location">at line 22</div>
+        <div class="location">at line 26</div>
         <code>            public            
-    <strong>__construct</strong>(<abbr title="Wrep\Notificare\Apns\Feedback\$invalidatedAtTimestamp">$invalidatedAtTimestamp</abbr> $invalidatedAtTimestamp, <abbr title="Wrep\Notificare\Apns\Feedback\$deviceToken">$deviceToken</abbr> $deviceToken, <a href="../../../../Wrep/Notificare/Apns/Certificate.html"><abbr title="Wrep\Notificare\Apns\Certificate">Certificate</abbr></a> $certificate)</code>
+    <strong>__construct</strong>(int $invalidatedAtTimestamp, string $deviceToken, <a href="../../../../Wrep/Notificare/Apns/Certificate.html"><abbr title="Wrep\Notificare\Apns\Certificate">Certificate</abbr></a> $certificate)</code>
     </h3>
     <div class="details">
         <p>Construct Tuple</p>
@@ -100,19 +100,19 @@
 
                     <table>
                     <tr>
-                <td><abbr title="Wrep\Notificare\Apns\Feedback\$invalidatedAtTimestamp">$invalidatedAtTimestamp</abbr></td>
+                <td>int</td>
                 <td>$invalidatedAtTimestamp</td>
-                <td>int Unix timestamp of the moment the device token was marked as unregistered</td>
+                <td>Unix timestamp of the moment the device token was marked as unregistered</td>
             </tr>
                     <tr>
-                <td><abbr title="Wrep\Notificare\Apns\Feedback\$deviceToken">$deviceToken</abbr></td>
+                <td>string</td>
                 <td>$deviceToken</td>
-                <td>string Hexadecimal string of the device token that unregistered</td>
+                <td>Hexadecimal string of the device token that unregistered</td>
             </tr>
                     <tr>
                 <td><a href="../../../../Wrep/Notificare/Apns/Certificate.html"><abbr title="Wrep\Notificare\Apns\Certificate">Certificate</abbr></a></td>
                 <td>$certificate</td>
-                <td>Certificate The Certificate the device token is associated with and was used for the APNS connection</td>
+                <td>The Certificate the device token is associated with and was used for the APNS connection</td>
             </tr>
             </table>
 
@@ -123,13 +123,14 @@
     </div>
 
                 <h3 id="method_getInvalidatedAt">
-        <div class="location">at line 57</div>
+        <div class="location">at line 61</div>
         <code>            public            <a href="http://php.net/DateTime"><abbr title="DateTime">DateTime</abbr></a>
     <strong>getInvalidatedAt</strong>()</code>
     </h3>
     <div class="details">
-        <p>Moment the device unregistered  Note: Check if the device didn&#039;t re-register after this moment before deleting it!  Note: This DateTime object is in the UTC timezone, you should be aware of that.</p>
-        <p></p>
+        <p>Moment the device unregistered.</p>
+        <p>Note: Check if the device didn&#039;t re-register after this moment before deleting it!<br />
+  Note: This DateTime object is in the UTC timezone.</p>
         <div class="tags">
             
                             <h4>Return Value</h4>
@@ -147,7 +148,7 @@
     </div>
 
                 <h3 id="method_getDeviceToken">
-        <div class="location">at line 67</div>
+        <div class="location">at line 71</div>
         <code>            public            string
     <strong>getDeviceToken</strong>()</code>
     </h3>
@@ -171,7 +172,7 @@
     </div>
 
                 <h3 id="method_getCertificate">
-        <div class="location">at line 77</div>
+        <div class="location">at line 81</div>
         <code>            public            <a href="../../../../Wrep/Notificare/Apns/Certificate.html"><abbr title="Wrep\Notificare\Apns\Certificate">Certificate</abbr></a>
     <strong>getCertificate</strong>()</code>
     </h3>

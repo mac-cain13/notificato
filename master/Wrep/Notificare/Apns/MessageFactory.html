@@ -65,7 +65,7 @@
                     
                 </td>
                 <td class="last">
-                    <a href="#method_createMessage">createMessage</a>(<abbr title="Wrep\Notificare\Apns\$deviceToken">$deviceToken</abbr> $deviceToken, <a href="../../../Wrep/Notificare/Apns/Certificate.html"><abbr title="Wrep\Notificare\Apns\Certificate">Certificate</abbr></a> $certificate = null)
+                    <a href="#method_createMessage">createMessage</a>(string $deviceToken, <a href="../../../Wrep/Notificare/Apns/Certificate.html"><abbr title="Wrep\Notificare\Apns\Certificate">Certificate</abbr></a> $certificate = null)
                     <p>Create a Message</p>
                 </td>
                 <td></td>
@@ -90,7 +90,7 @@
                     <tr>
                 <td><a href="../../../Wrep/Notificare/Apns/Certificate.html"><abbr title="Wrep\Notificare\Apns\Certificate">Certificate</abbr></a></td>
                 <td>$certificate</td>
-                <td>Certificate|null The certificate to use when no other certificate is given on message creation</td>
+                <td>The certificate to use when no other certificate is given on message creation</td>
             </tr>
             </table>
 
@@ -115,7 +115,7 @@
                     <tr>
                 <td><a href="../../../Wrep/Notificare/Apns/Certificate.html"><abbr title="Wrep\Notificare\Apns\Certificate">Certificate</abbr></a></td>
                 <td>$defaultCertificate</td>
-                <td>Certificate|null The certificate to use when no other certificate is given on message creation</td>
+                <td>The certificate to use when no other certificate is given on message creation</td>
             </tr>
             </table>
 
@@ -152,7 +152,7 @@
                 <h3 id="method_createMessage">
         <div class="location">at line 45</div>
         <code>            public            
-    <strong>createMessage</strong>(<abbr title="Wrep\Notificare\Apns\$deviceToken">$deviceToken</abbr> $deviceToken, <a href="../../../Wrep/Notificare/Apns/Certificate.html"><abbr title="Wrep\Notificare\Apns\Certificate">Certificate</abbr></a> $certificate = null)</code>
+    <strong>createMessage</strong>(string $deviceToken, <a href="../../../Wrep/Notificare/Apns/Certificate.html"><abbr title="Wrep\Notificare\Apns\Certificate">Certificate</abbr></a> $certificate = null)</code>
     </h3>
     <div class="details">
         <p>Create a Message</p>
@@ -162,14 +162,14 @@
 
                     <table>
                     <tr>
-                <td><abbr title="Wrep\Notificare\Apns\$deviceToken">$deviceToken</abbr></td>
+                <td>string</td>
                 <td>$deviceToken</td>
-                <td>string Receiver of this message</td>
+                <td>Receiver of this message</td>
             </tr>
                     <tr>
                 <td><a href="../../../Wrep/Notificare/Apns/Certificate.html"><abbr title="Wrep\Notificare\Apns\Certificate">Certificate</abbr></a></td>
                 <td>$certificate</td>
-                <td>Certificate|null The certificate that must be used for the APNS connection this message is send over, null to use the default certificate</td>
+                <td>The certificate that must be used for the APNS connection this message is send over, null to use the default certificate</td>
             </tr>
             </table>
 
