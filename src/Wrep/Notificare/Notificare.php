@@ -29,9 +29,9 @@ class Notificare implements LoggerAwareInterface
 			$defaultCertificate = $this->createCertificate($pemFile, $passphrase, $validate, $endpointEnv);
 		}
 
+		$this->setLogger(new NullLogger());
 		$this->setMessageFactory(new Apns\MessageFactory($defaultCertificate));
 		$this->setSender(new Apns\Sender());
-		$this->setLogger(new NullLogger());
 	}
 
 	/**
@@ -44,7 +44,9 @@ class Notificare implements LoggerAwareInterface
 		$this->logger = $logger;
 
 		// Also update the logger of the sender
-		$this->sender->setLogger($logger);
+		if ($this->sender instanceOf LoggerAwareInterface) {
+			$this->sender->setLogger($logger);
+		}
 	}
 
 	/**
