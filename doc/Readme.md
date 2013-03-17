@@ -1,12 +1,12 @@
 # Notificare documentation
-Using Notificare is quite straight forward, but we try to keep the library flexible and powerfull. This docs try to give you an overview of how to use Notificare, from the "Getting Started" to the more complex use cases.
+We want Notificare to be straight forward and easy to use, but we believe that a library should also be as flexible and powerfull as possible to not block you from using it in unexpected situations. This docs try to give you an overview of how to use Notificare, from the "Getting Started" examples to some of the more complex use cases.
 
 ## Topics
 
-1. [Howto generate an Apple Push Notification Service certificate](doc/certificate.md)
-2. [Pushing messages](doc/push.md)
-3. [Reading the feedback service](doc/feedback.md)
-4. [Using multiple certificates](doc/multiple-certs.md)
+1. [Howto generate an Apple Push Notification Service certificate](certificate.md)
+2. [Pushing messages](push.md)
+3. [Reading the feedback service](feedback.md)
+4. [Using multiple certificates](multiple-certs.md)
 
 ## More resources
 
