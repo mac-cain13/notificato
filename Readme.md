@@ -29,12 +29,10 @@ To get you started right away a push and read feedback snippet:
 
 ```php
 <?php
+// This imports the Composer autoloader
 require_once('vendor/autoload.php');
 
-use \Wrep\Notificare\Apns\Certificate;
-use \Wrep\Notificare\Apns\MessageFactory;
-use \Wrep\Notificare\Apns\Sender;
-use \Wrep\Notificare\Apns\Feedback\Feedback;
+use \Wrep\Notificare\Notificare;
 
 class GettingStarted
 {
@@ -43,28 +41,24 @@ class GettingStarted
 	 */
     public function sendOnePushNotification()
     {
-        // First we get the certificate that we want to use to connect to Apple
-        $certificate = new Certificate('./apns-certificate.pem', 'passphrase-to-use');
+        // First we get the a Notificare instance and tell it what certificate to use as default certificate
+        $notificare = new Notificare('./apns-certificate.pem', 'passphrase-to-use');
 
-        // Then we get the message factory that will help us to create the pushmessages
-        $messageFactory = new MessageFactory();
-
-        // Get a message object from the factory
+        // Now we get a fresh message from Notificare
         //  This message will be send to device with pushtoken 'fffff...'
-        //  and we pass the certificate so Notificare knows what connection to send it over
-        $message = $messageFactory->createMessage('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate);
+        //  it will automaticly be associated with the default certificate
+        $message = $notificare->createMessage('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff');
 
-        // Let's set the alert text of the message
+        // Let's set the alert and badge of the message
         $message->setAlert('This will be the alert body text.');
+        $message->setBadge(1);
 
-        // Now get a Sender object that will do sending for us
-        $sender = new Sender();
+        // Now that message is configured as we want to, let's send it!
+        //  Be aware that this method is blocking and on failure Notificare will retry a few times
+        $messageEnvelope = $notificare->send($message);
 
-        // Send the pushmessage, we'll get an envelope back from the Sender
-        $messageEnvelope = $sender->send($message);
-
-        // The envelope contains usefull information about how many retries were needed and if sending succeeded
-        echo $messageEnvelope->getStatusDescription();
+        // The returned envelope contains usefull information about how many retries were needed and if sending succeeded
+        echo $messageEnvelope->getFinalStatusDescription();
     }
 
     /**
@@ -72,16 +66,15 @@ class GettingStarted
      */
     public function readFeedbackService()
     {
-        // First we get the certificate that we want to use to connect to Apple
-        $certificate = new Certificate('./apns-certificate.pem', 'passphrase-to-use');
+        // First we get the a Notificare instance and tell it what certificate to use as default certificate
+        $notificare = new Notificare('./apns-certificate.pem', 'passphrase-to-use');
 
-        // Now get a connection to the feedback service
-        $feedback = new Feedback($certificate);
+        // Now read all "tuples" from the feedback service
+        //  Be aware that this method is blocking
+        $tuples = $notificare->receiveFeedback();
 
-        // Read all "tuples" from the feedback service
-        $tuples = $feedback->receive();
-
-        // The tuple contains information about what device unregistered and when it did unregister
+        // The tuples contain information about what device unregistered and when it did unregister
+        //  Don't forget to check if the device reregistered after the "invaidated at" date!
         foreach ($tuples as $tuple)
         {
             echo 'Device ' . $tuple->getDeviceToken() . ' invalidated at ' . $tuple->getInvalidatedAt()->format(\DateTime::ISO8601) . PHP_EOL;
@@ -95,5 +88,4 @@ $gettingStarted->readFeedbackService();
 ```
 
 ## License
-
 Notificare is released under the [MIT License](License) so you can use it in commercial and non-commercial projects.
