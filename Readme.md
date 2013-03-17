@@ -55,7 +55,7 @@ class GettingStarted
         //  Be aware that this method is blocking and on failure Notificare will retry a few times
         $messageEnvelope = $notificare->send($message);
 
-        // The returned envelope contains usefull information about how many retries were needed and if sending succeeded
+        // The returned envelope contains usefull information about how many retries where needed and if sending succeeded
         echo $messageEnvelope->getFinalStatusDescription();
     }
 
