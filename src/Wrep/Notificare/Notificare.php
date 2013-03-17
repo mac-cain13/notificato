@@ -1,0 +1,126 @@
+<?php
+
+namespace Wrep\Notificare;
+
+use Wrep\Notificare\Apns as Apns;
+
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
+
+class Notificare implements LoggerAwareInterface
+{
+	private $messageFactory;
+	private $sender
+	private $logger;
+
+	/**
+	 * Notificare constructor
+	 *
+	 * @param $pemFile string|null Path to the PEM certificate file to use as default certificate, null for no default certificate
+	 * @param $passphrase string|null Passphrase to use with the PEM file
+	 * @param $validate boolean Set to false to skip the validation of the certificate, default true
+	 * @param $endpointEnv string|null APNS environment this certificate is valid for, by default autodetects during validation
+	 */
+	public function __construct($pemFile = null, $passphrase = null, $validate = true, $endpointEnv = null)
+	{
+		$defaultCertificate = null;
+		if (null !== $pemFile) {
+			$defaultCertificate = $this->createCertificate($pemFile, $passphrase, $validate, $endpointEnv);
+		}
+
+		$this->messageFactory = new Apns\MessageFactory($defaultCertificate);
+		$this->sender = new Apns\Sender();
+		$this->setLogger(new NullLogger());
+	}
+
+	/**
+     * Sets a logger instance on the object
+     *
+     * @param LoggerInterface $logger
+     */
+	public function setLogger(LoggerInterface $logger)
+	{
+		$this->logger = $logger;
+
+		// Also update the logger of the sender
+		$this->sender->setLogger($logger);
+	}
+
+	/**
+	 * Create an APNS Certificate
+	 *
+	 * @param $pemFile string Path to the PEM certificate file
+	 * @param $passphrase string|null Passphrase to use with the PEM file
+	 * @param $validate boolean Set to false to skip the validation of the certificate, default true
+	 * @param $endpointEnv string|null APNS environment this certificate is valid for, by default autodetects during validation
+	 * @return Certificate
+	 */
+	public function createCertificate($pemFile, $passphrase = null, $validate = true, $endpointEnv = null)
+	{
+		return new Apns\Certificate($pemFile, $passphrase, $validate, $endpointEnv);
+	}
+
+	/**
+	 * Create a Message
+	 *
+	 * @param $deviceToken string Receiver of this message
+	 * @param $certificate Certificate|null The certificate that must be used for the APNS connection this message is send over, null to use the default certificate
+	 * @return Message
+	 */
+	public function createMessage($deviceToken, Apns\Certificate $certificate = null)
+	{
+		return $this->messageFactory->createMessage($deviceToken, $certificate);
+	}
+
+	/**
+	 * Queue a message on the correct APNS gateway connection
+	 *
+	 * @param $message Message The message to queue
+	 * @param $retryLimit int The times Notificare should retry to deliver the message on failure
+	 * @return MessageEnvelope
+	 */
+	public function queue(Apns\Message $message, $retryLimit = Apns\MessageEnvelope::DEFAULT_RETRY_LIMIT)
+	{
+		return $this->sender->queue($message);
+	}
+
+	/**
+	 * Send all queued messages
+	 *
+	 * @param $certificate Certificate|null When given only the gateway connection for the given certificate is flushed
+	 */
+	public function flush(Apns\Certificate $certificate = null)
+	{
+		$this->sender->flush($certificate);
+	}
+
+	/**
+	 * Queues a message and flushes the gateway connection it must be send over immediately
+	 *  Note: If you send multiple messages, queue as many as possible and flush them at once for maximum performance
+	 *
+	 * @param $message Message The message to send
+	 * @return MessageEnvelope
+	 */
+	public function send(Apns\Message $message)
+	{
+		return $this->sender->send($message);
+	}
+
+	/**
+	 * Receive the feedback tuples from APNS
+	 *
+	 * @param $certificate Certificate|null The certificate to use to connect to APNS, default use the default certificate
+	 * @return array Array containing FeedbackTuples received from Apple
+	 */
+	public function receiveFeedback(Apns\Certificate $certificate = null)
+	{
+		if (null == $certificate) {
+			$certificate = $this->messageFactory->getDefaultCertificate();
+		}
+
+		$feedback = new Apns\Feedback\Feedback($certificate);
+		$feedback->setLogger($this->logger);
+		return $feedback->receive();
+	}
+}
