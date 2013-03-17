@@ -23,10 +23,10 @@ We're quite stable and using this library in some of our own projects, but we're
 
 ## Getting started
 1. [Create an APNS certificate](doc/certificate.md) for your App
-2. Look at the notificare examples that can be found in the [Notificare examples repository](https://github.com/wrep/notificare-examples). Make sure you look though the PHP files in that repository!
+2. Look at the notificare examples in the [Notificare examples repository](https://github.com/wrep/notificare-examples).
+3. Check out the [API docs](http://wrep.github.com/notificare/master/)
 
-To get you started right away a push and read feedback snippet:
-
+Here is a snippet to get an impression how easy it is to use Notificare:
 ```php
 <?php
 // This imports the Composer autoloader
