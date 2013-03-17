@@ -22,11 +22,10 @@ There is also a [Notificare for Symfony2 bundle](https://github.com/wrep/notific
 We're quite stable and using this library in some of our own projects, but we're still changing the API without considering backward compatibility. We hope to release 1.0.0 quite soon, but until then, consider this beta (or maybe even alpha) software. You've been warned! :)
 
 ## Getting started
-1. [Create an APNS certificate](doc/certificate.md) for your App
-2. Look at the notificare examples in the [Notificare examples repository](https://github.com/wrep/notificare-examples).
-3. Check out the [API docs](http://wrep.github.com/notificare/master/)
+1. Take a look at the snippet below for a impression how Notificare works
+2. [Read the documentation](/doc/Readme.md) it will help you with common use cases
+3. Check out the [API docs](http://wrep.github.com/notificare/master/) for a deeper understanding what Notificare is capable of
 
-Here is a snippet to get an impression how easy it is to use Notificare:
 ```php
 <?php
 // This imports the Composer autoloader
@@ -69,11 +68,10 @@ class GettingStarted
         // First we get the a Notificare instance and tell it what certificate to use as default certificate
         $notificare = new Notificare('./apns-certificate.pem', 'passphrase-to-use');
 
-        // Now read all "tuples" from the feedback service
-        //  Be aware that this method is blocking
+        // Now read all "tuples" from the feedback service, be aware that this method is blocking
         $tuples = $notificare->receiveFeedback();
 
-        // The tuples contain information about what device unregistered and when it did unregister
+        // The tuples contain information about what device unregistered and when it did unregister.
         //  Don't forget to check if the device reregistered after the "invaidated at" date!
         foreach ($tuples as $tuple)
         {
@@ -87,5 +85,5 @@ $gettingStarted->sendOnePushNotification();
 $gettingStarted->readFeedbackService();
 ```
 
-## License
-Notificare is released under the [MIT License](License) so you can use it in commercial and non-commercial projects.
+## License & Credits
+Notificare is released under the [MIT License](License) by [Wrep](http://www.wrep.nl/), so feel free to use it in commercial and non-commercial projects.
