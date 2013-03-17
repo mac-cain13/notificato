@@ -5,7 +5,7 @@ use Sami\Version\GitVersionCollection;
 
 $versions = GitVersionCollection::create(dirname(__FILE__) . '/src')
 	->addFromTags('0.*')
-//	->add('master', 'master branch')
+	->add('master', 'master branch')
 ;
 
 return new Sami(dirname(__FILE__) . '/src', array(	'title' => 'Notificare API',
