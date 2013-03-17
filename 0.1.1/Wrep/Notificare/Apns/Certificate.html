@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>Wrep\Notificare\Apns\Certificate | Notificare API</title>
+                    <link rel="stylesheet" type="text/css" href="../../../stylesheet.css">
+                            </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../classes.html">Classes</a></li>
+                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title">Notificare API</div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../../Wrep/Notificare/Apns.html">Wrep\Notificare\Apns</a>\Certificate</h1>
+    </div>
+        <div class="content">
+                <p>class    <strong>Certificate</strong></p>
+
+    
+            <h2>Constants</h2>
+
+            <table>
+                    <tr>
+                <td>ENDPOINT_PRODUCTION</td>
+                <td class="last">
+                    <p><em></em></p>
+                    <p></p>
+                </td>
+            </tr>
+                    <tr>
+                <td>ENDPOINT_SANDBOX</td>
+                <td class="last">
+                    <p><em></em></p>
+                    <p></p>
+                </td>
+            </tr>
+            </table>
+
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method___construct">__construct</a>(<abbr title="Wrep\Notificare\Apns\$pemFile">$pemFile</abbr> $pemFile, <abbr title="Wrep\Notificare\Apns\$passphrase">$passphrase</abbr> $passphrase = null, <abbr title="Wrep\Notificare\Apns\$endpoint">$endpoint</abbr> $endpoint = self::ENDPOINT_PRODUCTION)
+                    <p>APNS Certificate constructor</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getPemFile">getPemFile</a>()
+                    <p>Get the path to the PEM file</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    boolean
+                </td>
+                <td class="last">
+                    <a href="#method_hasPassphrase">hasPassphrase</a>()
+                    <p>Checks if there is a passphrase to use with the certificate</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getPassphrase">getPassphrase</a>()
+                    <p>Passphrase to use with the PEM file</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getEndpoint">getEndpoint</a>()
+                    <p>Get the endpoint this certificate is valid for</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getFingerprint">getFingerprint</a>()
+                    <p>Get a unique hash of the certificate  this can be used to check if two ApnsCertificate objects are the same</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method___construct">
+        <div class="location">at line 23</div>
+        <code>            public            
+    <strong>__construct</strong>(<abbr title="Wrep\Notificare\Apns\$pemFile">$pemFile</abbr> $pemFile, <abbr title="Wrep\Notificare\Apns\$passphrase">$passphrase</abbr> $passphrase = null, <abbr title="Wrep\Notificare\Apns\$endpoint">$endpoint</abbr> $endpoint = self::ENDPOINT_PRODUCTION)</code>
+    </h3>
+    <div class="details">
+        <p>APNS Certificate constructor</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="Wrep\Notificare\Apns\$pemFile">$pemFile</abbr></td>
+                <td>$pemFile</td>
+                <td>string Path to the PEM certificate file</td>
+            </tr>
+                    <tr>
+                <td><abbr title="Wrep\Notificare\Apns\$passphrase">$passphrase</abbr></td>
+                <td>$passphrase</td>
+                <td>string Passphrase to use with the PEM file</td>
+            </tr>
+                    <tr>
+                <td><abbr title="Wrep\Notificare\Apns\$endpoint">$endpoint</abbr></td>
+                <td>$endpoint</td>
+                <td>string APNS endpoint this certificate is valid for</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getPemFile">
+        <div class="location">at line 50</div>
+        <code>            public            string
+    <strong>getPemFile</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get the path to the PEM file</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_hasPassphrase">
+        <div class="location">at line 60</div>
+        <code>            public            boolean
+    <strong>hasPassphrase</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Checks if there is a passphrase to use with the certificate</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>boolean</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getPassphrase">
+        <div class="location">at line 70</div>
+        <code>            public            string
+    <strong>getPassphrase</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Passphrase to use with the PEM file</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getEndpoint">
+        <div class="location">at line 80</div>
+        <code>            public            string
+    <strong>getEndpoint</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get the endpoint this certificate is valid for</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getFingerprint">
+        <div class="location">at line 91</div>
+        <code>            public            string
+    <strong>getFingerprint</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get a unique hash of the certificate  this can be used to check if two ApnsCertificate objects are the same</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>Wrep\Notificare\Apns\Sender | Notificare API</title>
+                    <link rel="stylesheet" type="text/css" href="../../../stylesheet.css">
+                            </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../classes.html">Classes</a></li>
+                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title">Notificare API</div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../../Wrep/Notificare/Apns.html">Wrep\Notificare\Apns</a>\Sender</h1>
+    </div>
+        <div class="content">
+                <p>class    <strong>Sender</strong></p>
+
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method___construct">__construct</a>()
+                    <p>Construct Sender</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_setConnectionFactory">setConnectionFactory</a>(<a href="../../../Wrep/Notificare/Apns/ConnectionFactory.html"><abbr title="Wrep\Notificare\Apns\ConnectionFactory">ConnectionFactory</abbr></a> $connectionFactory)
+                    <p>Set the connection factory to use for creating connections to APNS</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../Wrep/Notificare/Apns/ConnectionFactory.html"><abbr title="Wrep\Notificare\Apns\ConnectionFactory">ConnectionFactory</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getConnectionFactory">getConnectionFactory</a>()
+                    <p>Get the current connection factory</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../Wrep/Notificare/Apns/MessageEnvelope.html"><abbr title="Wrep\Notificare\Apns\MessageEnvelope">MessageEnvelope</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_send">send</a>(<a href="../../../Wrep/Notificare/Apns/Message.html"><abbr title="Wrep\Notificare\Apns\Message">Message</abbr></a> $message)
+                    <p>Queues a message and flushes the connection it must be send over immediately</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../Wrep/Notificare/Apns/MessageEnvelope.html"><abbr title="Wrep\Notificare\Apns\MessageEnvelope">MessageEnvelope</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_queue">queue</a>(<a href="../../../Wrep/Notificare/Apns/Message.html"><abbr title="Wrep\Notificare\Apns\Message">Message</abbr></a> $message)
+                    <p>Queue a message on the correct APNS connection Note: A certificate must be set in the message or as default to make this method work</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    int
+                </td>
+                <td class="last">
+                    <a href="#method_getQueueLength">getQueueLength</a>()
+                    <p>Count of all queued messages</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_flush">flush</a>(<a href="../../../Wrep/Notificare/Apns/Certificate.html"><abbr title="Wrep\Notificare\Apns\Certificate">Certificate</abbr></a> $certificate = null)
+                    <p>Send all queued messages</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method___construct">
+        <div class="location">at line 13</div>
+        <code>            public            
+    <strong>__construct</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Construct Sender</p>
+        <p></p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setConnectionFactory">
+        <div class="location">at line 24</div>
+        <code>            public            
+    <strong>setConnectionFactory</strong>(<a href="../../../Wrep/Notificare/Apns/ConnectionFactory.html"><abbr title="Wrep\Notificare\Apns\ConnectionFactory">ConnectionFactory</abbr></a> $connectionFactory)</code>
+    </h3>
+    <div class="details">
+        <p>Set the connection factory to use for creating connections to APNS</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../Wrep/Notificare/Apns/ConnectionFactory.html"><abbr title="Wrep\Notificare\Apns\ConnectionFactory">ConnectionFactory</abbr></a></td>
+                <td>$connectionFactory</td>
+                <td>ConnectionFactory The connection factory to use</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getConnectionFactory">
+        <div class="location">at line 34</div>
+        <code>            public            <a href="../../../Wrep/Notificare/Apns/ConnectionFactory.html"><abbr title="Wrep\Notificare\Apns\ConnectionFactory">ConnectionFactory</abbr></a>
+    <strong>getConnectionFactory</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get the current connection factory</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../Wrep/Notificare/Apns/ConnectionFactory.html"><abbr title="Wrep\Notificare\Apns\ConnectionFactory">ConnectionFactory</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_send">
+        <div class="location">at line 45</div>
+        <code>            public            <a href="../../../Wrep/Notificare/Apns/MessageEnvelope.html"><abbr title="Wrep\Notificare\Apns\MessageEnvelope">MessageEnvelope</abbr></a>
+    <strong>send</strong>(<a href="../../../Wrep/Notificare/Apns/Message.html"><abbr title="Wrep\Notificare\Apns\Message">Message</abbr></a> $message)</code>
+    </h3>
+    <div class="details">
+        <p>Queues a message and flushes the connection it must be send over immediately</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../Wrep/Notificare/Apns/Message.html"><abbr title="Wrep\Notificare\Apns\Message">Message</abbr></a></td>
+                <td>$message</td>
+                <td>Message The message to send</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../Wrep/Notificare/Apns/MessageEnvelope.html"><abbr title="Wrep\Notificare\Apns\MessageEnvelope">MessageEnvelope</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_queue">
+        <div class="location">at line 62</div>
+        <code>            public            <a href="../../../Wrep/Notificare/Apns/MessageEnvelope.html"><abbr title="Wrep\Notificare\Apns\MessageEnvelope">MessageEnvelope</abbr></a>
+    <strong>queue</strong>(<a href="../../../Wrep/Notificare/Apns/Message.html"><abbr title="Wrep\Notificare\Apns\Message">Message</abbr></a> $message)</code>
+    </h3>
+    <div class="details">
+        <p>Queue a message on the correct APNS connection Note: A certificate must be set in the message or as default to make this method work</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../Wrep/Notificare/Apns/Message.html"><abbr title="Wrep\Notificare\Apns\Message">Message</abbr></a></td>
+                <td>$message</td>
+                <td>Message The message to queue</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../Wrep/Notificare/Apns/MessageEnvelope.html"><abbr title="Wrep\Notificare\Apns\MessageEnvelope">MessageEnvelope</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getQueueLength">
+        <div class="location">at line 76</div>
+        <code>            public            int
+    <strong>getQueueLength</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Count of all queued messages</p>
+        <p></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>int</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_flush">
+        <div class="location">at line 93</div>
+        <code>            public            
+    <strong>flush</strong>(<a href="../../../Wrep/Notificare/Apns/Certificate.html"><abbr title="Wrep\Notificare\Apns\Certificate">Certificate</abbr></a> $certificate = null)</code>
+    </h3>
+    <div class="details">
+        <p>Send all queued messages</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../Wrep/Notificare/Apns/Certificate.html"><abbr title="Wrep\Notificare\Apns\Certificate">Certificate</abbr></a></td>
+                <td>$certificate</td>
+                <td>Certificate|null When given only the connection for the given certificate is flushed</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>
