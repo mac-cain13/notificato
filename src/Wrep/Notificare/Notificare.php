@@ -11,7 +11,7 @@ use Psr\Log\NullLogger;
 class Notificare implements LoggerAwareInterface
 {
 	private $messageFactory;
-	private $sender
+	private $sender;
 	private $logger;
 
 	/**
@@ -29,8 +29,8 @@ class Notificare implements LoggerAwareInterface
 			$defaultCertificate = $this->createCertificate($pemFile, $passphrase, $validate, $endpointEnv);
 		}
 
-		$this->messageFactory = new Apns\MessageFactory($defaultCertificate);
-		$this->sender = new Apns\Sender();
+		$this->setMessageFactory(new Apns\MessageFactory($defaultCertificate));
+		$this->setSender(new Apns\Sender());
 		$this->setLogger(new NullLogger());
 	}
 
@@ -45,6 +45,27 @@ class Notificare implements LoggerAwareInterface
 
 		// Also update the logger of the sender
 		$this->sender->setLogger($logger);
+	}
+
+	/**
+     * Sets the sender to use
+     *
+     * @param Sender $sender
+     */
+	public function setSender(Apns\Sender $sender)
+	{
+		$this->sender = $sender;
+		$this->sender->setLogger($this->logger);
+	}
+
+	/**
+     * Sets the message factory to use
+     *
+     * @param MessageFactory $messageFactory
+     */
+	public function setMessageFactory(Apns\MessageFactory $messageFactory)
+	{
+		$this->messageFactory = $messageFactory;
 	}
 
 	/**
@@ -82,7 +103,7 @@ class Notificare implements LoggerAwareInterface
 	 */
 	public function queue(Apns\Message $message, $retryLimit = Apns\MessageEnvelope::DEFAULT_RETRY_LIMIT)
 	{
-		return $this->sender->queue($message);
+		return $this->sender->queue($message, $retryLimit);
 	}
 
 	/**
