@@ -50,11 +50,16 @@ class Sender implements LoggerAwareInterface
 	public function setLogger(LoggerInterface $logger)
 	{
 		$this->logger = $logger;
+
+		// Also update the logger on all current gateways in our pool
+		foreach ($this->gatewayPool as $gateway) {
+			$gateway->setLogger($logger);
+		}
 	}
 
 	/**
 	 * Queues a message and flushes the gateway connection it must be send over immediately
-	 *  Note: If you send multiple messages queue as many as possible and flush them at once for maximum performance
+	 *  Note: If you send multiple messages, queue as many as possible and flush them at once for maximum performance
 	 *
 	 * @param $message Message The message to send
 	 * @return MessageEnvelope
@@ -71,7 +76,6 @@ class Sender implements LoggerAwareInterface
 
 	/**
 	 * Queue a message on the correct APNS gateway connection
-	 * Note: A certificate must be set in the message or as default to make this method work
 	 *
 	 * @param $message Message The message to queue
 	 * @param $retryLimit int The times Notificare should retry to deliver the message on failure
