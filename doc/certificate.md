@@ -1,7 +1,7 @@
 # Generate APNS Certificate
 To push to your iOS/Mac App or to Passbook you'll need to generate an APNS certificate in the [Apple developer portal](https://developer.apple.com/). This page will guide you through this process.
 
-**Note that Apple also has some usefull instructions on [Provisioning and Development](http://developer.apple.com/library/ios/#documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/ProvisioningDevelopment/ProvisioningDevelopment.html#//apple_ref/doc/uid/TP40008194-CH104-SW1).**
+*Note that Apple also has some usefull instructions on [Provisioning and Development](http://developer.apple.com/library/ios/#documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/ProvisioningDevelopment/ProvisioningDevelopment.html#//apple_ref/doc/uid/TP40008194-CH104-SW1).*
 
 ## 1. Create a certificate signing request
 You have two options to create your certificate signing request (CSR), with Keychain App on your Mac or using the commandline.
@@ -29,6 +29,7 @@ Now that you have your CSR head over to the [iOS](https://developer.apple.com/io
 6. Click "Generate", wait for the certificate to be generated and then download it!
 
 *Note: You can't use push with App IDs that have wildcards in them!*
+
 *Note: You must update all provisioning profiles with this App ID before push notifications will work! See also the ["Creating and Installing the Provisioning Profile"](http://developer.apple.com/library/ios/#documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/ProvisioningDevelopment/ProvisioningDevelopment.html%23//apple_ref/doc/uid/TP40008194-CH104-SW1) section.*
 
 ### b. For your Passbook Pass
@@ -51,7 +52,7 @@ You now have your certificate, time to convert it to a Notificare compatible for
 5. Choose "Personal Information Exchange (.p12)" format and save it to disk as "keychainexport.p12"
 6. Convert the `.p12`-file to `.pem` format by running: `openssl pkcs12 -in keychainexport.p12 -out certificate.pem`
 
-**Note: This will first ask for the passphrase you encrypted the p12 with while exporting from Keychain, then it will ask for a new passphrase to encrypt the pem-file with.**
+*Note: This will first ask for the passphrase you encrypted the p12 with while exporting from Keychain, then it will ask for a new passphrase to encrypt the pem-file with.*
 
 ### b. If you used the commandline for CSR generation
 1. Make sure the downloaded `.cer`-file is in the same folder as the other generated files
