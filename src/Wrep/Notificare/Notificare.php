@@ -17,10 +17,10 @@ class Notificare implements LoggerAwareInterface
 	/**
 	 * Notificare constructor
 	 *
-	 * @param $pemFile string|null Path to the PEM certificate file to use as default certificate, null for no default certificate
-	 * @param $passphrase string|null Passphrase to use with the PEM file
-	 * @param $validate boolean Set to false to skip the validation of the certificate, default true
-	 * @param $endpointEnv string|null APNS environment this certificate is valid for, by default autodetects during validation
+	 * @param string|null Path to the PEM certificate file to use as default certificate, null for no default certificate
+	 * @param string|null Passphrase to use with the PEM file
+	 * @param boolean Set to false to skip the validation of the certificate, default true
+	 * @param string|null APNS environment this certificate is valid for, by default autodetects during validation
 	 */
 	public function __construct($pemFile = null, $passphrase = null, $validate = true, $endpointEnv = null)
 	{
@@ -37,7 +37,7 @@ class Notificare implements LoggerAwareInterface
 	/**
      * Sets a logger instance on the object
      *
-     * @param LoggerInterface $logger
+     * @param Psr\Log\LoggerInterface $logger
      */
 	public function setLogger(LoggerInterface $logger)
 	{
@@ -52,7 +52,7 @@ class Notificare implements LoggerAwareInterface
 	/**
      * Sets the sender to use
      *
-     * @param Sender $sender
+     * @param Apns\Sender $sender
      */
 	public function setSender(Apns\Sender $sender)
 	{
@@ -63,7 +63,7 @@ class Notificare implements LoggerAwareInterface
 	/**
      * Sets the message factory to use
      *
-     * @param MessageFactory $messageFactory
+     * @param Apns\MessageFactory $messageFactory
      */
 	public function setMessageFactory(Apns\MessageFactory $messageFactory)
 	{
@@ -73,11 +73,11 @@ class Notificare implements LoggerAwareInterface
 	/**
 	 * Create an APNS Certificate
 	 *
-	 * @param $pemFile string Path to the PEM certificate file
-	 * @param $passphrase string|null Passphrase to use with the PEM file
-	 * @param $validate boolean Set to false to skip the validation of the certificate, default true
-	 * @param $endpointEnv string|null APNS environment this certificate is valid for, by default autodetects during validation
-	 * @return Certificate
+	 * @param string Path to the PEM certificate file
+	 * @param string|null Passphrase to use with the PEM file
+	 * @param boolean Set to false to skip the validation of the certificate, default true
+	 * @param string|null APNS environment this certificate is valid for, by default autodetects during validation
+	 * @return Apns\Certificate
 	 */
 	public function createCertificate($pemFile, $passphrase = null, $validate = true, $endpointEnv = null)
 	{
@@ -87,9 +87,9 @@ class Notificare implements LoggerAwareInterface
 	/**
 	 * Create a Message
 	 *
-	 * @param $deviceToken string Receiver of this message
-	 * @param $certificate Certificate|null The certificate that must be used for the APNS connection this message is send over, null to use the default certificate
-	 * @return Message
+	 * @param string Receiver of this message
+	 * @param Apns\Certificate|null The certificate that must be used for the APNS connection this message is send over, null to use the default certificate
+	 * @return Apns\Message
 	 */
 	public function createMessage($deviceToken, Apns\Certificate $certificate = null)
 	{
@@ -99,9 +99,9 @@ class Notificare implements LoggerAwareInterface
 	/**
 	 * Queue a message on the correct APNS gateway connection
 	 *
-	 * @param $message Message The message to queue
-	 * @param $retryLimit int The times Notificare should retry to deliver the message on failure
-	 * @return MessageEnvelope
+	 * @param Apns\Message The message to queue
+	 * @param int The times Notificare should retry to deliver the message on failure
+	 * @return Apns\MessageEnvelope
 	 */
 	public function queue(Apns\Message $message, $retryLimit = Apns\MessageEnvelope::DEFAULT_RETRY_LIMIT)
 	{
@@ -111,7 +111,7 @@ class Notificare implements LoggerAwareInterface
 	/**
 	 * Send all queued messages
 	 *
-	 * @param $certificate Certificate|null When given only the gateway connection for the given certificate is flushed
+	 * @param Apns\Certificate|null When given only the gateway connection for the given certificate is flushed
 	 */
 	public function flush(Apns\Certificate $certificate = null)
 	{
@@ -122,8 +122,8 @@ class Notificare implements LoggerAwareInterface
 	 * Queues a message and flushes the gateway connection it must be send over immediately
 	 *  Note: If you send multiple messages, queue as many as possible and flush them at once for maximum performance
 	 *
-	 * @param $message Message The message to send
-	 * @return MessageEnvelope
+	 * @param Apns\Message The message to send
+	 * @return Apns\MessageEnvelope
 	 */
 	public function send(Apns\Message $message)
 	{
@@ -133,7 +133,7 @@ class Notificare implements LoggerAwareInterface
 	/**
 	 * Receive the feedback tuples from APNS
 	 *
-	 * @param $certificate Certificate|null The certificate to use to connect to APNS, default use the default certificate
+	 * @param Apns\Certificate|null The certificate to use to connect to APNS, default use the default certificate
 	 * @return array Array containing FeedbackTuples received from Apple
 	 */
 	public function receiveFeedback(Apns\Certificate $certificate = null)

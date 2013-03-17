@@ -4,19 +4,49 @@ namespace Wrep\Notificare\Apns;
 
 class MessageEnvelope
 {
-	// Statuscode constants
+	/**
+	 * Statuscode: Message not (yet) send to APNS
+	 */
 	const STATUS_NOTSEND 		= -1;
+
+	/**
+	 * Statuscode: Message send, no errors encountered so far
+	 */
 	const STATUS_NOERRORS 		= 0;
+
+	/**
+	 * Statuscode: Sending message failed, will retry with other envelope
+	 */
 	const STATUS_SENDFAILED 	= 256;
+
+	/**
+	 * Statuscode: Failed to send message due earlier error, will retry with other envelope
+	 */
 	const STATUS_EARLIERERROR 	= 257;
+
+	/**
+	 * Statuscode: Payload of message exceeds 256 bytes, will not send message to APNS
+	 */
 	const STATUS_PAYLOADTOOLONG	= 258;
+
+	/**
+	 * Statuscode: Sending message failed, too many retries
+	 */
 	const STATUS_TOOMANYRETRIES = 259;
 
-	// Retry const
+	/**
+	 * Default retry limit
+	 */
 	const DEFAULT_RETRY_LIMIT = 5;
 
-	// Binary message constants
+	/**
+	 * Binary command to send a message to the APNS gateway (Internal use)
+	 */
 	const BINARY_COMMAND = 1;
+
+	/**
+	 * Binary size of a device token (Internal use)
+	 */
 	const BINARY_DEVICETOKEN_SIZE = 32;
 
 	// Attributes
@@ -53,9 +83,9 @@ class MessageEnvelope
 	/**
 	 * Construct MessageEnvelope
 	 *
-	 * @param $identifier int Unique number to the relevant APNS connection to identify this message
-	 * @param $message Message The message that's is contained by this envelope
-	 * @param $retryLimit int The times Notificare should retry to deliver the message on failure
+	 * @param int Unique number to the relevant APNS connection to identify this message
+	 * @param Message The message that's is contained by this envelope
+	 * @param int The times Notificare should retry to deliver the message on failure
 	 */
 	public function __construct($identifier, Message $message, $retryLimit = MessageEnvelope::DEFAULT_RETRY_LIMIT)
 	{
@@ -126,8 +156,8 @@ class MessageEnvelope
 	 * Set the status of this message envelope
 	 *  only possible if there is no final state set yet.
 	 *
-	 * @param $status int One of the keys in self::$statusDescriptionMapping
-	 * @param $envelope MessageEnvelope|null Envelope for the retry of this MessageEnvelope
+	 * @param int One of the keys in self::$statusDescriptionMapping
+	 * @param MessageEnvelope|null Envelope for the retry of this MessageEnvelope
 	 */
 	public function setStatus($status, $envelope = null)
 	{
@@ -172,7 +202,7 @@ class MessageEnvelope
 	}
 
 	/**
-	 * Get the final status after all retries
+	 * Get the final status after all retries.
 	 *  Use this method to know how the message ended up after all retries.
 	 *
 	 * @return int
@@ -188,7 +218,7 @@ class MessageEnvelope
 	}
 
 	/**
-	 * Get a description of the final status after all retries
+	 * Get a description of the final status after all retries.
 	 *  Use this method to know how the message ended up after all retries.
 	 *
 	 * @return string

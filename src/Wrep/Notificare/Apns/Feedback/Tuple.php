@@ -6,7 +6,11 @@ use Wrep\Notificare\Apns\Certificate;
 
 class Tuple
 {
-	const BINARY_LENGTH = 38; // 4 timestamp + 2 tokenlength + 32 token
+	/**
+	 * Length of a feedback tuple (Internal use).
+	 * Equals 4 timestamp + 2 tokenlength + 32 token = 38
+	 */
+	const BINARY_LENGTH = 38;
 
 	private $invalidatedAt;
 	private $deviceToken;
@@ -15,9 +19,9 @@ class Tuple
 	/**
 	 * Construct Tuple
 	 *
-	 * @param $invalidatedAtTimestamp int Unix timestamp of the moment the device token was marked as unregistered
-	 * @param $deviceToken string Hexadecimal string of the device token that unregistered
-	 * @param $certificate Certificate The Certificate the device token is associated with and was used for the APNS connection
+	 * @param int Unix timestamp of the moment the device token was marked as unregistered
+	 * @param string Hexadecimal string of the device token that unregistered
+	 * @param Certificate The Certificate the device token is associated with and was used for the APNS connection
 	 */
 	public function __construct($invalidatedAtTimestamp, $deviceToken, Certificate $certificate)
 	{
@@ -48,9 +52,9 @@ class Tuple
 	}
 
 	/**
-	 * Moment the device unregistered
+	 * Moment the device unregistered.
 	 *  Note: Check if the device didn't re-register after this moment before deleting it!
-	 *  Note: This DateTime object is in the UTC timezone, you should be aware of that.
+	 *  Note: This DateTime object is in the UTC timezone.
 	 *
 	 * @return \DateTime
 	 */

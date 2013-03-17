@@ -4,12 +4,24 @@ namespace Wrep\Notificare\Apns;
 
 class Gateway extends SslSocket
 {
-	// APNS response constants
-	const ERROR_RESPONSE_COMMAND = 8;	// Command APNS does send on error
-	const ERROR_RESPONSE_SIZE = 6;		// Size of the APNS error response
+	/**
+	 * Command APNS sends back on error (Internal use)
+	 */
+	const ERROR_RESPONSE_COMMAND = 8;
 
-	// Gateway configuration constants
+	/**
+	 * Size of the APNS error response (Internal use)
+	 */
+	const ERROR_RESPONSE_SIZE = 6;
+
+	/**
+	 * Maximum size of the message envelope store (Internal use)
+	 */
 	const MAX_RECOVERY_SIZE = 50;
+
+	/**
+	 * Prefix used to save message envelopes to the store (Internal use)
+	 */
 	const MESSAGE_ENVELOPE_STORE_PREFIX = 'id#';
 
 	// Current state of the connection
@@ -20,7 +32,7 @@ class Gateway extends SslSocket
 	/**
 	 * Construct Gateway
 	 *
-	 * @param $certificate Certificate The certificate to use when connecting to APNS
+	 * @param Certificate The certificate to use when connecting to APNS
 	 */
 	public function __construct(Certificate $certificate)
 	{
@@ -35,8 +47,8 @@ class Gateway extends SslSocket
 	/**
 	 * Queue a message for sending
 	 *
-	 * @param $message Message The message object to queue for sending
-	 * @param $retryLimit int The times Notificare should retry to deliver the message on failure
+	 * @param Message The message object to queue for sending
+	 * @param int The times Notificare should retry to deliver the message on failure
 	 * @return MessageEnvelope
 	 */
 	public function queue(Message $message, $retryLimit = MessageEnvelope::DEFAULT_RETRY_LIMIT)
@@ -220,7 +232,7 @@ class Gateway extends SslSocket
 	 *  Only up to self::MAX_RECOVERY_SIZE envelopes will be stored,
 	 *  the oldest envelope is purged if self::MAX_RECOVERY_SIZE is exceeded
 	 *
-	 * @param $envelope MessageEnvelope The envelope to story
+	 * @param MessageEnvelope The envelope to story
 	 */
 	protected function storeMessageEnvelope(MessageEnvelope $envelope)
 	{

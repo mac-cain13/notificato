@@ -8,9 +8,15 @@ use Psr\Log\NullLogger;
 
 abstract class SslSocket implements LoggerAwareInterface
 {
-	// Socket read/write constants
-	const SEND_INTERVAL = 10000; // microseconds, so this equals 0.1 seconds
-	const READ_TIMEOUT = 1000000; // microseconds, so this equals 1.0 seconds
+	/**
+	 * Minimum interval between sending two messages in microseconds (Internal use)
+	 */
+	const SEND_INTERVAL = 10000;
+
+	/**
+	 * Minimum interval to wait for a response (Internal use)
+	 */
+	const READ_TIMEOUT = 1000000;
 
 	// Settings of the connection
 	private $certificate;
@@ -22,7 +28,7 @@ abstract class SslSocket implements LoggerAwareInterface
 	/**
 	 * Construct Connection
 	 *
-	 * @param $certificate Certificate The certificate to use when connecting
+	 * @param Certificate The certificate to use when connecting
 	 */
 	public function __construct(Certificate $certificate)
 	{

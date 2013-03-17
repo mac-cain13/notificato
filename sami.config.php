@@ -4,7 +4,7 @@ use Sami\Sami;
 use Sami\Version\GitVersionCollection;
 
 $versions = GitVersionCollection::create(dirname(__FILE__) . '/src')
-	->addFromTags('0.*')
+//	->addFromTags('0.*')
 	->add('master', 'master branch')
 ;
 

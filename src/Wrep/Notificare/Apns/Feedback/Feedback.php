@@ -10,7 +10,7 @@ class Feedback extends SslSocket
 	/**
 	 * Construct Feedback
 	 *
-	 * @param $certificate Certificate The certificate to use to connect to APNS
+	 * @param Certificate The certificate to use to connect to APNS
 	 */
 	public function __construct(Certificate $certificate)
 	{

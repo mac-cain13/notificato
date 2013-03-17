@@ -9,7 +9,7 @@ class MessageFactory
 	/**
 	 * Create the MessageFactory
 	 *
-	 * @param $defaultCertificate Certificate|null The certificate to use when no other certificate is given on message creation
+	 * @param Certificate|null The certificate to use when no other certificate is given on message creation
 	 */
 	public function __construct(Certificate $certificate = null)
 	{
@@ -19,7 +19,7 @@ class MessageFactory
 	/**
 	 * Set a default certificate for new messages
 	 *
-	 * @param $defaultCertificate Certificate|null The certificate to use when no other certificate is given on message creation
+	 * @param Certificate|null The certificate to use when no other certificate is given on message creation
 	 */
 	public function setDefaultCertificate(Certificate $defaultCertificate = null)
 	{
@@ -39,8 +39,8 @@ class MessageFactory
 	/**
 	 * Create a Message
 	 *
-	 * @param $deviceToken string Receiver of this message
-	 * @param $certificate Certificate|null The certificate that must be used for the APNS connection this message is send over, null to use the default certificate
+	 * @param string Receiver of this message
+	 * @param Certificate|null The certificate that must be used for the APNS connection this message is send over, null to use the default certificate
 	 */
 	public function createMessage($deviceToken, Certificate $certificate = null)
 	{

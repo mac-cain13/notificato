@@ -4,11 +4,24 @@ namespace Wrep\Notificare\Apns;
 
 class Certificate
 {
-	// Endpoint constants
+	/**
+	 * Identifies the APNS production environment
+	 */
 	const ENDPOINT_ENV_PRODUCTION = 'production';
+
+	/**
+	 * Identifies the APNS sandbox/development environment
+	 */
 	const ENDPOINT_ENV_SANDBOX = 'sandbox';
 
+	/**
+	 * Identifies the APNS sending gateway
+	 */
 	const ENDPOINT_TYPE_GATEWAY = 'gateway';
+
+	/**
+	 * Identifies the APNS feedback service
+	 */
 	const ENDPOINT_TYPE_FEEDBACK = 'feedback';
 
 	private static $endpoints = array(
@@ -34,10 +47,10 @@ class Certificate
 	/**
 	 * APNS Certificate constructor
 	 *
-	 * @param $pemFile string Path to the PEM certificate file
-	 * @param $passphrase string|null Passphrase to use with the PEM file
-	 * @param $validate boolean Set to false to skip the validation of the certificate, default true
-	 * @param $endpointEnv string|null APNS environment this certificate is valid for, by default autodetects during validation
+	 * @param string Path to the PEM certificate file
+	 * @param string|null Passphrase to use with the PEM file
+	 * @param boolean Set to false to skip the validation of the certificate, default true
+	 * @param string|null APNS environment this certificate is valid for, by default autodetects during validation
 	 */
 	public function __construct($pemFile, $passphrase = null, $validate = true, $endpointEnv = null)
 	{
@@ -237,7 +250,7 @@ class Certificate
 	/**
 	 * Get the endpoint this certificate is valid for
 	 *
-	 * @param $endpointType string The type of endpoint you want
+	 * @param string The type of endpoint you want
 	 * @return string
 	 */
 	public function getEndpoint($endpointType)

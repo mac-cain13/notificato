@@ -19,8 +19,8 @@ class Message
 	/**
 	 * Construct Message
 	 *
-	 * @param $deviceToken string Receiver of this message
-	 * @param $certificate Certificate The certificate that must be used for the APNS connection this message is send over
+	 * @param string Receiver of this message
+	 * @param Certificate The certificate that must be used for the APNS connection this message is send over
 	 */
 	public function __construct($deviceToken, Certificate $certificate)
 	{
@@ -83,10 +83,10 @@ class Message
 	}
 
 	/**
-	 * Set the moment this message should expire or null if APNS should not store the message at all
-	 *  The last message for a device is stored at APNS for delivery until this moment if the device is offline
+	 * Set the moment this message should expire or null if APNS should not store the message at all.
+	 *  The last message for a device is stored at APNS for delivery until this moment if the device is offline.
 	 *
-	 * @param $expiresAt DateTime|null Date until the message should be stored for delivery
+	 * @param \DateTime|null Date until the message should be stored for delivery
 	 */
 	public function setExpiresAt(\DateTime $expiresAt = null)
 	{
@@ -94,12 +94,12 @@ class Message
 	}
 
 	/**
-	 * Set the alert to display
-	 *  Also see: http://developer.apple.com/library/ios/#documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/ApplePushService/ApplePushService.html#//apple_ref/doc/uid/TP40008194-CH100-SW1
+	 * Set the alert to display.
+	 *  See also: http://developer.apple.com/library/ios/#documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/ApplePushService/ApplePushService.html#//apple_ref/doc/uid/TP40008194-CH100-SW1
 	 *
-	 * @param $body string|null The text of the alert to display or null to set no alert
-	 * @param $actionLocKey string|null The localization key to use for the action button
-	 * @param $launchImage string|null The name of the launch image to use
+	 * @param string|null The text of the alert to display or null to set no alert
+	 * @param string|null The localization key to use for the action button
+	 * @param string|null The name of the launch image to use
 	 */
 	public function setAlert($body, $actionLocKey = null, $launchImage = null)
 	{
@@ -130,13 +130,13 @@ class Message
 	}
 
 	/**
-	 * Set the localized alert to display
-	 *  Also see: http://developer.apple.com/library/ios/#documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/ApplePushService/ApplePushService.html#//apple_ref/doc/uid/TP40008194-CH100-SW1
+	 * Set the localized alert to display.
+	 *  See also: http://developer.apple.com/library/ios/#documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/ApplePushService/ApplePushService.html#//apple_ref/doc/uid/TP40008194-CH100-SW1
 	 *
-	 * @param $locKey string The localization key to use for the text of the alert
-	 * @param $locArgs array The arguments that fill the gaps in the locKey text
-	 * @param $actionLocKey string|null The localization key to use for the action button
-	 * @param $launchImage string|null The name of the launch image to use
+	 * @param string The localization key to use for the text of the alert
+	 * @param array The arguments that fill the gaps in the locKey text
+	 * @param string|null The localization key to use for the action button
+	 * @param string|null The name of the launch image to use
 	 */
 	public function setAlertLocalized($locKey, $locArgs = array(), $actionLocKey = null, $launchImage = null)
 	{
@@ -175,7 +175,7 @@ class Message
 	/**
 	 * Set the badge to display on the App icon
 	 *
-	 * @param $badge int|null
+	 * @param int|null
 	 */
 	public function setBadge($badge)
 	{
@@ -209,7 +209,7 @@ class Message
 	/**
 	 * Set the sound that will be played when this message is received
 	 *
-	 * @param $sound string Optional string of the sound to play, no string will play the default sound
+	 * @param string Optional string of the sound to play, no string will play the default sound
 	 */
 	public function setSound($sound = 'default')
 	{
@@ -219,7 +219,7 @@ class Message
 	/**
 	 * Get the sound that will be played when this message is received
 	 *
-	 * @return $sound string|null
+	 * @return string|null
 	 */
 	public function getSound()
 	{
@@ -229,7 +229,7 @@ class Message
 	/**
 	 * Set newsstand content availability flag that will trigger the newsstand item to download new content
 	 *
-	 * @param $contentAvailable boolean True when new content is available, false when not
+	 * @param boolean True when new content is available, false when not
 	 */
 	public function setContentAvailable($contentAvailable)
 	{
@@ -239,7 +239,7 @@ class Message
 	/**
 	 * Get newsstand content availability flag that will trigger the newsstand item to download new content
 	 *
-	 * @return $contentAvailable boolean True when new content is available, false when not
+	 * @return boolean True when new content is available, false when not
 	 */
 	public function getContentAvailable()
 	{
@@ -249,7 +249,7 @@ class Message
 	/**
 	 * Set custom payload to go with the message
 	 *
-	 * @param $payload array|json|null The payload to send as array or JSON string
+	 * @param array|json|null The payload to send as array or JSON string
 	 */
 	public function setPayload($payload)
 	{

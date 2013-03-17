@@ -25,7 +25,7 @@ class Sender implements LoggerAwareInterface
 	/**
 	 * Set the gateway factory to use for creating connections to the APNS gateway
 	 *
-	 * @param $gatewayFactory GatewayFactory The gateway factory to use
+	 * @param GatewayFactory The gateway factory to use
 	 */
 	public function setGatewayFactory(GatewayFactory $gatewayFactory)
 	{
@@ -61,7 +61,7 @@ class Sender implements LoggerAwareInterface
 	 * Queues a message and flushes the gateway connection it must be send over immediately
 	 *  Note: If you send multiple messages, queue as many as possible and flush them at once for maximum performance
 	 *
-	 * @param $message Message The message to send
+	 * @param Message The message to send
 	 * @return MessageEnvelope
 	 */
 	public function send(Message $message)
@@ -77,8 +77,8 @@ class Sender implements LoggerAwareInterface
 	/**
 	 * Queue a message on the correct APNS gateway connection
 	 *
-	 * @param $message Message The message to queue
-	 * @param $retryLimit int The times Notificare should retry to deliver the message on failure
+	 * @param Message The message to queue
+	 * @param int The times Notificare should retry to deliver the message on failure
 	 * @return MessageEnvelope
 	 */
 	public function queue(Message $message, $retryLimit = MessageEnvelope::DEFAULT_RETRY_LIMIT)
@@ -110,7 +110,7 @@ class Sender implements LoggerAwareInterface
 	/**
 	 * Send all queued messages
 	 *
-	 * @param $certificate Certificate|null When given only the gateway connection for the given certificate is flushed
+	 * @param Certificate|null When given only the gateway connection for the given certificate is flushed
 	 */
 	public function flush(Certificate $certificate = null)
 	{
@@ -133,7 +133,7 @@ class Sender implements LoggerAwareInterface
 	/**
 	 * Get/create the gateway associated with the given certificate
 	 *
-	 * @param $certificate Certificate The certificate to get the gateway conenction for
+	 * @param Certificate The certificate to get the gateway conenction for
 	 * @return Gateway
 	 */
 	private function getGatewayForCertificate(Certificate $certificate)
