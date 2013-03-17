@@ -9,6 +9,6 @@ $versions = GitVersionCollection::create(dirname(__FILE__) . '/src')
 ;
 
 return new Sami(dirname(__FILE__) . '/src', array(	'title' => 'Notificare API',
-													'build_dir' => dirname(__FILE__) . '/../notificare-api-docs/%version%',
-													'cache_dir' => sys_get_temp_dir() . '/sami-notificare-cache/%version%',
+													'build_dir' => dirname(__FILE__) . '/../notificare-apidoc/%version%',
+													'cache_dir' => dirname(__FILE__) . '/../notificare-apidoc/cache/%version%',
 													'versions' => $versions));
