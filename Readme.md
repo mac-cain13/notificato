@@ -41,18 +41,17 @@ class GettingStarted
     public function sendOnePushNotification()
     {
         // First we get the a Notificare instance and tell it what certificate to use as default certificate
-        $notificare = new Notificare('./apns-certificate.pem', 'passphrase-to-use');
+        $notificare = new Notificare('./certificate.pem', 'passphrase-to-use');
 
         // Now we get a fresh message from Notificare
         //  This message will be send to device with pushtoken 'fffff...'
         //  it will automaticly be associated with the default certificate
         $message = $notificare->createMessage('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff');
 
-        // Let's set the alert and badge of the message
-        $message->setAlert('This will be the alert body text.');
+        // Let's set App icon badge with this push to 1
         $message->setBadge(1);
 
-        // Now that message is configured as we want to, let's send it!
+        // The message is ready, let's send it!
         //  Be aware that this method is blocking and on failure Notificare will retry a few times
         $messageEnvelope = $notificare->send($message);
 
@@ -66,7 +65,7 @@ class GettingStarted
     public function readFeedbackService()
     {
         // First we get the a Notificare instance and tell it what certificate to use as default certificate
-        $notificare = new Notificare('./apns-certificate.pem', 'passphrase-to-use');
+        $notificare = new Notificare('./certificate.pem', 'passphrase-to-use');
 
         // Now read all "tuples" from the feedback service, be aware that this method is blocking
         $tuples = $notificare->receiveFeedback();
