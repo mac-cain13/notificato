@@ -1,5 +1,5 @@
 # Pushing messages
-Before you can start pushing make sure you have [generated a PEM certificate](certificate.md) you'll need this before you can start pushing. Ready? We'll lets push something then!
+Before you can start pushing make sure you have [generated a PEM certificate](certificate.md) you'll need this before you can start pushing. Ready? We'll lets push something!
 
 ## My first pushmessage
 In this example we'll send one pushmessage to a device. It's the most basic example to give you an idea of how Notificare works:
@@ -60,6 +60,7 @@ Here we try to show as many options in one example as possible to give you an id
 // First we get the a Notificare instance and tell it what certificate to use as default certificate
 //  We've disabled validation of the certificate because our PHP/OS doesn't parse it correctly and we set the environment ourselfs
 $notificare = new Notificare('./certificate.pem', 'passphrase-to-use', false, Certificate::ENDPOINT_ENV_SANDBOX);
+$notificare->setLogger( new Psr\Log\NullLogger() );
 
 // Create an array to save the message envelopes in
 $messageEnvelopes = array();
