@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>Wrep\Notificato\Notificato | Notificato API</title>
+                    <link rel="stylesheet" type="text/css" href="../../stylesheet.css">
+                            </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../classes.html">Classes</a></li>
+                            <li><a href="../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title">Notificato API</div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../Wrep/Notificato.html">Wrep\Notificato</a>\Notificato</h1>
+    </div>
+        <div class="content">
+                <p>class    <strong>Notificato</strong>        implements
+        <abbr title="Psr\Log\LoggerAwareInterface">LoggerAwareInterface</abbr></p>
+
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method___construct">__construct</a>(string|null $pemFile = null, string|null $passphrase = null, boolean $validate = true, string|null $endpointEnv = null)
+                    <p>Notificato constructor</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_setLogger">setLogger</a>(<abbr title="Psr\Log\LoggerInterface">LoggerInterface</abbr> $logger)
+                    <p>Sets a logger instance on the object</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_setSender">setSender</a>(<a href="../../Wrep/Notificato/Apns/Sender.html"><abbr title="Wrep\Notificato\Apns\Sender">Sender</abbr></a> $sender)
+                    <p>Sets the sender to use</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_setMessageFactory">setMessageFactory</a>(<a href="../../Wrep/Notificato/Apns/MessageFactory.html"><abbr title="Wrep\Notificato\Apns\MessageFactory">MessageFactory</abbr></a> $messageFactory)
+                    <p>Sets the message factory to use</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../Wrep/Notificato/Apns/Certificate.html"><abbr title="Wrep\Notificato\Apns\Certificate">Certificate</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_createCertificate">createCertificate</a>(string $pemFile, string|null $passphrase = null, boolean $validate = true, string|null $endpointEnv = null)
+                    <p>Create an APNS Certificate</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../Wrep/Notificato/Apns/Message.html"><abbr title="Wrep\Notificato\Apns\Message">Message</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_createMessage">createMessage</a>(string $deviceToken, <a href="../../Wrep/Notificato/Apns/Certificate.html"><abbr title="Wrep\Notificato\Apns\Certificate">Certificate</abbr></a> $certificate = null)
+                    <p>Create a Message</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../Wrep/Notificato/Apns/MessageEnvelope.html"><abbr title="Wrep\Notificato\Apns\MessageEnvelope">MessageEnvelope</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_queue">queue</a>(<a href="../../Wrep/Notificato/Apns/Message.html"><abbr title="Wrep\Notificato\Apns\Message">Message</abbr></a> $message, int $retryLimit = Apns\MessageEnvelope::DEFAULT_RETRY_LIMIT)
+                    <p>Queue a message on the correct APNS gateway connection</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_flush">flush</a>(<a href="../../Wrep/Notificato/Apns/Certificate.html"><abbr title="Wrep\Notificato\Apns\Certificate">Certificate</abbr></a> $certificate = null)
+                    <p>Send all queued messages</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../Wrep/Notificato/Apns/MessageEnvelope.html"><abbr title="Wrep\Notificato\Apns\MessageEnvelope">MessageEnvelope</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_send">send</a>(<a href="../../Wrep/Notificato/Apns/Message.html"><abbr title="Wrep\Notificato\Apns\Message">Message</abbr></a> $message)
+                    <p>Queues a message and flushes the gateway connection it must be send over immediately  Note: If you send multiple messages, queue as many as possible and flush them at once for maximum performance</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    array
+                </td>
+                <td class="last">
+                    <a href="#method_receiveFeedback">receiveFeedback</a>(<a href="../../Wrep/Notificato/Apns/Certificate.html"><abbr title="Wrep\Notificato\Apns\Certificate">Certificate</abbr></a> $certificate = null)
+                    <p>Receive the feedback tuples from APNS</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method___construct">
+        <div class="location">at line 25</div>
+        <code>            public            
+    <strong>__construct</strong>(string|null $pemFile = null, string|null $passphrase = null, boolean $validate = true, string|null $endpointEnv = null)</code>
+    </h3>
+    <div class="details">
+        <p>Notificato constructor</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string|null</td>
+                <td>$pemFile</td>
+                <td>Path to the PEM certificate file to use as default certificate, null for no default certificate</td>
+            </tr>
+                    <tr>
+                <td>string|null</td>
+                <td>$passphrase</td>
+                <td>Passphrase to use with the PEM file</td>
+            </tr>
+                    <tr>
+                <td>boolean</td>
+                <td>$validate</td>
+                <td>Set to false to skip the validation of the certificate, default true</td>
+            </tr>
+                    <tr>
+                <td>string|null</td>
+                <td>$endpointEnv</td>
+                <td>APNS environment this certificate is valid for, by default autodetects during validation</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setLogger">
+        <div class="location">at line 42</div>
+        <code>            public            
+    <strong>setLogger</strong>(<abbr title="Psr\Log\LoggerInterface">LoggerInterface</abbr> $logger)</code>
+    </h3>
+    <div class="details">
+        <p>Sets a logger instance on the object</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="Psr\Log\LoggerInterface">LoggerInterface</abbr></td>
+                <td>$logger</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setSender">
+        <div class="location">at line 57</div>
+        <code>            public            
+    <strong>setSender</strong>(<a href="../../Wrep/Notificato/Apns/Sender.html"><abbr title="Wrep\Notificato\Apns\Sender">Sender</abbr></a> $sender)</code>
+    </h3>
+    <div class="details">
+        <p>Sets the sender to use</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../Wrep/Notificato/Apns/Sender.html"><abbr title="Wrep\Notificato\Apns\Sender">Sender</abbr></a></td>
+                <td>$sender</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setMessageFactory">
+        <div class="location">at line 68</div>
+        <code>            public            
+    <strong>setMessageFactory</strong>(<a href="../../Wrep/Notificato/Apns/MessageFactory.html"><abbr title="Wrep\Notificato\Apns\MessageFactory">MessageFactory</abbr></a> $messageFactory)</code>
+    </h3>
+    <div class="details">
+        <p>Sets the message factory to use</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../Wrep/Notificato/Apns/MessageFactory.html"><abbr title="Wrep\Notificato\Apns\MessageFactory">MessageFactory</abbr></a></td>
+                <td>$messageFactory</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_createCertificate">
+        <div class="location">at line 82</div>
+        <code>            public            <a href="../../Wrep/Notificato/Apns/Certificate.html"><abbr title="Wrep\Notificato\Apns\Certificate">Certificate</abbr></a>
+    <strong>createCertificate</strong>(string $pemFile, string|null $passphrase = null, boolean $validate = true, string|null $endpointEnv = null)</code>
+    </h3>
+    <div class="details">
+        <p>Create an APNS Certificate</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$pemFile</td>
+                <td>Path to the PEM certificate file</td>
+            </tr>
+                    <tr>
+                <td>string|null</td>
+                <td>$passphrase</td>
+                <td>Passphrase to use with the PEM file</td>
+            </tr>
+                    <tr>
+                <td>boolean</td>
+                <td>$validate</td>
+                <td>Set to false to skip the validation of the certificate, default true</td>
+            </tr>
+                    <tr>
+                <td>string|null</td>
+                <td>$endpointEnv</td>
+                <td>APNS environment this certificate is valid for, by default autodetects during validation</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../Wrep/Notificato/Apns/Certificate.html"><abbr title="Wrep\Notificato\Apns\Certificate">Certificate</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_createMessage">
+        <div class="location">at line 94</div>
+        <code>            public            <a href="../../Wrep/Notificato/Apns/Message.html"><abbr title="Wrep\Notificato\Apns\Message">Message</abbr></a>
+    <strong>createMessage</strong>(string $deviceToken, <a href="../../Wrep/Notificato/Apns/Certificate.html"><abbr title="Wrep\Notificato\Apns\Certificate">Certificate</abbr></a> $certificate = null)</code>
+    </h3>
+    <div class="details">
+        <p>Create a Message</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$deviceToken</td>
+                <td>Receiver of this message</td>
+            </tr>
+                    <tr>
+                <td><a href="../../Wrep/Notificato/Apns/Certificate.html"><abbr title="Wrep\Notificato\Apns\Certificate">Certificate</abbr></a></td>
+                <td>$certificate</td>
+                <td>The certificate that must be used for the APNS connection this message is send over, null to use the default certificate</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../Wrep/Notificato/Apns/Message.html"><abbr title="Wrep\Notificato\Apns\Message">Message</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_queue">
+        <div class="location">at line 106</div>
+        <code>            public            <a href="../../Wrep/Notificato/Apns/MessageEnvelope.html"><abbr title="Wrep\Notificato\Apns\MessageEnvelope">MessageEnvelope</abbr></a>
+    <strong>queue</strong>(<a href="../../Wrep/Notificato/Apns/Message.html"><abbr title="Wrep\Notificato\Apns\Message">Message</abbr></a> $message, int $retryLimit = Apns\MessageEnvelope::DEFAULT_RETRY_LIMIT)</code>
+    </h3>
+    <div class="details">
+        <p>Queue a message on the correct APNS gateway connection</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../Wrep/Notificato/Apns/Message.html"><abbr title="Wrep\Notificato\Apns\Message">Message</abbr></a></td>
+                <td>$message</td>
+                <td>The message to queue</td>
+            </tr>
+                    <tr>
+                <td>int</td>
+                <td>$retryLimit</td>
+                <td>The times Notificato should retry to deliver the message on failure</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../Wrep/Notificato/Apns/MessageEnvelope.html"><abbr title="Wrep\Notificato\Apns\MessageEnvelope">MessageEnvelope</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_flush">
+        <div class="location">at line 116</div>
+        <code>            public            
+    <strong>flush</strong>(<a href="../../Wrep/Notificato/Apns/Certificate.html"><abbr title="Wrep\Notificato\Apns\Certificate">Certificate</abbr></a> $certificate = null)</code>
+    </h3>
+    <div class="details">
+        <p>Send all queued messages</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../Wrep/Notificato/Apns/Certificate.html"><abbr title="Wrep\Notificato\Apns\Certificate">Certificate</abbr></a></td>
+                <td>$certificate</td>
+                <td>When given only the gateway connection for the given certificate is flushed</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_send">
+        <div class="location">at line 128</div>
+        <code>            public            <a href="../../Wrep/Notificato/Apns/MessageEnvelope.html"><abbr title="Wrep\Notificato\Apns\MessageEnvelope">MessageEnvelope</abbr></a>
+    <strong>send</strong>(<a href="../../Wrep/Notificato/Apns/Message.html"><abbr title="Wrep\Notificato\Apns\Message">Message</abbr></a> $message)</code>
+    </h3>
+    <div class="details">
+        <p>Queues a message and flushes the gateway connection it must be send over immediately  Note: If you send multiple messages, queue as many as possible and flush them at once for maximum performance</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../Wrep/Notificato/Apns/Message.html"><abbr title="Wrep\Notificato\Apns\Message">Message</abbr></a></td>
+                <td>$message</td>
+                <td>The message to send</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../Wrep/Notificato/Apns/MessageEnvelope.html"><abbr title="Wrep\Notificato\Apns\MessageEnvelope">MessageEnvelope</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_receiveFeedback">
+        <div class="location">at line 139</div>
+        <code>            public            array
+    <strong>receiveFeedback</strong>(<a href="../../Wrep/Notificato/Apns/Certificate.html"><abbr title="Wrep\Notificato\Apns\Certificate">Certificate</abbr></a> $certificate = null)</code>
+    </h3>
+    <div class="details">
+        <p>Receive the feedback tuples from APNS</p>
+        <p></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../Wrep/Notificato/Apns/Certificate.html"><abbr title="Wrep\Notificato\Apns\Certificate">Certificate</abbr></a></td>
+                <td>$certificate</td>
+                <td>The certificate to use to connect to APNS, default use the default certificate</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>array</td>
+            <td>Array containing FeedbackTuples received from Apple</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>
