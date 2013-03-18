@@ -4,7 +4,7 @@ Before you can start pushing make sure you have [generated a PEM certificate](ce
 ## My first pushmessage
 In this example we'll send one pushmessage to a device. It's the most basic example to give you an idea of how Notificato works:
 ```php
-// First we get the a Notificato instance and tell it what certificate to use as default certificate
+// First we get a Notificato instance and tell it what certificate to use as default certificate
 $notificato = new Notificato('./certificate.pem', 'passphrase-to-use');
 
 // Now we get a fresh message from Notificato

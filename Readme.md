@@ -41,7 +41,7 @@ class GettingStarted
 	 */
     public function sendOnePushNotification()
     {
-        // First we get the a Notificato instance and tell it what certificate to use as default certificate
+        // First we get a Notificato instance and tell it what certificate to use as default certificate
         $notificato = new Notificato('./certificate.pem', 'passphrase-to-use');
 
         // Now we get a fresh message from Notificato
