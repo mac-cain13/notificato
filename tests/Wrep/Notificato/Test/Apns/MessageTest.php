@@ -1,9 +1,9 @@
 <?php
 
-namespace Wrep\Notificare\Tests\Apns;
+namespace Wrep\Notificato\Tests\Apns;
 
-use \Wrep\Notificare\Apns\Message;
-use \Wrep\Notificare\Apns\Certificate;
+use \Wrep\Notificato\Apns\Message;
+use \Wrep\Notificato\Apns\Certificate;
 
 class MessageTest extends \PHPUnit_Framework_TestCase
 {
@@ -17,7 +17,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 
 	public function testConstruction()
 	{
-		$this->assertInstanceOf('\Wrep\Notificare\Apns\Message', $this->message, 'Message of incorrect classtype.');
+		$this->assertInstanceOf('\Wrep\Notificato\Apns\Message', $this->message, 'Message of incorrect classtype.');
 		$this->assertEquals('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $this->message->getDeviceToken(), 'Incorrect token retrieved.');
 	}
 

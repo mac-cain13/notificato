@@ -1,14 +1,14 @@
 <?php
 
-namespace Wrep\Notificare\Tests\Apns;
+namespace Wrep\Notificato\Tests\Apns;
 
-use \Wrep\Notificare\Apns\Sender;
-use \Wrep\Notificare\Apns\Certificate;
-use \Wrep\Notificare\Apns\Gateway;
-use \Wrep\Notificare\Apns\MessageFactory;
-use \Wrep\Notificare\Apns\MessageEnvelope;
-use \Wrep\Notificare\Test\Apns\Mock\MockGatewayFactory;
-use \Wrep\Notificare\Test\Apns\Mock\MockGateway;
+use \Wrep\Notificato\Apns\Sender;
+use \Wrep\Notificato\Apns\Certificate;
+use \Wrep\Notificato\Apns\Gateway;
+use \Wrep\Notificato\Apns\MessageFactory;
+use \Wrep\Notificato\Apns\MessageEnvelope;
+use \Wrep\Notificato\Test\Apns\Mock\MockGatewayFactory;
+use \Wrep\Notificato\Test\Apns\Mock\MockGateway;
 
 class SenderTests extends \PHPUnit_Framework_TestCase
 {
@@ -24,7 +24,7 @@ class SenderTests extends \PHPUnit_Framework_TestCase
 	private function getCertificate($fingerprint)
 	{
 		// Create cert
-		$certificate = $this->getMockBuilder('\Wrep\Notificare\Apns\Certificate')
+		$certificate = $this->getMockBuilder('\Wrep\Notificato\Apns\Certificate')
 							->disableOriginalConstructor()
 							->getMock();
 		$certificate->expects($this->any())

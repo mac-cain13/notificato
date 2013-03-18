@@ -42,7 +42,7 @@ Now that you have your CSR head over to the [iOS](https://developer.apple.com/io
 *Note: The certificate to sign your pass with is exactly the same certificate used for push!*
 
 ## 3. Export certificate to PEM
-You now have your certificate, time to convert it to a Notificare compatible format.
+You now have your certificate, time to convert it to a Notificato compatible format.
 
 ### a. If you used Keychain for CSR generation
 1. Click the `.cer`-file so Keychain will import it

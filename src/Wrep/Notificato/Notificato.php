@@ -1,21 +1,21 @@
 <?php
 
-namespace Wrep\Notificare;
+namespace Wrep\Notificato;
 
-use Wrep\Notificare\Apns as Apns;
+use Wrep\Notificato\Apns as Apns;
 
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
-class Notificare implements LoggerAwareInterface
+class Notificato implements LoggerAwareInterface
 {
 	private $messageFactory;
 	private $sender;
 	private $logger;
 
 	/**
-	 * Notificare constructor
+	 * Notificato constructor
 	 *
 	 * @param string|null Path to the PEM certificate file to use as default certificate, null for no default certificate
 	 * @param string|null Passphrase to use with the PEM file
@@ -100,7 +100,7 @@ class Notificare implements LoggerAwareInterface
 	 * Queue a message on the correct APNS gateway connection
 	 *
 	 * @param Apns\Message The message to queue
-	 * @param int The times Notificare should retry to deliver the message on failure
+	 * @param int The times Notificato should retry to deliver the message on failure
 	 * @return Apns\MessageEnvelope
 	 */
 	public function queue(Apns\Message $message, $retryLimit = Apns\MessageEnvelope::DEFAULT_RETRY_LIMIT)

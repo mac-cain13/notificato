@@ -1,9 +1,9 @@
 <?php
 
-namespace Wrep\Notificare\Tests\Apns;
+namespace Wrep\Notificato\Tests\Apns;
 
-use \Wrep\Notificare\Apns\MessageEnvelope;
-use \Wrep\Notificare\Apns\MessageFactory;
+use \Wrep\Notificato\Apns\MessageEnvelope;
+use \Wrep\Notificato\Apns\MessageFactory;
 
 class MessageEnvelopeTest extends \PHPUnit_Framework_TestCase
 {
@@ -11,7 +11,7 @@ class MessageEnvelopeTest extends \PHPUnit_Framework_TestCase
 
 	public function setUp()
 	{
-		$message = $this->getMockBuilder('\Wrep\Notificare\Apns\Message')
+		$message = $this->getMockBuilder('\Wrep\Notificato\Apns\Message')
 						->disableOriginalConstructor()
 						->getMock();
 
@@ -34,7 +34,7 @@ class MessageEnvelopeTest extends \PHPUnit_Framework_TestCase
 
 	public function illigalConstructionArguments()
 	{
-		$message = $this->getMockBuilder('\Wrep\Notificare\Apns\Message')
+		$message = $this->getMockBuilder('\Wrep\Notificato\Apns\Message')
 						->disableOriginalConstructor()
 						->getMock();
 

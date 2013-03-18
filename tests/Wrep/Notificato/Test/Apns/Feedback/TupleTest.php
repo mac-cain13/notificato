@@ -1,9 +1,9 @@
 <?php
 
-namespace Wrep\Notificare\Tests\Apns\Feedback;
+namespace Wrep\Notificato\Tests\Apns\Feedback;
 
-use \Wrep\Notificare\Apns\Certificate;
-use \Wrep\Notificare\Apns\Feedback\Tuple;
+use \Wrep\Notificato\Apns\Certificate;
+use \Wrep\Notificato\Apns\Feedback\Tuple;
 
 class TupleTests extends \PHPUnit_Framework_TestCase
 {

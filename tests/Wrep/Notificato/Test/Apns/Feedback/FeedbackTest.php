@@ -1,9 +1,9 @@
 <?php
 
-namespace Wrep\Notificare\Tests\Apns\Feedback;
+namespace Wrep\Notificato\Tests\Apns\Feedback;
 
-use \Wrep\Notificare\Apns\Feedback\Feedback;
-use \Wrep\Notificare\Apns\Certificate;
+use \Wrep\Notificato\Apns\Feedback\Feedback;
+use \Wrep\Notificato\Apns\Certificate;
 
 class FeedbackTests extends \PHPUnit_Framework_TestCase
 {

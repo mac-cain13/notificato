@@ -1,8 +1,8 @@
 <?php
 
-namespace Wrep\Notificare\Apns\Feedback;
+namespace Wrep\Notificato\Apns\Feedback;
 
-use Wrep\Notificare\Apns\Certificate;
+use Wrep\Notificato\Apns\Certificate;
 
 class Tuple
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Wrep\Notificare\Apns;
+namespace Wrep\Notificato\Apns;
 
 class MessageEnvelope
 {
@@ -73,7 +73,7 @@ class MessageEnvelope
 			  8 => '[APNS] Invalid token',
 			255 => '[APNS] Unknown error',
 
-			// Notificare internal final states
+			// Notificato internal final states
 			self::STATUS_SENDFAILED 	=> 'Sending failed, will retry with other envelope',
 			self::STATUS_EARLIERERROR 	=> 'Failed due earlier error, will retry with other envelope',
 			self::STATUS_PAYLOADTOOLONG => 'Payload exceeds 256 bytes, will not send message to APNS',
@@ -85,7 +85,7 @@ class MessageEnvelope
 	 *
 	 * @param int Unique number to the relevant APNS connection to identify this message
 	 * @param Message The message that's is contained by this envelope
-	 * @param int The times Notificare should retry to deliver the message on failure
+	 * @param int The times Notificato should retry to deliver the message on failure
 	 */
 	public function __construct($identifier, Message $message, $retryLimit = MessageEnvelope::DEFAULT_RETRY_LIMIT)
 	{

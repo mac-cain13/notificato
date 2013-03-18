@@ -1,25 +1,25 @@
 <?php
 
-namespace Wrep\Notificare\Tests;
+namespace Wrep\Notificato\Tests;
 
-use \Wrep\Notificare\Notificare;
+use \Wrep\Notificato\Notificato;
 
-class NotificareTests extends \PHPUnit_Framework_TestCase
+class NotificatoTests extends \PHPUnit_Framework_TestCase
 {
-	private $notificare;
+	private $notificato;
 
 	public function setUp()
 	{
-		$this->notificare = new Notificare();
+		$this->notificato = new Notificato();
 	}
 
 	public function testCreateMessage()
 	{
-		$certificate = $this->getMockBuilder('\Wrep\Notificare\Apns\Certificate')
+		$certificate = $this->getMockBuilder('\Wrep\Notificato\Apns\Certificate')
 								->disableOriginalConstructor()
 								->getMock();
 
-		$messageFactory = $this->getMockBuilder('\Wrep\Notificare\Apns\MessageFactory')
+		$messageFactory = $this->getMockBuilder('\Wrep\Notificato\Apns\MessageFactory')
 								->disableOriginalConstructor()
 								->getMock();
 
@@ -27,17 +27,17 @@ class NotificareTests extends \PHPUnit_Framework_TestCase
 						->method('createMessage')
 						->with($this->equalTo('asdf'), $this->equalTo($certificate));
 
-		$this->notificare->setMessageFactory($messageFactory);
-		$this->notificare->createMessage('asdf', $certificate);
+		$this->notificato->setMessageFactory($messageFactory);
+		$this->notificato->createMessage('asdf', $certificate);
 	}
 
 	public function testQueue()
 	{
-		$message = $this->getMockBuilder('\Wrep\Notificare\Apns\Message')
+		$message = $this->getMockBuilder('\Wrep\Notificato\Apns\Message')
 						->disableOriginalConstructor()
 						->getMock();
 
-		$sender = $this->getMockBuilder('\Wrep\Notificare\Apns\Sender')
+		$sender = $this->getMockBuilder('\Wrep\Notificato\Apns\Sender')
 						->disableOriginalConstructor()
 						->getMock();
 
@@ -45,17 +45,17 @@ class NotificareTests extends \PHPUnit_Framework_TestCase
 				->method('queue')
 				->with($this->equalTo($message), $this->equalTo(9));
 
-		$this->notificare->setSender($sender);
-		$this->notificare->queue($message, 9);
+		$this->notificato->setSender($sender);
+		$this->notificato->queue($message, 9);
 	}
 
 	public function testFlush()
 	{
-		$certificate = $this->getMockBuilder('\Wrep\Notificare\Apns\Certificate')
+		$certificate = $this->getMockBuilder('\Wrep\Notificato\Apns\Certificate')
 								->disableOriginalConstructor()
 								->getMock();
 
-		$sender = $this->getMockBuilder('\Wrep\Notificare\Apns\Sender')
+		$sender = $this->getMockBuilder('\Wrep\Notificato\Apns\Sender')
 						->disableOriginalConstructor()
 						->getMock();
 
@@ -63,17 +63,17 @@ class NotificareTests extends \PHPUnit_Framework_TestCase
 				->method('flush')
 				->with($this->equalTo($certificate));
 
-		$this->notificare->setSender($sender);
-		$this->notificare->flush($certificate);
+		$this->notificato->setSender($sender);
+		$this->notificato->flush($certificate);
 	}
 
 	public function testSend()
 	{
-		$message = $this->getMockBuilder('\Wrep\Notificare\Apns\Message')
+		$message = $this->getMockBuilder('\Wrep\Notificato\Apns\Message')
 						->disableOriginalConstructor()
 						->getMock();
 
-		$sender = $this->getMockBuilder('\Wrep\Notificare\Apns\Sender')
+		$sender = $this->getMockBuilder('\Wrep\Notificato\Apns\Sender')
 						->disableOriginalConstructor()
 						->getMock();
 
@@ -81,7 +81,7 @@ class NotificareTests extends \PHPUnit_Framework_TestCase
 				->method('send')
 				->with($this->equalTo($message));
 
-		$this->notificare->setSender($sender);
-		$this->notificare->send($message);
+		$this->notificato->setSender($sender);
+		$this->notificato->send($message);
 	}
 }

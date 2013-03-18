@@ -1,6 +1,6 @@
 <?php
 
-namespace Wrep\Notificare\Apns;
+namespace Wrep\Notificato\Apns;
 
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
@@ -78,7 +78,7 @@ class Sender implements LoggerAwareInterface
 	 * Queue a message on the correct APNS gateway connection
 	 *
 	 * @param Message The message to queue
-	 * @param int The times Notificare should retry to deliver the message on failure
+	 * @param int The times Notificato should retry to deliver the message on failure
 	 * @return MessageEnvelope
 	 */
 	public function queue(Message $message, $retryLimit = MessageEnvelope::DEFAULT_RETRY_LIMIT)

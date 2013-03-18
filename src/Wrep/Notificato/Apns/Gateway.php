@@ -1,6 +1,6 @@
 <?php
 
-namespace Wrep\Notificare\Apns;
+namespace Wrep\Notificato\Apns;
 
 class Gateway extends SslSocket
 {
@@ -48,7 +48,7 @@ class Gateway extends SslSocket
 	 * Queue a message for sending
 	 *
 	 * @param Message The message object to queue for sending
-	 * @param int The times Notificare should retry to deliver the message on failure
+	 * @param int The times Notificato should retry to deliver the message on failure
 	 * @return MessageEnvelope
 	 */
 	public function queue(Message $message, $retryLimit = MessageEnvelope::DEFAULT_RETRY_LIMIT)

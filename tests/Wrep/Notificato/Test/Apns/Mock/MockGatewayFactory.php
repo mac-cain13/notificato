@@ -1,9 +1,9 @@
 <?php
 
-namespace Wrep\Notificare\Test\Apns\Mock;
+namespace Wrep\Notificato\Test\Apns\Mock;
 
-use Wrep\Notificare\Apns\Certificate;
-use Wrep\Notificare\Apns\GatewayFactory;
+use Wrep\Notificato\Apns\Certificate;
+use Wrep\Notificato\Apns\GatewayFactory;
 
 class MockGatewayFactory extends GatewayFactory
 {

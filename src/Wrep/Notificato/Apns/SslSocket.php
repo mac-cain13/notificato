@@ -1,6 +1,6 @@
 <?php
 
-namespace Wrep\Notificare\Apns;
+namespace Wrep\Notificato\Apns;
 
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;

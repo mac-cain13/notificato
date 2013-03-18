@@ -1,11 +1,11 @@
 <?php
 
-namespace Wrep\Notificare\Tests\Apns;
+namespace Wrep\Notificato\Tests\Apns;
 
-use \Wrep\Notificare\Apns\Certificate;
-use \Wrep\Notificare\Apns\Gateway;
-use \Wrep\Notificare\Apns\Message;
-use \Wrep\Notificare\Apns\MessageEnvelope;
+use \Wrep\Notificato\Apns\Certificate;
+use \Wrep\Notificato\Apns\Gateway;
+use \Wrep\Notificato\Apns\Message;
+use \Wrep\Notificato\Apns\MessageEnvelope;
 
 class GatewayTest extends \PHPUnit_Framework_TestCase
 {
@@ -30,7 +30,7 @@ class GatewayTest extends \PHPUnit_Framework_TestCase
 
 	public function testQueue()
 	{
-		$message = $this->getMockBuilder('\Wrep\Notificare\Apns\Message')
+		$message = $this->getMockBuilder('\Wrep\Notificato\Apns\Message')
 						->disableOriginalConstructor()
 						->getMock();
 		$message->expects($this->once())
@@ -45,7 +45,7 @@ class GatewayTest extends \PHPUnit_Framework_TestCase
 
 	public function testQueueToLargeMessage()
 	{
-		$message = $this->getMockBuilder('\Wrep\Notificare\Apns\Message')
+		$message = $this->getMockBuilder('\Wrep\Notificato\Apns\Message')
 						->disableOriginalConstructor()
 						->getMock();
 		$message->expects($this->once())
@@ -60,7 +60,7 @@ class GatewayTest extends \PHPUnit_Framework_TestCase
 
 	public function testConnectionFail()
 	{
-		$message = $this->getMockBuilder('\Wrep\Notificare\Apns\Message')
+		$message = $this->getMockBuilder('\Wrep\Notificato\Apns\Message')
 						->disableOriginalConstructor()
 						->getMock();
 		$message->expects($this->once())
@@ -99,7 +99,7 @@ class GatewayTest extends \PHPUnit_Framework_TestCase
 
 		// Get the retry envelope
 		$retrySuccessEnvelope = $retryEnvelope->getRetryEnvelope();
-		$this->assertInstanceOf('\Wrep\Notificare\Apns\MessageEnvelope', $retrySuccessEnvelope, 'Retried message has no retry envelope.');
+		$this->assertInstanceOf('\Wrep\Notificato\Apns\MessageEnvelope', $retrySuccessEnvelope, 'Retried message has no retry envelope.');
 
 		// Check for the expected statusses
 		$this->assertEquals(MessageEnvelope::STATUS_NOERRORS, $successEnvelope->getStatus());
@@ -141,7 +141,7 @@ class GatewayTest extends \PHPUnit_Framework_TestCase
 
 	public function testStoreMessageEnvelope()
 	{
-		$this->gateway = new \Wrep\Notificare\Test\Apns\Mock\MockGateway($this->certificate);
+		$this->gateway = new \Wrep\Notificato\Test\Apns\Mock\MockGateway($this->certificate);
 		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $this->certificate);
 
 		// Check that each message is stored into the message envelope store

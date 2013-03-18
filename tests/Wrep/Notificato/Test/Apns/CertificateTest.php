@@ -1,8 +1,8 @@
 <?php
 
-namespace Wrep\Notificare\Tests\Apns;
+namespace Wrep\Notificato\Tests\Apns;
 
-use \Wrep\Notificare\Apns\Certificate;
+use \Wrep\Notificato\Apns\Certificate;
 
 class CertificateTest extends \PHPUnit_Framework_TestCase
 {
@@ -12,7 +12,7 @@ class CertificateTest extends \PHPUnit_Framework_TestCase
 	public function testCorrectConstruction($pemFile, $passphrase, $validate, $endpoint)
 	{
 		$certificate = new Certificate($pemFile, $passphrase, $validate, $endpoint);
-		$this->assertInstanceOf('\Wrep\Notificare\Apns\Certificate', $certificate, 'Certificate of incorrect classtype.');
+		$this->assertInstanceOf('\Wrep\Notificato\Apns\Certificate', $certificate, 'Certificate of incorrect classtype.');
 	}
 
 	/**

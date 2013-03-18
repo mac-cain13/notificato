@@ -1,8 +1,8 @@
 {
-	"name": "wrep/notificare",
+	"name": "wrep/notificato",
 	"type": "library",
 	"description": "Send push notifications from PHP",
-	"homepage": "https://github.com/wrep/notificare",
+	"homepage": "https://github.com/wrep/notificato",
 	"keywords": ["push", "pushnotifications", "apns", "ios"],
 	"license": "MIT",
 	"authors": [
@@ -16,7 +16,7 @@
 		}
 	],
 	"support": {
-		"issues": "https://github.com/wrep/notificare/issues"
+		"issues": "https://github.com/wrep/notificato/issues"
 	},
 	"require": {
 		"php": ">=5.3.3",
@@ -31,9 +31,12 @@
 		"sami/sami": "dev-master"
 	},
 	"suggest": {
-		"wrep/notificare-symfony": "Integrate notificare into Symfony2"
+		"wrep/notificato-symfony": "Integrate notificato into Symfony2"
+	},
+	"replace": {
+		"wrep/notificare": "*"
 	},
 	"autoload": {
-		"psr-0": { "Wrep\\Notificare\\": "src/" }
+		"psr-0": { "Wrep\\Notificato\\": "src/" }
 	}
 }

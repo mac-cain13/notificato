@@ -4,11 +4,11 @@ After you've started [pushing messages](push.md) you have to check what devices 
 ## Receiving feedback
 This example will show you how to read the feedback service:
 ```php
-// First we get the a Notificare instance and tell it what certificate to use as default certificate
-$notificare = new Notificare('./certificate.pem', 'passphrase-to-use');
+// First we get the a Notificato instance and tell it what certificate to use as default certificate
+$notificato = new Notificato('./certificate.pem', 'passphrase-to-use');
 
 // Now read all "tuples" from the feedback service, be aware that this method is blocking
-$tuples = $notificare->receiveFeedback();
+$tuples = $notificato->receiveFeedback();
 
 // The tuples contain information about what device unregistered and when it did unregister.
 //  Don't forget to check if the device reregistered after the "invaidated at" date!

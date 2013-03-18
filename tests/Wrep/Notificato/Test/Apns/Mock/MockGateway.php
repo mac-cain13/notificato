@@ -1,9 +1,9 @@
 <?php
 
-namespace Wrep\Notificare\Test\Apns\Mock;
+namespace Wrep\Notificato\Test\Apns\Mock;
 
-use Wrep\Notificare\Apns\Gateway;
-use Wrep\Notificare\Apns\MessageEnvelope;
+use Wrep\Notificato\Apns\Gateway;
+use Wrep\Notificato\Apns\MessageEnvelope;
 
 class MockGateway extends Gateway
 {
