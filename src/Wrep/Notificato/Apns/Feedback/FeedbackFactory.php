@@ -1,15 +1,18 @@
 <?php
 
-namespace Wrep\Notificato\Apns;
+namespace Wrep\Notificato\Apns\Feedback;
 
-class MessageFactory
+use Wrep\Notificato\Apns\CertificateFactory;
+use Wrep\Notificato\Apns\Certificate;
+
+class FeedbackFactory
 {
 	private $certificateFactory;
 
 	/**
-	 * Create the MessageFactory
+	 * Create the FeedbackFactory
 	 *
-	 * @param CertificateFactory|null The certificate factory to use when no specific certificate is given on message creation
+	 * @param CertificateFactory|null The certificate factory to use when no specific certificate is given on feedback creation
 	 */
 	public function __construct(CertificateFactory $certificateFactory = null)
 	{
@@ -19,7 +22,7 @@ class MessageFactory
 	/**
 	 * Set a certificate factory to fetch the default certificate from
 	 *
-	 * @param CertificateFactory|null The certificate factory to use when no specific certificate is given on message creation
+	 * @param CertificateFactory|null The certificate factory to use when no specific certificate is given on feedback creation
 	 */
 	public function setCertificateFactory(CertificateFactory $certificateFactory = null)
 	{
@@ -37,12 +40,12 @@ class MessageFactory
 	}
 
 	/**
-	 * Create a Message
+	 * Create a Feedback object
 	 *
-	 * @param string Receiver of this message
-	 * @param Certificate|null The certificate that must be used for the APNS connection this message is send over, null to use the default certificate
+	 * @param Certificate|null The certificate to use or null to use the default certificate from the given certificate factory
+	 * @return Feedback
 	 */
-	public function createMessage($deviceToken, Certificate $certificate = null)
+	public function createFeedback(Certificate $certificate = null)
 	{
 		// Check if a certificate is given, if not use the default certificate
 		if (null == $certificate && $this->getCertificateFactory() != null) {
@@ -51,10 +54,9 @@ class MessageFactory
 
 		// Check if there is a certificate to use after falling back on the default certificate
 		if (null == $certificate) {
-			throw new \RuntimeException('No certificate given for the creation of the message and no default certificate available.');
+			throw new \RuntimeException('No certificate given for the creation of the feedback service and no default certificate available.');
 		}
 
-		// Create and return the new Message
-		return new Message($deviceToken, $certificate);
+		return new Feedback($certificate);
 	}
 }

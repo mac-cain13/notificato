@@ -10,9 +10,12 @@ use Psr\Log\NullLogger;
 
 class Notificato implements LoggerAwareInterface
 {
-	private $messageFactory;
 	private $sender;
 	private $logger;
+
+	private $certificateFactory;
+	private $feedbackFactory;
+	private $messageFactory;
 
 	/**
 	 * Notificato constructor
@@ -24,14 +27,23 @@ class Notificato implements LoggerAwareInterface
 	 */
 	public function __construct($pemFile = null, $passphrase = null, $validate = true, $endpointEnv = null)
 	{
-		$defaultCertificate = null;
-		if (null !== $pemFile) {
-			$defaultCertificate = $this->createCertificate($pemFile, $passphrase, $validate, $endpointEnv);
-		}
+		$this->setLogger( new NullLogger() );
+		$this->setSender( new Apns\Sender() );
 
-		$this->setLogger(new NullLogger());
-		$this->setMessageFactory(new Apns\MessageFactory($defaultCertificate));
-		$this->setSender(new Apns\Sender());
+		$this->setCertificateFactory( new Apns\CertificateFactory($pemFile = null, $passphrase = null, $validate = true, $endpointEnv = null) );
+		$this->setFeedbackFactory( new Apns\Feedback\FeedbackFactory($this->certificateFactory) );
+		$this->setMessageFactory( new Apns\MessageFactory($this->certificateFactory) );
+	}
+
+	/**
+     * Sets the sender to use
+     *
+     * @param Apns\Sender $sender
+     */
+	public function setSender(Apns\Sender $sender)
+	{
+		$this->sender = $sender;
+		$this->sender->setLogger($this->logger);
 	}
 
 	/**
@@ -50,14 +62,34 @@ class Notificato implements LoggerAwareInterface
 	}
 
 	/**
-     * Sets the sender to use
+     * Sets the certificate factory to use
      *
-     * @param Apns\Sender $sender
+     * @param Apns\CertificateFactory $messageFactory
      */
-	public function setSender(Apns\Sender $sender)
+	public function setCertificateFactory(Apns\CertificateFactory $certificateFactory)
 	{
-		$this->sender = $sender;
-		$this->sender->setLogger($this->logger);
+		$this->certificateFactory = $certificateFactory;
+
+		// Also update the certificate factory of the feedback factory
+		if (null !== $this->feedbackFactory) {
+			$this->feedbackFactory->setCertificateFactory($this->certificateFactory);
+		}
+
+		// Also update the certificate factory of the message factory
+		if (null !== $this->messageFactory) {
+			$this->messageFactory->setCertificateFactory($this->certificateFactory);
+		}
+	}
+
+	/**
+     * Sets the feedback factory to use
+     *
+     * @param Apns\FeedbackFactory $feedbackFactory
+     */
+	public function setFeedbackFactory(Apns\Feedback\FeedbackFactory $feedbackFactory)
+	{
+		$this->feedbackFactory = $feedbackFactory;
+		$this->feedbackFactory->setCertificateFactory($this->certificateFactory);
 	}
 
 	/**
@@ -68,6 +100,7 @@ class Notificato implements LoggerAwareInterface
 	public function setMessageFactory(Apns\MessageFactory $messageFactory)
 	{
 		$this->messageFactory = $messageFactory;
+		$this->messageFactory->setCertificateFactory($this->certificateFactory);
 	}
 
 	/**
@@ -81,7 +114,7 @@ class Notificato implements LoggerAwareInterface
 	 */
 	public function createCertificate($pemFile, $passphrase = null, $validate = true, $endpointEnv = null)
 	{
-		return new Apns\Certificate($pemFile, $passphrase, $validate, $endpointEnv);
+		return $this->certificateFactory->createCertificate($pemFile, $passphrase, $validate, $endpointEnv);
 	}
 
 	/**
@@ -138,12 +171,9 @@ class Notificato implements LoggerAwareInterface
 	 */
 	public function receiveFeedback(Apns\Certificate $certificate = null)
 	{
-		if (null == $certificate) {
-			$certificate = $this->messageFactory->getDefaultCertificate();
-		}
-
-		$feedback = new Apns\Feedback\Feedback($certificate);
+		$feedback = $this->feedbackFactory->createFeedback($certificate);
 		$feedback->setLogger($this->logger);
+
 		return $feedback->receive();
 	}
 }

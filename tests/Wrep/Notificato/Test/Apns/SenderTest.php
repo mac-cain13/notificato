@@ -34,9 +34,22 @@ class SenderTests extends \PHPUnit_Framework_TestCase
 		return $certificate;
 	}
 
+	private function getCertificateFactory($defaultCertificate)
+	{
+		// Create cert
+		$certificateFactory = $this->getMockBuilder('\Wrep\Notificato\Apns\CertificateFactory')
+							->disableOriginalConstructor()
+							->getMock();
+		$certificateFactory->expects($this->any())
+						->method('getDefaultCertificate')
+						->will($this->returnValue($defaultCertificate));
+
+		return $certificateFactory;
+	}
+
 	public function testSend()
 	{
-		$messageFactory = new MessageFactory( $this->getCertificate('a') );
+		$messageFactory = new MessageFactory( $this->getCertificateFactory($this->getCertificate('a')) );
 		$message = $messageFactory->createMessage('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff');
 
 		$this->assertEquals(0, $this->sender->getQueueLength());
@@ -54,7 +67,7 @@ class SenderTests extends \PHPUnit_Framework_TestCase
 		$certificateC = $this->getCertificate('c');
 
 		// Create messages
-		$messageFactory = new MessageFactory($certificateA);
+		$messageFactory = new MessageFactory( $this->getCertificateFactory($certificateA) );
 		$messageA = $messageFactory->createMessage('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff');
 		$messageB = $messageFactory->createMessage('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificateB);
 		$messageC = $messageFactory->createMessage('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificateC);
