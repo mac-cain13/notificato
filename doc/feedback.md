@@ -11,7 +11,7 @@ $notificato = new Notificato('./certificate.pem', 'passphrase-to-use');
 $tuples = $notificato->receiveFeedback();
 
 // The tuples contain information about what device unregistered and when it did unregister.
-//  Don't forget to check if the device reregistered after the "invaidated at" date!
+//  Don't forget to check if the device reregistered after the "invalidated at" date!
 foreach ($tuples as $tuple)
 {
 	echo 'Device ' . $tuple->getDeviceToken() . ' invalidated at ' . $tuple->getInvalidatedAt()->format(\DateTime::ISO8601) . PHP_EOL;
