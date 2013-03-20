@@ -13,6 +13,20 @@ class NotificatoTests extends \PHPUnit_Framework_TestCase
 		$this->notificato = new Notificato();
 	}
 
+	public function testCreateCertificate()
+	{
+		$certificateFactory = $this->getMockBuilder('\Wrep\Notificato\Apns\CertificateFactory')
+									->disableOriginalConstructor()
+									->getMock();
+
+		$certificateFactory->expects($this->once())
+							->method('createCertificate')
+							->with($this->equalTo('cert.pem'), $this->equalTo('passphrase'), $this->equalTo(true), $this->equalTo(null));
+
+		$this->notificato->setCertificateFactory($certificateFactory);
+		$this->notificato->createCertificate('cert.pem', 'passphrase');
+	}
+
 	public function testCreateMessage()
 	{
 		$certificate = $this->getMockBuilder('\Wrep\Notificato\Apns\Certificate')
@@ -83,5 +97,33 @@ class NotificatoTests extends \PHPUnit_Framework_TestCase
 
 		$this->notificato->setSender($sender);
 		$this->notificato->send($message);
+	}
+
+	public function testReceiveFeedback()
+	{
+		$certificate = $this->getMockBuilder('\Wrep\Notificato\Apns\Certificate')
+								->disableOriginalConstructor()
+								->getMock();
+
+		$feedback = $this->getMockBuilder('\Wrep\Notificato\Apns\Feedback\Feedback')
+								->disableOriginalConstructor()
+								->getMock();
+
+		$feedback->expects($this->once())
+					->method('receive')
+					->with()
+					->will($this->returnValue('returnValue'));
+
+		$feedbackFactory = $this->getMockBuilder('\Wrep\Notificato\Apns\Feedback\FeedbackFactory')
+								->disableOriginalConstructor()
+								->getMock();
+
+		$feedbackFactory->expects($this->once())
+						->method('createFeedback')
+						->with($this->equalTo($certificate))
+						->will($this->returnValue($feedback));
+
+		$this->notificato->setFeedbackFactory($feedbackFactory);
+		$this->assertEquals('returnValue', $this->notificato->receiveFeedback($certificate));
 	}
 }

@@ -36,74 +36,6 @@ class Notificato implements LoggerAwareInterface
 	}
 
 	/**
-	 * Sets the sender to use
-	 *
-	 * @param Apns\Sender $sender
-	 */
-	public function setSender(Apns\Sender $sender)
-	{
-		$this->sender = $sender;
-		$this->sender->setLogger($this->logger);
-	}
-
-	/**
-	 * Sets a logger instance on the object
-	 *
-	 * @param Psr\Log\LoggerInterface $logger
-	 */
-	public function setLogger(LoggerInterface $logger)
-	{
-		$this->logger = $logger;
-
-		// Also update the logger of the sender
-		if ($this->sender instanceOf LoggerAwareInterface) {
-			$this->sender->setLogger($logger);
-		}
-	}
-
-	/**
-	 * Sets the certificate factory to use
-	 *
-	 * @param Apns\CertificateFactory $messageFactory
-	 */
-	public function setCertificateFactory(Apns\CertificateFactory $certificateFactory)
-	{
-		$this->certificateFactory = $certificateFactory;
-
-		// Also update the certificate factory of the feedback factory
-		if (null !== $this->feedbackFactory) {
-			$this->feedbackFactory->setCertificateFactory($this->certificateFactory);
-		}
-
-		// Also update the certificate factory of the message factory
-		if (null !== $this->messageFactory) {
-			$this->messageFactory->setCertificateFactory($this->certificateFactory);
-		}
-	}
-
-	/**
-	 * Sets the feedback factory to use
-	 *
-	 * @param Apns\FeedbackFactory $feedbackFactory
-	 */
-	public function setFeedbackFactory(Apns\Feedback\FeedbackFactory $feedbackFactory)
-	{
-		$this->feedbackFactory = $feedbackFactory;
-		$this->feedbackFactory->setCertificateFactory($this->certificateFactory);
-	}
-
-	/**
-	 * Sets the message factory to use
-	 *
-	 * @param Apns\MessageFactory $messageFactory
-	 */
-	public function setMessageFactory(Apns\MessageFactory $messageFactory)
-	{
-		$this->messageFactory = $messageFactory;
-		$this->messageFactory->setCertificateFactory($this->certificateFactory);
-	}
-
-	/**
 	 * Create an APNS Certificate
 	 *
 	 * @param string Path to the PEM certificate file
@@ -175,5 +107,73 @@ class Notificato implements LoggerAwareInterface
 		$feedback->setLogger($this->logger);
 
 		return $feedback->receive();
+	}
+
+	/**
+	 * Sets the sender to use
+	 *
+	 * @param Apns\Sender $sender
+	 */
+	public function setSender(Apns\Sender $sender)
+	{
+		$this->sender = $sender;
+		$this->sender->setLogger($this->logger);
+	}
+
+	/**
+	 * Sets a logger instance on the object
+	 *
+	 * @param Psr\Log\LoggerInterface $logger
+	 */
+	public function setLogger(LoggerInterface $logger)
+	{
+		$this->logger = $logger;
+
+		// Also update the logger of the sender
+		if ($this->sender instanceOf LoggerAwareInterface) {
+			$this->sender->setLogger($logger);
+		}
+	}
+
+	/**
+	 * Sets the certificate factory to use
+	 *
+	 * @param Apns\CertificateFactory $messageFactory
+	 */
+	public function setCertificateFactory(Apns\CertificateFactory $certificateFactory)
+	{
+		$this->certificateFactory = $certificateFactory;
+
+		// Also update the certificate factory of the feedback factory
+		if (null !== $this->feedbackFactory) {
+			$this->feedbackFactory->setCertificateFactory($this->certificateFactory);
+		}
+
+		// Also update the certificate factory of the message factory
+		if (null !== $this->messageFactory) {
+			$this->messageFactory->setCertificateFactory($this->certificateFactory);
+		}
+	}
+
+	/**
+	 * Sets the feedback factory to use
+	 *
+	 * @param Apns\FeedbackFactory $feedbackFactory
+	 */
+	public function setFeedbackFactory(Apns\Feedback\FeedbackFactory $feedbackFactory)
+	{
+		$this->feedbackFactory = $feedbackFactory;
+		$this->feedbackFactory->setCertificateFactory($this->certificateFactory);
+	}
+
+	/**
+	 * Sets the message factory to use
+	 *
+	 * @param Apns\MessageFactory $messageFactory
+	 */
+	public function setMessageFactory(Apns\MessageFactory $messageFactory)
+	{
+		$this->messageFactory = $messageFactory;
+		$this->messageFactory->setCertificateFactory($this->certificateFactory);
 	}
 }
