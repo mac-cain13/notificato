@@ -1,14 +1,13 @@
 # Notificato [![Build Status of Master](https://travis-ci.org/wrep/notificato.png?branch=master)](https://travis-ci.org/wrep/notificato)
 **Notificato takes care of push notifications in your PHP projects.**
 
-> *Italian:* **notificato** è: participio passato
->  *English:* **notified**
+> *Italian:* **notificato** è: participio passato *English:* **notified**
 
 ## Why use Notificato instead of X?
 Notificato has some advantages not all other PHP push libraries have:
 
 1. Supports multiple APNS certificates, so you can push to multiple Apps/Passbook Passes
-2. Takes excellent care of PHPs buggy SSL-sockets, handles all quirks and error responses correctly
+2. Takes excellent care of PHPs buggy SSL-sockets, handles quirks and error responses correctly
 3. Well tested with unit tests and nice Object-Oriented structure
 
 ## Installation
@@ -18,9 +17,6 @@ Installation with [Composer](http://getcomposer.org) is recommended. Run the req
 
 *Alternatives:*
 There is also a [Notificato for Symfony2 bundle](https://github.com/wrep/notificato-symfony) available, highly recommended for Symfony2 users.
-
-## State of the project
-We're quite stable and using this library in some of our own projects, but we're still changing the API without considering backward compatibility. We hope to release 1.0.0 quite soon, but until then, consider this beta (or maybe even alpha) software. You've been warned! :)
 
 ## Getting started
 1. Take a look at the snippet below for a impression how Notificato works
