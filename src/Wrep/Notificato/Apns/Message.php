@@ -2,6 +2,10 @@
 
 namespace Wrep\Notificato\Apns;
 
+/**
+ * An APNS Message representation.
+ * Note: All strings given to this class must be in UTF-8 to create a valid message
+ */
 class Message
 {
 	// Attributes that go into the binary APNS comminucation
@@ -340,6 +344,11 @@ class Message
 		}
 
 		// Encode as JSON object
-		return json_encode($message, JSON_FORCE_OBJECT);
+		$json = json_encode($message, JSON_FORCE_OBJECT);
+		if (false == $json) {
+			throw new \RuntimeException('Failed to convert APNS\Message to JSON, are all strings UTF-8?', json_last_error());
+		}
+
+		return $json;
 	}
 }
