@@ -14,7 +14,7 @@ $tuples = $notificato->receiveFeedback();
 //  Don't forget to check if the device reregistered after the "invaidated at" date!
 foreach ($tuples as $tuple)
 {
-    echo 'Device ' . $tuple->getDeviceToken() . ' invalidated at ' . $tuple->getInvalidatedAt()->format(\DateTime::ISO8601) . PHP_EOL;
+	echo 'Device ' . $tuple->getDeviceToken() . ' invalidated at ' . $tuple->getInvalidatedAt()->format(\DateTime::ISO8601) . PHP_EOL;
 }
 ```
 

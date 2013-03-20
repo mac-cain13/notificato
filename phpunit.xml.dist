@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <phpunit backupGlobals="false"
-         backupStaticAttributes="false"
-         colors="true"
-         convertErrorsToExceptions="true"
-         convertNoticesToExceptions="true"
-         convertWarningsToExceptions="true"
-         processIsolation="false"
-         stopOnFailure="false"
-         bootstrap="./tests/bootstrap.php"
+		 backupStaticAttributes="false"
+		 colors="true"
+		 convertErrorsToExceptions="true"
+		 convertNoticesToExceptions="true"
+		 convertWarningsToExceptions="true"
+		 processIsolation="false"
+		 stopOnFailure="false"
+		 bootstrap="./tests/bootstrap.php"
 >
-    <php>
-        <ini name="memory_limit" value="-1"/>
-    </php>
+	<php>
+		<ini name="memory_limit" value="-1"/>
+	</php>
 
-    <testsuites>
-        <testsuite name="Notificato">
-            <directory>./tests/</directory>
-        </testsuite>
-    </testsuites>
+	<testsuites>
+		<testsuite name="Notificato">
+			<directory>./tests/</directory>
+		</testsuite>
+	</testsuites>
 
-    <groups>
-        <exclude>
-            <group>slow</group>
-            <group>realpush</group>
-        </exclude>
-    </groups>
+	<groups>
+		<exclude>
+			<group>slow</group>
+			<group>realpush</group>
+		</exclude>
+	</groups>
 
-    <filter>
-        <blacklist>
-            <directory>./vendor</directory>
-            <directory>./tests</directory>
-        </blacklist>
-    </filter>
+	<filter>
+		<blacklist>
+			<directory>./vendor</directory>
+			<directory>./tests</directory>
+		</blacklist>
+	</filter>
 </phpunit>

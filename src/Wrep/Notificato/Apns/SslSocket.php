@@ -41,10 +41,10 @@ abstract class SslSocket implements LoggerAwareInterface
 	}
 
 	/**
-     * Sets a logger instance on the object
-     *
-     * @param LoggerInterface $logger
-     */
+	 * Sets a logger instance on the object
+	 *
+	 * @param LoggerInterface $logger
+	 */
 	public function setLogger(LoggerInterface $logger)
 	{
 		$this->logger = $logger;

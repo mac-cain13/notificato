@@ -39,45 +39,45 @@ class GettingStarted
 	/**
 	 * This example sends one pushnotification with an alert to Apples production push servers
 	 */
-    public function sendOnePushNotification()
-    {
-        // First we get a Notificato instance and tell it what certificate to use as default certificate
-        $notificato = new Notificato('./certificate.pem', 'passphrase-to-use');
+	public function sendOnePushNotification()
+	{
+		// First we get a Notificato instance and tell it what certificate to use as default certificate
+		$notificato = new Notificato('./certificate.pem', 'passphrase-to-use');
 
-        // Now we get a fresh message from Notificato
-        //  This message will be send to device with pushtoken 'fffff...'
-        //  it will automaticly be associated with the default certificate
-        $message = $notificato->createMessage('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff');
+		// Now we get a fresh message from Notificato
+		//  This message will be send to device with pushtoken 'fffff...'
+		//  it will automaticly be associated with the default certificate
+		$message = $notificato->createMessage('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff');
 
-        // Let's set App icon badge with this push to 1
-        $message->setBadge(1);
+		// Let's set App icon badge with this push to 1
+		$message->setBadge(1);
 
-        // The message is ready, let's send it!
-        //  Be aware that this method is blocking and on failure Notificato will retry a few times
-        $messageEnvelope = $notificato->send($message);
+		// The message is ready, let's send it!
+		//  Be aware that this method is blocking and on failure Notificato will retry a few times
+		$messageEnvelope = $notificato->send($message);
 
-        // The returned envelope contains usefull information about how many retries where needed and if sending succeeded
-        echo $messageEnvelope->getFinalStatusDescription();
-    }
+		// The returned envelope contains usefull information about how many retries where needed and if sending succeeded
+		echo $messageEnvelope->getFinalStatusDescription();
+	}
 
-    /**
-     * This example reads all unregistered devices from Apples feedback service
-     */
-    public function readFeedbackService()
-    {
-        // First we get the a Notificato instance and tell it what certificate to use as default certificate
-        $notificato = new Notificato('./certificate.pem', 'passphrase-to-use');
+	/**
+	 * This example reads all unregistered devices from Apples feedback service
+	 */
+	public function readFeedbackService()
+	{
+		// First we get the a Notificato instance and tell it what certificate to use as default certificate
+		$notificato = new Notificato('./certificate.pem', 'passphrase-to-use');
 
-        // Now read all "tuples" from the feedback service, be aware that this method is blocking
-        $tuples = $notificato->receiveFeedback();
+		// Now read all "tuples" from the feedback service, be aware that this method is blocking
+		$tuples = $notificato->receiveFeedback();
 
-        // The tuples contain information about what device unregistered and when it did unregister.
-        //  Don't forget to check if the device reregistered after the "invaidated at" date!
-        foreach ($tuples as $tuple)
-        {
-            echo 'Device ' . $tuple->getDeviceToken() . ' invalidated at ' . $tuple->getInvalidatedAt()->format(\DateTime::ISO8601) . PHP_EOL;
-        }
-    }
+		// The tuples contain information about what device unregistered and when it did unregister.
+		//  Don't forget to check if the device reregistered after the "invaidated at" date!
+		foreach ($tuples as $tuple)
+		{
+			echo 'Device ' . $tuple->getDeviceToken() . ' invalidated at ' . $tuple->getInvalidatedAt()->format(\DateTime::ISO8601) . PHP_EOL;
+		}
+	}
 }
 
 $gettingStarted = new GettingStarted();

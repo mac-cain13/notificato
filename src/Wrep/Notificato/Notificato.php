@@ -36,10 +36,10 @@ class Notificato implements LoggerAwareInterface
 	}
 
 	/**
-     * Sets the sender to use
-     *
-     * @param Apns\Sender $sender
-     */
+	 * Sets the sender to use
+	 *
+	 * @param Apns\Sender $sender
+	 */
 	public function setSender(Apns\Sender $sender)
 	{
 		$this->sender = $sender;
@@ -47,10 +47,10 @@ class Notificato implements LoggerAwareInterface
 	}
 
 	/**
-     * Sets a logger instance on the object
-     *
-     * @param Psr\Log\LoggerInterface $logger
-     */
+	 * Sets a logger instance on the object
+	 *
+	 * @param Psr\Log\LoggerInterface $logger
+	 */
 	public function setLogger(LoggerInterface $logger)
 	{
 		$this->logger = $logger;
@@ -62,10 +62,10 @@ class Notificato implements LoggerAwareInterface
 	}
 
 	/**
-     * Sets the certificate factory to use
-     *
-     * @param Apns\CertificateFactory $messageFactory
-     */
+	 * Sets the certificate factory to use
+	 *
+	 * @param Apns\CertificateFactory $messageFactory
+	 */
 	public function setCertificateFactory(Apns\CertificateFactory $certificateFactory)
 	{
 		$this->certificateFactory = $certificateFactory;
@@ -82,10 +82,10 @@ class Notificato implements LoggerAwareInterface
 	}
 
 	/**
-     * Sets the feedback factory to use
-     *
-     * @param Apns\FeedbackFactory $feedbackFactory
-     */
+	 * Sets the feedback factory to use
+	 *
+	 * @param Apns\FeedbackFactory $feedbackFactory
+	 */
 	public function setFeedbackFactory(Apns\Feedback\FeedbackFactory $feedbackFactory)
 	{
 		$this->feedbackFactory = $feedbackFactory;
@@ -93,10 +93,10 @@ class Notificato implements LoggerAwareInterface
 	}
 
 	/**
-     * Sets the message factory to use
-     *
-     * @param Apns\MessageFactory $messageFactory
-     */
+	 * Sets the message factory to use
+	 *
+	 * @param Apns\MessageFactory $messageFactory
+	 */
 	public function setMessageFactory(Apns\MessageFactory $messageFactory)
 	{
 		$this->messageFactory = $messageFactory;
