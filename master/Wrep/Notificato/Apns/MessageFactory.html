@@ -35,7 +35,7 @@
                     
                 </td>
                 <td class="last">
-                    <a href="#method___construct">__construct</a>(<a href="../../../Wrep/Notificato/Apns/Certificate.html"><abbr title="Wrep\Notificato\Apns\Certificate">Certificate</abbr></a> $certificate = null)
+                    <a href="#method___construct">__construct</a>(<a href="../../../Wrep/Notificato/Apns/CertificateFactory.html"><abbr title="Wrep\Notificato\Apns\CertificateFactory">CertificateFactory</abbr></a> $certificateFactory = null)
                     <p>Create the MessageFactory</p>
                 </td>
                 <td></td>
@@ -45,18 +45,18 @@
                     
                 </td>
                 <td class="last">
-                    <a href="#method_setDefaultCertificate">setDefaultCertificate</a>(<a href="../../../Wrep/Notificato/Apns/Certificate.html"><abbr title="Wrep\Notificato\Apns\Certificate">Certificate</abbr></a> $defaultCertificate = null)
-                    <p>Set a default certificate for new messages</p>
+                    <a href="#method_setCertificateFactory">setCertificateFactory</a>(<a href="../../../Wrep/Notificato/Apns/CertificateFactory.html"><abbr title="Wrep\Notificato\Apns\CertificateFactory">CertificateFactory</abbr></a> $certificateFactory = null)
+                    <p>Set a certificate factory to fetch the default certificate from</p>
                 </td>
                 <td></td>
             </tr>
                     <tr>
                 <td class="type">
-                    <a href="../../../Wrep/Notificato/Apns/Certificate.html"><abbr title="Wrep\Notificato\Apns\Certificate">Certificate</abbr></a>|null
+                    <a href="../../../Wrep/Notificato/Apns/CertificateFactory.html"><abbr title="Wrep\Notificato\Apns\CertificateFactory">CertificateFactory</abbr></a>|null
                 </td>
                 <td class="last">
-                    <a href="#method_getDefaultCertificate">getDefaultCertificate</a>()
-                    <p>Get the current default certificate</p>
+                    <a href="#method_getCertificateFactory">getCertificateFactory</a>()
+                    <p>Get the current certificate factory</p>
                 </td>
                 <td></td>
             </tr>
@@ -78,7 +78,7 @@
                         <h3 id="method___construct">
         <div class="location">at line 14</div>
         <code>            public            
-    <strong>__construct</strong>(<a href="../../../Wrep/Notificato/Apns/Certificate.html"><abbr title="Wrep\Notificato\Apns\Certificate">Certificate</abbr></a> $certificate = null)</code>
+    <strong>__construct</strong>(<a href="../../../Wrep/Notificato/Apns/CertificateFactory.html"><abbr title="Wrep\Notificato\Apns\CertificateFactory">CertificateFactory</abbr></a> $certificateFactory = null)</code>
     </h3>
     <div class="details">
         <p>Create the MessageFactory</p>
@@ -88,9 +88,9 @@
 
                     <table>
                     <tr>
-                <td><a href="../../../Wrep/Notificato/Apns/Certificate.html"><abbr title="Wrep\Notificato\Apns\Certificate">Certificate</abbr></a></td>
-                <td>$certificate</td>
-                <td>The certificate to use when no other certificate is given on message creation</td>
+                <td><a href="../../../Wrep/Notificato/Apns/CertificateFactory.html"><abbr title="Wrep\Notificato\Apns\CertificateFactory">CertificateFactory</abbr></a></td>
+                <td>$certificateFactory</td>
+                <td>The certificate factory to use when no specific certificate is given on message creation</td>
             </tr>
             </table>
 
@@ -100,22 +100,22 @@
                     </div>
     </div>
 
-                <h3 id="method_setDefaultCertificate">
+                <h3 id="method_setCertificateFactory">
         <div class="location">at line 24</div>
         <code>            public            
-    <strong>setDefaultCertificate</strong>(<a href="../../../Wrep/Notificato/Apns/Certificate.html"><abbr title="Wrep\Notificato\Apns\Certificate">Certificate</abbr></a> $defaultCertificate = null)</code>
+    <strong>setCertificateFactory</strong>(<a href="../../../Wrep/Notificato/Apns/CertificateFactory.html"><abbr title="Wrep\Notificato\Apns\CertificateFactory">CertificateFactory</abbr></a> $certificateFactory = null)</code>
     </h3>
     <div class="details">
-        <p>Set a default certificate for new messages</p>
+        <p>Set a certificate factory to fetch the default certificate from</p>
         <p></p>
         <div class="tags">
                             <h4>Parameters</h4>
 
                     <table>
                     <tr>
-                <td><a href="../../../Wrep/Notificato/Apns/Certificate.html"><abbr title="Wrep\Notificato\Apns\Certificate">Certificate</abbr></a></td>
-                <td>$defaultCertificate</td>
-                <td>The certificate to use when no other certificate is given on message creation</td>
+                <td><a href="../../../Wrep/Notificato/Apns/CertificateFactory.html"><abbr title="Wrep\Notificato\Apns\CertificateFactory">CertificateFactory</abbr></a></td>
+                <td>$certificateFactory</td>
+                <td>The certificate factory to use when no specific certificate is given on message creation</td>
             </tr>
             </table>
 
@@ -125,13 +125,13 @@
                     </div>
     </div>
 
-                <h3 id="method_getDefaultCertificate">
+                <h3 id="method_getCertificateFactory">
         <div class="location">at line 34</div>
-        <code>            public            <a href="../../../Wrep/Notificato/Apns/Certificate.html"><abbr title="Wrep\Notificato\Apns\Certificate">Certificate</abbr></a>|null
-    <strong>getDefaultCertificate</strong>()</code>
+        <code>            public            <a href="../../../Wrep/Notificato/Apns/CertificateFactory.html"><abbr title="Wrep\Notificato\Apns\CertificateFactory">CertificateFactory</abbr></a>|null
+    <strong>getCertificateFactory</strong>()</code>
     </h3>
     <div class="details">
-        <p>Get the current default certificate</p>
+        <p>Get the current certificate factory</p>
         <p></p>
         <div class="tags">
             
@@ -139,7 +139,7 @@
 
                     <table>
         <tr>
-            <td><a href="../../../Wrep/Notificato/Apns/Certificate.html"><abbr title="Wrep\Notificato\Apns\Certificate">Certificate</abbr></a>|null</td>
+            <td><a href="../../../Wrep/Notificato/Apns/CertificateFactory.html"><abbr title="Wrep\Notificato\Apns\CertificateFactory">CertificateFactory</abbr></a>|null</td>
             <td></td>
         </tr>
     </table>

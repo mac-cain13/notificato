@@ -24,6 +24,10 @@
         <div class="content">
                 <p>class    <strong>Message</strong></p>
 
+            <div class="description">
+            <p>An APNS Message representation.</p>
+            <p>Note: All strings given to this class must be in UTF-8 to create a valid message</p>
+        </div>
     
     
     
@@ -226,7 +230,7 @@
         <h2>Details</h2>
 
                         <h3 id="method___construct">
-        <div class="location">at line 25</div>
+        <div class="location">at line 29</div>
         <code>            public            
     <strong>__construct</strong>(string $deviceToken, <a href="../../../Wrep/Notificato/Apns/Certificate.html"><abbr title="Wrep\Notificato\Apns\Certificate">Certificate</abbr></a> $certificate)</code>
     </h3>
@@ -256,7 +260,7 @@
     </div>
 
                 <h3 id="method_getDeviceToken">
-        <div class="location">at line 60</div>
+        <div class="location">at line 64</div>
         <code>            public            string
     <strong>getDeviceToken</strong>()</code>
     </h3>
@@ -280,7 +284,7 @@
     </div>
 
                 <h3 id="method_getCertificate">
-        <div class="location">at line 70</div>
+        <div class="location">at line 74</div>
         <code>            public            <a href="../../../Wrep/Notificato/Apns/Certificate.html"><abbr title="Wrep\Notificato\Apns\Certificate">Certificate</abbr></a>
     <strong>getCertificate</strong>()</code>
     </h3>
@@ -304,7 +308,7 @@
     </div>
 
                 <h3 id="method_getExpiresAt">
-        <div class="location">at line 80</div>
+        <div class="location">at line 84</div>
         <code>            public            int
     <strong>getExpiresAt</strong>()</code>
     </h3>
@@ -328,7 +332,7 @@
     </div>
 
                 <h3 id="method_setExpiresAt">
-        <div class="location">at line 91</div>
+        <div class="location">at line 95</div>
         <code>            public            
     <strong>setExpiresAt</strong>(<abbr title="Wrep\Notificato\Apns\DateTime">DateTime</abbr> $expiresAt = null)</code>
     </h3>
@@ -353,7 +357,7 @@
     </div>
 
                 <h3 id="method_setAlert">
-        <div class="location">at line 104</div>
+        <div class="location">at line 108</div>
         <code>            public            
     <strong>setAlert</strong>(string|null $body, string|null $actionLocKey = null, string|null $launchImage = null)</code>
     </h3>
@@ -388,7 +392,7 @@
     </div>
 
                 <h3 id="method_setAlertLocalized">
-        <div class="location">at line 141</div>
+        <div class="location">at line 145</div>
         <code>            public            
     <strong>setAlertLocalized</strong>(string $locKey, array $locArgs = array(), string|null $actionLocKey = null, string|null $launchImage = null)</code>
     </h3>
@@ -428,7 +432,7 @@
     </div>
 
                 <h3 id="method_getAlert">
-        <div class="location">at line 170</div>
+        <div class="location">at line 174</div>
         <code>            public            string|array
     <strong>getAlert</strong>()</code>
     </h3>
@@ -452,7 +456,7 @@
     </div>
 
                 <h3 id="method_setBadge">
-        <div class="location">at line 180</div>
+        <div class="location">at line 184</div>
         <code>            public            
     <strong>setBadge</strong>(int|null $badge)</code>
     </h3>
@@ -477,7 +481,7 @@
     </div>
 
                 <h3 id="method_clearBadge">
-        <div class="location">at line 194</div>
+        <div class="location">at line 198</div>
         <code>            public            
     <strong>clearBadge</strong>()</code>
     </h3>
@@ -492,7 +496,7 @@
     </div>
 
                 <h3 id="method_getBadge">
-        <div class="location">at line 204</div>
+        <div class="location">at line 208</div>
         <code>            public            int|null
     <strong>getBadge</strong>()</code>
     </h3>
@@ -516,7 +520,7 @@
     </div>
 
                 <h3 id="method_setSound">
-        <div class="location">at line 214</div>
+        <div class="location">at line 218</div>
         <code>            public            
     <strong>setSound</strong>(string $sound = &#039;default&#039;)</code>
     </h3>
@@ -541,7 +545,7 @@
     </div>
 
                 <h3 id="method_getSound">
-        <div class="location">at line 224</div>
+        <div class="location">at line 228</div>
         <code>            public            string|null
     <strong>getSound</strong>()</code>
     </h3>
@@ -565,7 +569,7 @@
     </div>
 
                 <h3 id="method_setContentAvailable">
-        <div class="location">at line 234</div>
+        <div class="location">at line 238</div>
         <code>            public            
     <strong>setContentAvailable</strong>(boolean $contentAvailable)</code>
     </h3>
@@ -590,7 +594,7 @@
     </div>
 
                 <h3 id="method_getContentAvailable">
-        <div class="location">at line 244</div>
+        <div class="location">at line 248</div>
         <code>            public            boolean
     <strong>getContentAvailable</strong>()</code>
     </h3>
@@ -614,7 +618,7 @@
     </div>
 
                 <h3 id="method_setPayload">
-        <div class="location">at line 254</div>
+        <div class="location">at line 258</div>
         <code>            public            
     <strong>setPayload</strong>(array|<abbr title="Wrep\Notificato\Apns\json">json</abbr>|null $payload)</code>
     </h3>
@@ -639,7 +643,7 @@
     </div>
 
                 <h3 id="method_getPayload">
-        <div class="location">at line 286</div>
+        <div class="location">at line 290</div>
         <code>            public            array|null
     <strong>getPayload</strong>()</code>
     </h3>
@@ -663,7 +667,7 @@
     </div>
 
                 <h3 id="method_validateLength">
-        <div class="location">at line 296</div>
+        <div class="location">at line 300</div>
         <code>            public            boolean
     <strong>validateLength</strong>()</code>
     </h3>
@@ -687,7 +691,7 @@
     </div>
 
                 <h3 id="method_getJson">
-        <div class="location">at line 306</div>
+        <div class="location">at line 310</div>
         <code>            public            string
     <strong>getJson</strong>()</code>
     </h3>
