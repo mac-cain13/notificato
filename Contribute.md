@@ -16,7 +16,7 @@ This guide will help you get started with contributing to Notificato. You don't 
 This section includes ways to get started with this open source project. Most important is to read the docs and scan the issue tracker before so you're sure your idea/bugreport/patch isn't already in the make/being fixed:
 
 * [Readme.md](Readme.md)
-* [Notificato Documentation](doc/index.md)
+* [Notificato Documentation](doc/Readme.md)
 * [Notificato API Documentation](http://wrep.github.com/notificato/master/)
 * [Issue tracker](https://github.com/wrep/notificato/issues)
 
