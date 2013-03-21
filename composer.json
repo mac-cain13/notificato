@@ -1,9 +1,9 @@
 {
 	"name": "wrep/notificato",
 	"type": "library",
-	"description": "Send push notifications from PHP",
+	"description": "Takes care of push notifications in your PHP projects.",
 	"homepage": "https://github.com/wrep/notificato",
-	"keywords": ["push", "pushnotifications", "apns", "ios"],
+	"keywords": ["push", "notifications", "pushnotifications", "push notifications", "apns", "aps", "ios"],
 	"license": "MIT",
 	"authors": [
 		{
@@ -31,7 +31,7 @@
 		"sami/sami": "dev-master"
 	},
 	"suggest": {
-		"wrep/notificato-symfony": "Integrate notificato into Symfony2"
+		"wrep/notificato-symfony": "Integrate Notificato into Symfony2"
 	},
 	"replace": {
 		"wrep/notificare": "*"
