@@ -8,8 +8,8 @@ This guide will help you get started with contributing to Notificato. You don't 
 
 ## Team members
 
-Mathijs Kadijk / [mac-cain13](https://github.com/mac-cain13) - Lead development
-Rick Pastoor / [rickpastoor](https://github.com/rickpastoor) - Development (also initiator of the [Symfony2 bundle](https://github.com/wrep/notificato-symfony))
+* Mathijs Kadijk / [mac-cain13](https://github.com/mac-cain13) - Lead development
+* Rick Pastoor / [rickpastoor](https://github.com/rickpastoor) - Development (also initiator of the [Symfony2 bundle](https://github.com/wrep/notificato-symfony))
 
 ## Learn & listen
 
@@ -44,21 +44,21 @@ So don’t get discouraged! We estimate that the response time from the maintain
 ** The bug is reproducible? What are the steps to reproduce?
 
 * Tips for a great bugreport:
-** State what you expected
-** Describe what happend instead
-** Give the steps to reproduce the bug
-** Include your PHP version
-** Include the Notificato version your using
-** If you know a workaround/fix please include it
+    * State what you expected
+    * Describe what happend instead
+    * Give the steps to reproduce the bug
+    * Include your PHP version
+    * Include the Notificato version your using
+    * If you know a workaround/fix please include it
 
 # Documentation
 
 Code needs explanation, and sometimes those who know the code well have trouble explaining it to someone just getting into it. If you find something unclear, incorrect or missing from the documentation please file a bugreport!
 
 * You can help us improve the documentation by:
-** Filing a bugreport about your problem
-** Forking the project and submit a pull request with expanded/corrected docs
-** Typo corrections are also welcome
+    * Filing a bugreport about your problem
+    * Forking the project and submit a pull request with expanded/corrected docs
+    * Typo corrections are also welcome
 
 # Community
 If you write a blog about Notificato, use it in your project, recommended it to a friend or feel it completes your life, please feel free to send me a mail at mathijs@wrep.nl. I'll see if I can mention projects/blogs somewhere and it's very motivating to hear something from happy users.
