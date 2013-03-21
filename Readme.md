@@ -81,5 +81,8 @@ $gettingStarted->sendOnePushNotification();
 $gettingStarted->readFeedbackService();
 ```
 
+## Contribute
+We'll love contributions, read [Contribute.md](Contribute.md) for some more info on what you can do and stuff that you should know if you want to help!
+
 ## License & Credits
 Notificato is released under the [MIT License](License) by [Wrep](http://www.wrep.nl/), so feel free to use it in commercial and non-commercial projects.
