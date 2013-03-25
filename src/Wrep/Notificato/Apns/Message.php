@@ -25,8 +25,30 @@ class Message
 	 *
 	 * @param string Receiver of this message
 	 * @param Certificate The certificate that must be used for the APNS connection this message is send over
+	 * @param array|null The alert to display or null to set no alert
+	 * @param int|null The badge number to display
+	 * @param string|null String of the sound to play, null for no sound sound
+	 * @param array|json|null The payload to send as array or JSON string
+	 * @param boolean True when new newsstand content is available, false when not
+	 * @param \DateTime|null Date until the message should be stored for delivery
+	 * @throws \InvalidArgumentException On invalid or missing arguments
 	 */
-	public function __construct($deviceToken, Certificate $certificate)
+	public function __construct($deviceToken, Certificate $certificate, $alert, $badge, $sound, $payload, $contentAvailable, \DateTime $expiresAt = null)
+	{
+		// Set the devicetoken
+		$this->setDeviceToken($deviceToken);
+		$this->certificate = $certificate;
+		$this->expiresAt = (null == $expiresAt) ? 0 : $expiresAt->format('U');
+
+		// Set the defaults
+		$this->setAlert($alert);
+		$this->setBadge($badge);
+		$this->sound = (null == $sound) ? null : (string)$sound;
+		$this->setPayload($payload);
+		$this->contentAvailable = (bool)$contentAvailable;
+	}
+
+	private function setDeviceToken($deviceToken)
 	{
 		// Check if a devicetoken is given
 		if (null == $deviceToken) {
@@ -45,15 +67,79 @@ class Message
 
 		// Set the devicetoken
 		$this->deviceToken = $deviceToken;
-		$this->certificate = $certificate;
-		$this->expiresAt = 0;
+	}
 
-		// Set the defaults
-		$this->alert = null;
-		$this->badge = null;
-		$this->sound = null;
-		$this->payload = null;
-		$this->contentAvailable = false;
+	private function setAlert($alert)
+	{
+		if (null == $alert)
+		{
+			// No alert is okay
+			$this->alert = null;
+		}
+		else if ( is_array($alert) )
+		{
+			if ( isset($alert['body']) || (isset($alert['loc-key']) && isset($alert['loc-args'])) )
+			{
+				// Valid alert, just fine!
+				$this->alert = $alert;
+			}
+			else
+			{
+				// Alert must contain correct keys
+				throw new \InvalidArgumentException('Invalid alert for message. Alert does not contain a body key or the loc-key and loc-args keys.');
+			}
+		}
+		else
+		{
+			// Alert must be null or an array
+			throw new \InvalidArgumentException('Invalid alert for message. Alert was not an array or null value.');
+		}
+	}
+
+	private function setBadge($badge)
+	{
+		// Validate the badge int
+		if ((int)$badge < 0) {
+			throw new \InvalidArgumentException('Badge must be 0 or higher.');
+		}
+
+		// Cast to int or set to null
+		$this->badge = (null === $badge) ? null : (int)$badge;
+	}
+
+	private function setPayload($payload)
+	{
+		if ( (is_string($payload) && empty($payload)) || (is_array($payload) && count($payload) == 0) )
+		{
+			// Empty strings or arrays are not allowed
+			throw new \InvalidArgumentException('Invalid payload for message. Payload was empty, but not null)');
+		}
+		else if (is_array($payload) || null === $payload)
+		{
+			if ( isset($payload['aps']) )
+			{
+				// Reserved key is used
+				throw new \InvalidArgumentException('Invalid payload for message. Custom payload may not contain the reserved "aps" key.');
+			}
+			else
+			{
+				// This is okay, set as payload
+				$this->payload = $payload;
+			}
+		}
+		else
+		{
+			// Try to decode JSON string payload
+			$payload = json_decode($payload, true);
+
+			// Check if decoding the payload worked
+			if (null === $payload) {
+				throw new \InvalidArgumentException('Invalid payload for message. Payload was invalid JSON.');
+			}
+
+			// Set as payload
+			$this->payload = $payload;
+		}
 	}
 
 	/**
@@ -87,86 +173,6 @@ class Message
 	}
 
 	/**
-	 * Set the moment this message should expire or null if APNS should not store the message at all.
-	 *  The last message for a device is stored at APNS for delivery until this moment if the device is offline.
-	 *
-	 * @param \DateTime|null Date until the message should be stored for delivery
-	 */
-	public function setExpiresAt(\DateTime $expiresAt = null)
-	{
-		$this->expiresAt = (null == $expiresAt) ? 0 : $expiresAt->format('U');
-	}
-
-	/**
-	 * Set the alert to display.
-	 *  See also: http://developer.apple.com/library/ios/#documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/ApplePushService/ApplePushService.html#//apple_ref/doc/uid/TP40008194-CH100-SW1
-	 *
-	 * @param string|null The text of the alert to display or null to set no alert
-	 * @param string|null The localization key to use for the action button
-	 * @param string|null The name of the launch image to use
-	 */
-	public function setAlert($body, $actionLocKey = null, $launchImage = null)
-	{
-		// Check if a boday is given
-		if (null == $body && (null !== $actionLocKey || null !== $launchImage)) {
-			throw new \InvalidArgumentException('No alert body given, but action-loc-key and/or launch-image given.');
-		}
-
-		// Check if we must use an JSON object
-		if (null == $actionLocKey && null == $launchImage)
-		{
-			// No, just use a string
-			$this->alert = $body;
-		}
-		else
-		{
-			// Yes, use an object
-			$this->alert = array('body' => $body);
-
-			if ($actionLocKey) {
-				$this->alert['action-loc-key'] = $actionLocKey;
-			}
-
-			if ($launchImage) {
-				$this->alert['launch-image'] = $launchImage;
-			}
-		}
-	}
-
-	/**
-	 * Set the localized alert to display.
-	 *  See also: http://developer.apple.com/library/ios/#documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/ApplePushService/ApplePushService.html#//apple_ref/doc/uid/TP40008194-CH100-SW1
-	 *
-	 * @param string The localization key to use for the text of the alert
-	 * @param array The arguments that fill the gaps in the locKey text
-	 * @param string|null The localization key to use for the action button
-	 * @param string|null The name of the launch image to use
-	 */
-	public function setAlertLocalized($locKey, $locArgs = array(), $actionLocKey = null, $launchImage = null)
-	{
-		// Check if a locKey is given
-		if (null == $locKey) {
-			throw new \InvalidArgumentException('No alert locKey given.');
-		}
-
-		// Check if a locArgs is an array
-		if (!is_array($locArgs)) {
-			throw new \InvalidArgumentException('No alert locArgs given.');
-		}
-
-		// Set the alert
-		$this->alert = array('loc-key' => $locKey,  'loc-args' => $locArgs);
-
-		if ($actionLocKey) {
-			$this->alert['action-loc-key'] = $actionLocKey;
-		}
-
-		if ($launchImage) {
-			$this->alert['launch-image'] = $launchImage;
-		}
-	}
-
-	/**
 	 * Get the current alert
 	 *
 	 * @return string|array
@@ -174,30 +180,6 @@ class Message
 	public function getAlert()
 	{
 		return $this->alert;
-	}
-
-	/**
-	 * Set the badge to display on the App icon
-	 *
-	 * @param int|null
-	 */
-	public function setBadge($badge)
-	{
-		// Validate the badge int
-		if ((int)$badge < 0) {
-			throw new \OutOfBoundsException('Badge must be 0 or higher.');
-		}
-
-		// Cast to int or set to null
-		$this->badge = (null === $badge) ? null : (int)$badge;
-	}
-
-	/**
-	 * Clear the badge from the App icon
-	 */
-	public function clearBadge()
-	{
-		$this->setBadge(0);
 	}
 
 	/**
@@ -211,16 +193,6 @@ class Message
 	}
 
 	/**
-	 * Set the sound that will be played when this message is received
-	 *
-	 * @param string Optional string of the sound to play, no string will play the default sound
-	 */
-	public function setSound($sound = 'default')
-	{
-		$this->sound = $sound;
-	}
-
-	/**
 	 * Get the sound that will be played when this message is received
 	 *
 	 * @return string|null
@@ -231,16 +203,6 @@ class Message
 	}
 
 	/**
-	 * Set newsstand content availability flag that will trigger the newsstand item to download new content
-	 *
-	 * @param boolean True when new content is available, false when not
-	 */
-	public function setContentAvailable($contentAvailable)
-	{
-		$this->contentAvailable = (bool)$contentAvailable;
-	}
-
-	/**
 	 * Get newsstand content availability flag that will trigger the newsstand item to download new content
 	 *
 	 * @return boolean True when new content is available, false when not
@@ -248,38 +210,6 @@ class Message
 	public function getContentAvailable()
 	{
 		return $this->contentAvailable;
-	}
-
-	/**
-	 * Set custom payload to go with the message
-	 *
-	 * @param array|json|null The payload to send as array or JSON string
-	 */
-	public function setPayload($payload)
-	{
-		if ( (is_string($payload) && empty($payload)) || (is_array($payload) && count($payload) == 0) )
-		{
-			// Empty strings or arrays are not allowed
-			throw new \InvalidArgumentException('Invalid payload for message. Payload was empty, but not null)');
-		}
-		else if (is_array($payload) || null === $payload)
-		{
-			// This is okay, set as payload
-			$this->payload = $payload;
-		}
-		else
-		{
-			// Try to decode JSON string payload
-			$payload = json_decode($payload, true);
-
-			// Check if decoding the payload worked
-			if (null === $payload) {
-				throw new \InvalidArgumentException('Invalid payload for message. Payload was invalid JSON.');
-			}
-
-			// Set as payload
-			$this->payload = $payload;
-		}
 	}
 
 	/**
@@ -306,6 +236,7 @@ class Message
 	 * Get the JSON payload that should be send to the APNS
 	 *
 	 * @return string
+	 * @throws \RuntimeException When unable to create JSON, for example because of non-UTF-8 characters
 	 */
 	public function getJson()
 	{
