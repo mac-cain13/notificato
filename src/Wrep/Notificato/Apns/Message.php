@@ -6,7 +6,7 @@ namespace Wrep\Notificato\Apns;
  * An APNS Message representation.
  * Note: All strings given to this class must be in UTF-8 to create a valid message
  */
-class Message
+class Message implements \Serializable
 {
 	// Attributes that go into the binary APNS comminucation
 	private $deviceToken;
@@ -185,7 +185,62 @@ class Message
 		return $json;
 	}
 
-		/**
+	/**
+	 * String representation of object
+	 *
+	 * @return string
+	 */
+	public function serialize()
+	{
+		return serialize(array(	$this->deviceToken,
+								array( $this->certificate->getPemFile(), $this->certificate->getPassphrase(), $this->certificate->isValidated(), $this->certificate->getEnvironment() ),
+								$this->expiresAt,
+								$this->alert,
+								$this->badge,
+								$this->sound,
+								$this->payload,
+								$this->contentAvailable));
+	}
+
+	/**
+	 * Constructs the object from serialized data
+	 *
+	 * @param string Serialized data
+	 */
+	public function unserialize($serialized)
+	{
+		list(	$this->deviceToken,
+				$certificateData,
+				$this->expiresAt,
+				$this->alert,
+				$this->badge,
+				$this->sound,
+				$this->payload,
+				$this->contentAvailable) = unserialize($serialized);
+
+		// Re-create the certificate
+		$this->certificate = new Certificate($certificateData[0], $certificateData[1], $certificateData[2], $certificateData[3]);
+	}
+
+	/**
+	 * Get a string representation of this object
+	 *
+	 * @return string
+	 */
+	public function __toString()
+	{
+		return	'Wrep\Notificato\Apns\Message:' . PHP_EOL .
+				' Device token: ' . $this->getDeviceToken() . PHP_EOL .
+				' Certificate: ' . $this->getCertificate()->getPemFile() . PHP_EOL .
+				' Expires timestamp: ' . $this->getExpiresAt() . PHP_EOL .
+				' Badge: ' . $this->getBadge() . PHP_EOL .
+				' Sound: ' . $this->getSound() . PHP_EOL .
+				' Content avail.: ' . $this->getContentAvailable() . PHP_EOL .
+				' Alert: ' . json_encode($this->getAlert()) . PHP_EOL .
+				' Payload: ' . json_encode($this->getPayload()) . PHP_EOL;
+	}
+
+	/**
 	 * Set the receiver of the message
 	 *
 	 * @param string Receiver of this message
