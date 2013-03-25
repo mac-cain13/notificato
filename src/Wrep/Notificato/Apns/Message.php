@@ -32,6 +32,7 @@ class Message
 	 * @param boolean True when new newsstand content is available, false when not
 	 * @param \DateTime|null Date until the message should be stored for delivery
 	 * @throws \InvalidArgumentException On invalid or missing arguments
+	 * @throws \LengthException On too long message
 	 */
 	public function __construct($deviceToken, Certificate $certificate, $alert, $badge, $sound, $payload, $contentAvailable, \DateTime $expiresAt = null)
 	{
@@ -46,6 +47,11 @@ class Message
 		$this->sound = (null == $sound) ? null : (string)$sound;
 		$this->setPayload($payload);
 		$this->contentAvailable = (bool)$contentAvailable;
+
+		// Validate the length of the message
+		if (strlen($this->getJson()) > 256) {
+			throw new \LengthException('Length of the message exceeds the maximum of 256 characters.');
+		}
 	}
 
 	private function setDeviceToken($deviceToken)
@@ -75,6 +81,11 @@ class Message
 		{
 			// No alert is okay
 			$this->alert = null;
+		}
+		else if ( is_string($alert) )
+		{
+			// String only alert is okay
+			$this->alert = $alert;
 		}
 		else if ( is_array($alert) )
 		{
@@ -220,16 +231,6 @@ class Message
 	public function getPayload()
 	{
 		return $this->payload;
-	}
-
-	/**
-	 * Checks if the length of the message is acceptable for the APNS
-	 *
-	 * @return boolean True when the length is okay, false when you should shorten the payload
-	 */
-	public function validateLength()
-	{
-		return (strlen($this->getJson()) <= 256);
 	}
 
 	/**
