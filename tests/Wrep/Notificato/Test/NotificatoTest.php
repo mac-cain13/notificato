@@ -13,6 +13,18 @@ class NotificatoTests extends \PHPUnit_Framework_TestCase
 		$this->notificato = new Notificato();
 	}
 
+	public function testDefaultCertificate()
+	{
+		// TODO: We should be able to retrieve the CertificateFactory and test the default certificate on that instance
+		//       this is quite a hack to test the default cert
+		$this->notificato = new Notificato(__DIR__ . '/resources/certificate_corrupt.pem', 'pem-passphrase', false, 'sandbox');
+		$message = $this->notificato->createMessage('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff');
+
+		$this->assertEquals(__DIR__ . '/resources/certificate_corrupt.pem', $message->getCertificate()->getPemFile());
+		$this->assertEquals('pem-passphrase', $message->getCertificate()->getPassphrase());
+		$this->assertEquals('sandbox', $message->getCertificate()->getEnvironment());
+	}
+
 	public function testCreateCertificate()
 	{
 		$certificateFactory = $this->getMockBuilder('\Wrep\Notificato\Apns\CertificateFactory')

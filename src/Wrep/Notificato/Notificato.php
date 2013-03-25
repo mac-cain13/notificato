@@ -30,7 +30,7 @@ class Notificato implements LoggerAwareInterface
 		$this->setLogger( new NullLogger() );
 		$this->setSender( new Apns\Sender() );
 
-		$this->setCertificateFactory( new Apns\CertificateFactory($pemFile = null, $passphrase = null, $validate = true, $endpointEnv = null) );
+		$this->setCertificateFactory( new Apns\CertificateFactory($pemFile, $passphrase, $validate, $endpointEnv) );
 		$this->setFeedbackFactory( new Apns\Feedback\FeedbackFactory($this->certificateFactory) );
 		$this->setMessageFactory( new Apns\MessageFactory($this->certificateFactory) );
 	}
@@ -110,7 +110,8 @@ class Notificato implements LoggerAwareInterface
 	}
 
 	/**
-	 * Sets the sender to use
+	 * Sets the sender to use.
+	 * Note: The given sender will get the logger used by this Notificato object
 	 *
 	 * @param Apns\Sender $sender
 	 */
@@ -121,7 +122,8 @@ class Notificato implements LoggerAwareInterface
 	}
 
 	/**
-	 * Sets a logger instance on the object
+	 * Sets a logger instance on the object.
+	 * Note: The sender is automaticly updated with this logger
 	 *
 	 * @param Psr\Log\LoggerInterface $logger
 	 */
@@ -136,7 +138,9 @@ class Notificato implements LoggerAwareInterface
 	}
 
 	/**
-	 * Sets the certificate factory to use
+	 * Sets the certificate factory to use.
+	 * Note: If you set a certificate factory you are responsible for setting the correct default certificate.
+	 * Note: The FeedbackFactory and MessageFactory are automaticly updated with the given CertificateFactory.
 	 *
 	 * @param Apns\CertificateFactory $messageFactory
 	 */
@@ -156,7 +160,8 @@ class Notificato implements LoggerAwareInterface
 	}
 
 	/**
-	 * Sets the feedback factory to use
+	 * Sets the feedback factory to use.
+	 * Note: The certificate factory is automaticly set to the factory used by this Notificato object
 	 *
 	 * @param Apns\FeedbackFactory $feedbackFactory
 	 */
@@ -167,7 +172,8 @@ class Notificato implements LoggerAwareInterface
 	}
 
 	/**
-	 * Sets the message factory to use
+	 * Sets the message factory to use.
+	 * Note: The certificate factory is automaticly set to the factory used by this Notificato object
 	 *
 	 * @param Apns\MessageFactory $messageFactory
 	 */
