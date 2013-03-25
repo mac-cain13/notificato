@@ -57,11 +57,6 @@ class MessageBuilder
 	 */
 	public function setAlert($body, $actionLocKey = null, $launchImage = null)
 	{
-		// Check if a boday is given
-		if (null == $body && (null !== $actionLocKey || null !== $launchImage)) {
-			throw new \InvalidArgumentException('No alert body given, but action-loc-key and/or launch-image given.');
-		}
-
 		// Check if we must use an JSON object
 		if (null == $actionLocKey && null == $launchImage)
 		{
@@ -94,16 +89,6 @@ class MessageBuilder
 	 */
 	public function setAlertLocalized($locKey, $locArgs = array(), $actionLocKey = null, $launchImage = null)
 	{
-		// Check if a locKey is given
-		if (null == $locKey) {
-			throw new \InvalidArgumentException('No alert locKey given.');
-		}
-
-		// Check if a locArgs is an array
-		if (!is_array($locArgs)) {
-			throw new \InvalidArgumentException('No alert locArgs given.');
-		}
-
 		// Set the alert
 		$this->alert = array('loc-key' => $locKey,  'loc-args' => $locArgs);
 
@@ -169,6 +154,7 @@ class MessageBuilder
 	 *
 	 * @return Message
 	 * @throws \InvalidArgumentException On invalid or missing arguments
+	 * @throws \LengthException On too long message
 	 */
 	public function build()
 	{
