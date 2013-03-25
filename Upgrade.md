@@ -1,4 +1,5 @@
 # Upgrade guide
+This document gives an overview of what's changed between versions. Backwards incompatible changes are described as wel as the most important new features.
 
 ## From 1.0 to 1.1
 
