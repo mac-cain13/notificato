@@ -7,10 +7,10 @@ This document gives an overview of what's changed between versions. Backwards in
 
 **Backwards incompatible changes:**
 
-* The `Message`-object is now read-only, the setters are removed
-* The `Message::validateLength` method is gone, as the constructor now validates the length on creation
+* The `Message`-object is now read-only, all setters are removed
 * The `MessageBuilder` class is introduced to create `Message`-objects
 * The `MessageFactory` class is removed in favour of the `MessageBuilder`-class
+* The `Message::validateLength` method is gone, as the constructor now validates the length on creation
 
 *New features:*
 

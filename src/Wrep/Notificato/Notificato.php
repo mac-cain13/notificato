@@ -15,7 +15,6 @@ class Notificato implements LoggerAwareInterface
 
 	private $certificateFactory;
 	private $feedbackFactory;
-	private $messageFactory;
 
 	/**
 	 * Notificato constructor
@@ -32,7 +31,6 @@ class Notificato implements LoggerAwareInterface
 
 		$this->setCertificateFactory( new Apns\CertificateFactory($pemFile, $passphrase, $validate, $endpointEnv) );
 		$this->setFeedbackFactory( new Apns\Feedback\FeedbackFactory($this->certificateFactory) );
-		$this->setMessageFactory( new Apns\MessageFactory($this->certificateFactory) );
 	}
 
 	/**
@@ -50,15 +48,13 @@ class Notificato implements LoggerAwareInterface
 	}
 
 	/**
-	 * Create a Message
+	 * Create a Message builder
 	 *
-	 * @param string Receiver of this message
-	 * @param Apns\Certificate|null The certificate that must be used for the APNS connection this message is send over, null to use the default certificate
-	 * @return Apns\Message
+	 * @return Apns\MessageBuilder
 	 */
-	public function createMessage($deviceToken, Apns\Certificate $certificate = null)
+	public function messageBuilder()
 	{
-		return $this->messageFactory->createMessage($deviceToken, $certificate);
+		return Message::builder()->setCertificate( $this->certificateFactory->getDefaultCertificate() );
 	}
 
 	/**

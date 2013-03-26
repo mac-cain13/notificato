@@ -20,20 +20,26 @@ class MessageBuilder
 	 * Set the receiver of the message
 	 *
 	 * @param string Receiver of this message
+	 * @return MessageBuilder
 	 */
 	public function setDeviceToken($deviceToken)
 	{
 		$this->deviceToken = $deviceToken;
+
+		return $this;
 	}
 
 	/**
 	 * Set the certificate to use when
 	 *
 	 * @param Certificate The certificate that must be used for the APNS connection this message is send over
+	 * @return MessageBuilder
 	 */
 	public function setCertificate(Certificate $certificate)
 	{
 		$this->certificate = $certificate;
+
+		return $this;
 	}
 
 	/**
@@ -41,10 +47,13 @@ class MessageBuilder
 	 *  The last message for a device is stored at APNS for delivery until this moment if the device is offline.
 	 *
 	 * @param \DateTime|null Date until the message should be stored for delivery
+	 * @return MessageBuilder
 	 */
 	public function setExpiresAt(\DateTime $expiresAt = null)
 	{
 		$this->expiresAt = $expiresAt;
+
+		return $this;
 	}
 
 	/**
@@ -54,6 +63,7 @@ class MessageBuilder
 	 * @param string|null The text of the alert to display or null to set no alert
 	 * @param string|null The localization key to use for the action button
 	 * @param string|null The name of the launch image to use
+	 * @return MessageBuilder
 	 */
 	public function setAlert($body, $actionLocKey = null, $launchImage = null)
 	{
@@ -76,6 +86,8 @@ class MessageBuilder
 				$this->alert['launch-image'] = $launchImage;
 			}
 		}
+
+		return $this;
 	}
 
 	/**
@@ -86,6 +98,7 @@ class MessageBuilder
 	 * @param array The arguments that fill the gaps in the locKey text
 	 * @param string|null The localization key to use for the action button
 	 * @param string|null The name of the launch image to use
+	 * @return MessageBuilder
 	 */
 	public function setAlertLocalized($locKey, $locArgs = array(), $actionLocKey = null, $launchImage = null)
 	{
@@ -99,54 +112,72 @@ class MessageBuilder
 		if ($launchImage) {
 			$this->alert['launch-image'] = $launchImage;
 		}
+
+		return $this;
 	}
 
 	/**
 	 * Set the badge to display on the App icon
 	 *
 	 * @param int|null The badge number to display
+	 * @return MessageBuilder
 	 */
 	public function setBadge($badge)
 	{
 		$this->badge = $badge;
+
+		return $this;
 	}
 
 	/**
 	 * Clear the badge from the App icon
+	 *
+	 * @return MessageBuilder
 	 */
 	public function clearBadge()
 	{
 		$this->setBadge(0);
+
+		return $this;
 	}
 
 	/**
 	 * Set the sound that will be played when this message is received
 	 *
 	 * @param string Optional string of the sound to play, no string will play the default sound
+	 * @return MessageBuilder
 	 */
 	public function setSound($sound = 'default')
 	{
 		$this->sound = $sound;
+
+		return $this;
 	}
 
 	/**
 	 * Set newsstand content availability flag that will trigger the newsstand item to download new content
 	 *
 	 * @param boolean True when new newsstand content is available, false when not
+	 * @return MessageBuilder
 	 */
 	public function setContentAvailable($contentAvailable)
 	{
 		$this->contentAvailable = (bool)$contentAvailable;
+
+		return $this;
 	}
 
 	/**
 	 * Set custom payload to go with the message
 	 *
 	 * @param array|json|null The payload to send as array or JSON string
+	 * @return MessageBuilder
 	 */
 	public function setPayload($payload)
 	{
 		$this->payload = $payload;
+
+		return $this;
 	}
 
 	/**

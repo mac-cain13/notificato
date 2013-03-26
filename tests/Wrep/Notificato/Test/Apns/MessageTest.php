@@ -7,36 +7,33 @@ use \Wrep\Notificato\Apns\Certificate;
 
 class MessageTest extends \PHPUnit_Framework_TestCase
 {
-	private $message;
-
-	public function setUp()
-	{
-		$certificate = new Certificate(__DIR__ . '/../resources/certificate_corrupt.pem', null, false, Certificate::ENDPOINT_ENV_PRODUCTION);
-		$this->message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate);
-	}
-
 	public function testConstruction()
 	{
-		$this->assertInstanceOf('\Wrep\Notificato\Apns\Message', $this->message, 'Message of incorrect classtype.');
-		$this->assertEquals('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $this->message->getDeviceToken(), 'Incorrect token retrieved.');
+		$certificate = new Certificate(__DIR__ . '/../resources/certificate_corrupt.pem', null, false, Certificate::ENDPOINT_ENV_PRODUCTION);
+		$message = Message::builder()->setDeviceToken('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff')->setCertificate($certificate)->build();
+
+		$this->assertInstanceOf('\Wrep\Notificato\Apns\Message', $message, 'Message of incorrect classtype.');
+		$this->assertEquals('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $message->getDeviceToken(), 'Incorrect token retrieved.');
 	}
 
 	/**
 	 * @dataProvider incorrectConstructorArguments
 	 */
-	public function testInvalidConstruction($deviceToken)
+	public function testInvalidConstruction($deviceToken, $certificate, $alert, $badge, $sound, $payload, $contentAvailable, $expiresAt)
 	{
 		$this->setExpectedException('InvalidArgumentException');
-		$message = new Message($deviceToken, new Certificate(__DIR__ . '/../resources/certificate_corrupt.pem', null, false, Certificate::ENDPOINT_ENV_PRODUCTION));
+		$message = new Message($deviceToken, $certificate, $alert, $badge, $sound, $payload, $contentAvailable, $expiresAt);
 	}
 
 	public function incorrectConstructorArguments()
 	{
+		$certificate = new Certificate(__DIR__ . '/../resources/certificate_corrupt.pem', null, false, Certificate::ENDPOINT_ENV_PRODUCTION);
+
 		return array(
-			array( null ),
-			array( '' ),
-			array( 'aef1234' ),
-			array( 'thisisnotanhexstring!' )
+			array( 'thisisnotanhexstring!', $certificate, null, 5, 'default', null, null, null ),
+			array( '', $certificate, null, 5, 'default', null, null, null ),
+			array( 'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, null, -1, 'default', null, null, null ),
+			array( 'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, null, null, 'default', 'invalidjsonstring {}', null, null )
 			);
 	}
 
@@ -45,24 +42,24 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testExpiry($expiryDate)
 	{
-		$this->assertEquals(0, $this->message->getExpiresAt());
+		$certificate = new Certificate(__DIR__ . '/../resources/certificate_corrupt.pem', null, false, Certificate::ENDPOINT_ENV_PRODUCTION);
+		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, null, 0, 'default', null, null, $expiryDate);
 
-		$this->message->setExpiresAt($expiryDate);
 		if (null == $expiryDate)
 		{
-			$this->assertEquals(0, $this->message->getExpiresAt());
+			$this->assertEquals(0, $message->getExpiresAt());
 		}
 		else
 		{
-			$this->assertEquals($expiryDate->format('U'), $this->message->getExpiresAt());
+			$this->assertEquals($expiryDate->format('U'), $message->getExpiresAt());
 		}
 	}
 
 	public function correctExpiryArguments()
 	{
 		return array(
-			array(new \DateTime('2020-12-12 12:12:12')),
-			array(new \DateTime('tomorrow')),
+			array( new \DateTime('2020-12-12 12:12:12') ),
+			array( new \DateTime('tomorrow') ),
 			array(null)
 			);
 	}
@@ -70,156 +67,137 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 	/**
 	 * @dataProvider correctAlertArguments
 	 */
-	public function testAlert($body, $actionLocKey, $launchImage, $result)
+	public function testAlert($alert)
 	{
-		$this->assertNull($this->message->getAlert(), 'Alert not null on creation of message.');
+		$certificate = new Certificate(__DIR__ . '/../resources/certificate_corrupt.pem', null, false, Certificate::ENDPOINT_ENV_PRODUCTION);
+		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, $alert, 0, 'default', null, null, null);
 
-		$this->message->setAlert($body, $actionLocKey, $launchImage);
-		$this->assertEquals($result, $this->message->getAlert());
+		$this->assertEquals($alert, $message->getAlert());
 	}
 
 	public function correctAlertArguments()
 	{
 		return array(
-			array( null, null, null, null ),
-			array( 'alert-body', null, null, 'alert-body' ),
-			array( 'alert-body', 'action', null, array('body' => 'alert-body', 'action-loc-key' => 'action') ),
-			array( 'alert-body', 'action', 'image', array('body' => 'alert-body', 'action-loc-key' => 'action', 'launch-image' => 'image') ),
-			array( 'alert-body', null, 'image', array('body' => 'alert-body', 'launch-image' => 'image') )
+			array( null ),
+			array( 'alert-body' ),
+			array( array('body' => 'alert-body', 'action-loc-key' => 'action') ),
+			array( array('body' => 'alert-body', 'action-loc-key' => 'action', 'launch-image' => 'image') ),
+			array( array('body' => 'alert-body', 'launch-image' => 'image') ),
+
+			array('loc-key' => 'alert-loc-key', 'loc-args' => array()),
+			array('loc-key' => 'alert-loc-key', 'loc-args' => array()),
+			array('loc-key' => 'alert-loc-key', 'loc-args' => array(), 'launch-image' => 'image'),
+			array('loc-key' => 'alert-loc-key', 'loc-args' => array(), 'action-loc-key' => 'action'),
+			array('loc-key' => 'alert-loc-key', 'loc-args' => array(), 'action-loc-key' => 'action', 'launch-image' => 'image'),
+			array('loc-key' => 'alert-loc-key', 'loc-args' => array('1', '2')),
+			array('loc-key' => 'alert-loc-key', 'loc-args' => array('1', '2'), 'launch-image' => 'image'),
+			array('loc-key' => 'alert-loc-key', 'loc-args' => array('1', '2'), 'action-loc-key' => 'action'),
+			array('loc-key' => 'alert-loc-key', 'loc-args' => array('1', '2'), 'action-loc-key' => 'action', 'launch-image' => 'image')
 			);
 	}
 
 	/**
 	 * @dataProvider incorrectAlertArguments
 	 */
-	public function testInvalidAlert($body, $actionLocKey, $launchImage)
+	public function testInvalidAlert($alert)
 	{
-		$this->assertNull($this->message->getAlert(), 'Alert not null on creation of message.');
+		$certificate = new Certificate(__DIR__ . '/../resources/certificate_corrupt.pem', null, false, Certificate::ENDPOINT_ENV_PRODUCTION);
 
 		$this->setExpectedException('InvalidArgumentException');
-		$this->message->setAlert($body, $actionLocKey, $launchImage);
+		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, $alert, 0, 'default', null, null, null);
+
 	}
 
 	public function incorrectAlertArguments()
 	{
 		return array(
-			array( null, 'action', null ),
-			array( null, null, 'image' )
-			);
-	}
-
-	/**
-	 * @dataProvider correctAlertLocalizedArguments
-	 */
-	public function testAlertLocalized($locKey, $locArgs, $actionLocKey, $launchImage, $result)
-	{
-		$this->assertNull($this->message->getAlert(), 'Alert not null on creation of message.');
-
-		$this->message->setAlertLocalized($locKey, $locArgs, $actionLocKey, $launchImage);
-		$this->assertEquals($result, $this->message->getAlert());
-	}
-
-	public function correctAlertLocalizedArguments()
-	{
-		return array(
-			array( 'alert-loc-key', array(), null, null, array('loc-key' => 'alert-loc-key', 'loc-args' => array()) ),
-
-			array( 'alert-loc-key', array(), null, null, array('loc-key' => 'alert-loc-key', 'loc-args' => array()) ),
-			array( 'alert-loc-key', array(), null, 'image', array('loc-key' => 'alert-loc-key', 'loc-args' => array(), 'launch-image' => 'image') ),
-			array( 'alert-loc-key', array(), 'action', null, array('loc-key' => 'alert-loc-key', 'loc-args' => array(), 'action-loc-key' => 'action') ),
-			array( 'alert-loc-key', array(), 'action', 'image', array('loc-key' => 'alert-loc-key', 'loc-args' => array(), 'action-loc-key' => 'action', 'launch-image' => 'image') ),
-
-			array( 'alert-loc-key', array('1', '2'), null, null, array('loc-key' => 'alert-loc-key', 'loc-args' => array('1', '2')) ),
-			array( 'alert-loc-key', array('1', '2'), null, 'image', array('loc-key' => 'alert-loc-key', 'loc-args' => array('1', '2'), 'launch-image' => 'image') ),
-			array( 'alert-loc-key', array('1', '2'), 'action', null, array('loc-key' => 'alert-loc-key', 'loc-args' => array('1', '2'), 'action-loc-key' => 'action') ),
-			array( 'alert-loc-key', array('1', '2'), 'action', 'image', array('loc-key' => 'alert-loc-key', 'loc-args' => array('1', '2'), 'action-loc-key' => 'action', 'launch-image' => 'image') )
+			array( array('action-loc-key' => 'action') ),
+			array( array('loc-key' => 'alert-loc-key') ),
+			array( array('loc-args' => array()) )
 			);
 	}
 
 	public function testBadge()
 	{
-		$this->assertNull($this->message->getBadge(), 'Badge not null on creation of message.');
+		$certificate = new Certificate(__DIR__ . '/../resources/certificate_corrupt.pem', null, false, Certificate::ENDPOINT_ENV_PRODUCTION);
 
-		$this->message->setBadge(999);
-		$this->assertEquals(999, $this->message->getBadge(), 'Setting badge to 999 did not persist.');
+		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, null, 999, 'default', null, null, null);
+		$this->assertEquals(999, $message->getBadge(), 'Setting badge to 999 did not persist.');
 
-		$this->message->clearBadge();
-		$this->assertEquals(0, $this->message->getBadge(), 'Clearing the badge did not persist.');
+		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, null, 0, 'default', null, null, null);
+		$this->assertEquals(0, $message->getBadge(), 'Clearing the badge did not persist.');
 
-		$this->message->setBadge(null);
-		$this->assertNull($this->message->getBadge(), 'Unsetting the badge did not persist.');
+		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, null, null, 'default', null, null, null);
+		$this->assertNull($message->getBadge(), 'Unsetting the badge did not persist.');
 	}
 
 	public function testSound()
 	{
-		$this->assertNull($this->message->getSound(), 'Sound not null on creation of message.');
+		$certificate = new Certificate(__DIR__ . '/../resources/certificate_corrupt.pem', null, false, Certificate::ENDPOINT_ENV_PRODUCTION);
 
-		$this->message->setSound('funkybeat');
-		$this->assertEquals('funkybeat', $this->message->getSound(), 'Setting sound to funkybeat did not persist.');
+		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, null, null, 'funkybeat', null, null, null);
+		$this->assertEquals('funkybeat', $message->getSound(), 'Setting sound to funkybeat did not persist.');
 
-		$this->message->setSound();
-		$this->assertEquals('default', $this->message->getSound(), 'Setting sound to default did not persist.');
+		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, null, null, 'default', null, null, null);
+		$this->assertEquals('default', $message->getSound(), 'Setting sound to default did not persist.');
 
-		$this->message->setSound(null);
-		$this->assertNull($this->message->getSound(), 'Unsetting the sound did not persist.');
+		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, null, null, null, null, null, null);
+		$this->assertNull($message->getSound(), 'Unsetting the sound did not persist.');
 	}
 
 	public function testContentAvailable()
 	{
-		$this->assertEquals(false, $this->message->getContentAvailable(), 'ContentAvailable not false on creation of message.');
+		$certificate = new Certificate(__DIR__ . '/../resources/certificate_corrupt.pem', null, false, Certificate::ENDPOINT_ENV_PRODUCTION);
 
-		$this->message->setContentAvailable(true);
-		$this->assertEquals(true, $this->message->getContentAvailable(), 'Setting ContentAvailable to 999 did not persist.');
+		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, null, null, null, null, true, null);
+		$this->assertEquals(true, $message->getContentAvailable(), 'Setting ContentAvailable to true did not persist.');
 
-		$this->message->setContentAvailable(false);
-		$this->assertEquals(false, $this->message->getContentAvailable(), 'Clearing the ContentAvailable did not persist.');
+		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, null, null, null, null, false, null);
+		$this->assertEquals(false, $message->getContentAvailable(), 'Disabling the ContentAvailable did not persist.');
+
+		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, null, null, null, null, null, null);
+		$this->assertEquals(false, $message->getContentAvailable(), 'Nulling the ContentAvailable did not persist.');
 	}
 
 	/**
 	 * @dataProvider correctPayloadArguments
 	 */
-	public function testPayload($payload, $referencePayload)
+	public function testPayload($payload)
 	{
-		$this->assertNull($this->message->getPayload(), 'Payload not null on creation of message.');
+		$certificate = new Certificate(__DIR__ . '/../resources/certificate_corrupt.pem', null, false, Certificate::ENDPOINT_ENV_PRODUCTION);
 
-		$this->message->setPayload($payload);
-		$this->assertEquals($referencePayload, $this->message->getPayload(), 'Setting payload as array did not persist.');
-
-		$this->message->setPayload(null);
-		$this->assertNull($this->message->getPayload(), 'Unsetting the payload did not persist.');
-
-		$this->message->setPayload(json_encode($payload));
-		$this->assertEquals($referencePayload, $this->message->getPayload(), 'Setting payload as JSON string did not persist.');
+		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, null, null, null, $payload, null, null);
+		$this->assertEquals($payload, $message->getPayload(), 'Setting payload did not persist.');
 	}
 
 	public function correctPayloadArguments()
 	{
 		return array(
-			array( array('payload' => 'hasAString'), array('payload' => 'hasAString') ),
-			array( array('payload' => array('key' => 'value')), array('payload' => array('key' => 'value')) ),
-			array( array('this', 'is', 'some', 'payload'), array('this', 'is', 'some', 'payload') ),
+			array( array('payload' => 'hasAString') ),
+			array( array('payload' => array('key' => 'value')) ),
+			array( array('this', 'is', 'some', 'payload') ),
+			array( array('p' => str_pad('a', 248)) )
 			);
 	}
 
 	/**
 	 * @dataProvider longPayloadArguments
 	 */
-	public function testTooLongPayload($lengthOk, $payload)
+	public function testTooLongPayload($payload)
 	{
-		$this->assertTrue($this->message->validateLength(), 'Empty message payload shouldn\'t be too long.');
-		$this->message->setPayload(array($payload));
-		$this->assertEquals($lengthOk, $this->message->validateLength());
+		$certificate = new Certificate(__DIR__ . '/../resources/certificate_corrupt.pem', null, false, Certificate::ENDPOINT_ENV_PRODUCTION);
+
+		$this->setExpectedException('\LengthException');
+		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, null, null, null, $payload, null, null);
+		$this->assertEquals($payload, $message->getPayload(), 'Setting payload did not persist.');
 	}
 
 	public function longPayloadArguments()
 	{
 		return array(
-			array(true, array('p' => str_pad('a', 100))),
-			array(true, array('p' => str_pad('a', 200))),
-			array(true, array('p' => str_pad('a', 242))),
-			array(false, array('p' => str_pad('a', 243))),
-			array(false, array('p' => str_pad('a', 300))),
-			array(false, array('p' => str_pad('a', 400)))
+			array( array('p' => str_pad('a', 249))),
+			array( array('p' => str_pad('a', 300))),
+			array( array('p' => str_pad('a', 400)))
 			);
 	}
 
@@ -228,10 +206,11 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testInvalidPayload($payload)
 	{
-		$this->assertNull($this->message->getPayload(), 'Payload not null on creation of message.');
+		$certificate = new Certificate(__DIR__ . '/../resources/certificate_corrupt.pem', null, false, Certificate::ENDPOINT_ENV_PRODUCTION);
 
 		$this->setExpectedException('InvalidArgumentException', 'Invalid payload for message.');
-		$this->message->setPayload($payload);
+		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, null, null, null, $payload, null, null);
+		$this->assertEquals($payload, $message->getPayload(), 'Setting payload did not persist.');
 	}
 
 	public function incorrectPayloadArguments()
@@ -246,21 +225,8 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 
 	public function testGetJson()
 	{
-		$this->assertEquals(json_encode(array(), JSON_FORCE_OBJECT), $this->message->getJson());
-
-		$this->message->setPayload( array('payload' => array( 'some' => 'payloadhere' )) );
-		$this->assertJsonStringEqualsJsonString(json_encode(array('payload' => array( 'some' => 'payloadhere' )), JSON_FORCE_OBJECT), $this->message->getJson());
-
-		$this->message->setBadge(9);
-		$this->assertJsonStringEqualsJsonString(json_encode(array('payload' => array( 'some' => 'payloadhere' ), 'aps' => array('badge' => 9)), JSON_FORCE_OBJECT), $this->message->getJson());
-
-		$this->message->setAlert('thisismyalert');
-		$this->assertJsonStringEqualsJsonString(json_encode(array('payload' => array( 'some' => 'payloadhere' ), 'aps' => array('badge' => 9, 'alert' => 'thisismyalert')), JSON_FORCE_OBJECT), $this->message->getJson());
-
-		$this->message->setSound('thisismysound');
-		$this->assertJsonStringEqualsJsonString(json_encode(array('payload' => array( 'some' => 'payloadhere' ), 'aps' => array('badge' => 9, 'alert' => 'thisismyalert', 'sound' => 'thisismysound')), JSON_FORCE_OBJECT), $this->message->getJson());
-
-		$this->message->setContentAvailable(true);
-		$this->assertJsonStringEqualsJsonString(json_encode(array('payload' => array( 'some' => 'payloadhere' ), 'aps' => array('badge' => 9, 'alert' => 'thisismyalert', 'sound' => 'thisismysound', 'content-available' => 1)), JSON_FORCE_OBJECT), $this->message->getJson());
+		$certificate = new Certificate(__DIR__ . '/../resources/certificate_corrupt.pem', null, false, Certificate::ENDPOINT_ENV_PRODUCTION);
+		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, 'alert', 3, 'sound', array('payload' => array( 'some' => 'payloadhere' )), true, new \DateTime('1970-01-01T00:01:00Z'));
+		$this->assertJsonStringEqualsJsonString(json_encode(array('payload' => array( 'some' => 'payloadhere' ), 'aps' => array('badge' => 3, 'alert' => 'alert', 'sound' => 'sound', 'content-available' => 1)), JSON_FORCE_OBJECT), $message->getJson());
 	}
 }

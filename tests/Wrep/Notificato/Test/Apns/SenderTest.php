@@ -49,8 +49,12 @@ class SenderTests extends \PHPUnit_Framework_TestCase
 
 	public function testSend()
 	{
-		$messageFactory = new MessageFactory( $this->getCertificateFactory($this->getCertificate('a')) );
-		$message = $messageFactory->createMessage('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff');
+		$message = $this->getMockBuilder('\Wrep\Notificato\Apns\Message')
+						->disableOriginalConstructor()
+						->getMock();
+		$message->expects($this->any())
+				->method('getCertificate')
+				->will($this->returnValue( $this->getCertificate('a') ));
 
 		$this->assertEquals(0, $this->sender->getQueueLength());
 
@@ -62,18 +66,27 @@ class SenderTests extends \PHPUnit_Framework_TestCase
 
 	public function testQueueAndFlush()
 	{
-		$certificateA = $this->getCertificate('a');
-		$certificateB = $this->getCertificate('b');
-		$certificateC = $this->getCertificate('c');
-
-		// Create messages
-		$messageFactory = new MessageFactory( $this->getCertificateFactory($certificateA) );
-		$messageA = $messageFactory->createMessage('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff');
-		$messageB = $messageFactory->createMessage('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificateB);
-		$messageC = $messageFactory->createMessage('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificateC);
+		$messageA = $this->getMockBuilder('\Wrep\Notificato\Apns\Message')
+						->disableOriginalConstructor()
+						->getMock();
+		$messageA->expects($this->any())
+				 ->method('getCertificate')
+				 ->will($this->returnValue( $this->getCertificate('a') ));
+		$messageB = $this->getMockBuilder('\Wrep\Notificato\Apns\Message')
+						->disableOriginalConstructor()
+						->getMock();
+		$messageB->expects($this->any())
+				 ->method('getCertificate')
+				 ->will($this->returnValue( $this->getCertificate('b') ));
+		$messageC = $this->getMockBuilder('\Wrep\Notificato\Apns\Message')
+						->disableOriginalConstructor()
+						->getMock();
+		$messageC->expects($this->any())
+				 ->method('getCertificate')
+				 ->will($this->returnValue( $this->getCertificate('c') ));
 
 		// Connect and queue the messages
-		$sender = new Sender($certificateA);
+		$sender = new Sender( $this->getCertificate('a') );
 		$sender->setGatewayFactory(new MockGatewayFactory());
 
 		for ($i = 1; $i <= 5; $i++)

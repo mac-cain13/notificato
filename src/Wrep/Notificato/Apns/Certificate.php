@@ -2,7 +2,7 @@
 
 namespace Wrep\Notificato\Apns;
 
-class Certificate implements \Serializable
+class Certificate
 {
 	/**
 	 * Identifies the APNS production environment

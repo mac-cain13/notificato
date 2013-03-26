@@ -21,6 +21,16 @@ class Message implements \Serializable
 	private $contentAvailable;
 
 	/**
+	 * Get a builder to constuct a message
+	 *
+	 * @return MessageBuilder
+	 */
+	public static function builder()
+	{
+		return new MessageBuilder();
+	}
+
+	/**
 	 * Construct Message
 	 *
 	 * @param string Receiver of this message
