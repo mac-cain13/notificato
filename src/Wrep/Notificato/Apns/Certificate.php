@@ -2,7 +2,7 @@
 
 namespace Wrep\Notificato\Apns;
 
-class Certificate
+class Certificate implements \Serializable
 {
 	/**
 	 * Identifies the APNS production environment
@@ -284,5 +284,41 @@ class Certificate
 		}
 
 		return $this->fingerprint;
+	}
+
+	/**
+	 * String representation of object
+	 *
+	 * @return string
+	 */
+	public function serialize()
+	{
+		return serialize(array(	$this->pemFile,
+								$this->passphrase,
+								$this->endpointEnv,
+								$this->fingerprint,
+
+								$this->isValidated,
+								$this->description,
+								$this->validFrom,
+								$this->validTo));
+	}
+
+	/**
+	 * Constructs the object from serialized data
+	 *
+	 * @param string Serialized data
+	 */
+	public function unserialize($serialized)
+	{
+		list(	$this->pemFile,
+				$this->passphrase,
+				$this->endpointEnv,
+				$this->fingerprint,
+
+				$this->isValidated,
+				$this->description,
+				$this->validFrom,
+				$this->validTo) = unserialize($serialized);
 	}
 }

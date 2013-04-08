@@ -203,7 +203,7 @@ class Message implements \Serializable
 	public function serialize()
 	{
 		return serialize(array(	$this->deviceToken,
-								array( $this->certificate->getPemFile(), $this->certificate->getPassphrase(), $this->certificate->isValidated(), $this->certificate->getEnvironment() ),
+								$this->certificate,
 								$this->expiresAt,
 								$this->alert,
 								$this->badge,
@@ -220,16 +220,13 @@ class Message implements \Serializable
 	public function unserialize($serialized)
 	{
 		list(	$this->deviceToken,
-				$certificateData,
+				$this->certificate,
 				$this->expiresAt,
 				$this->alert,
 				$this->badge,
 				$this->sound,
 				$this->payload,
 				$this->contentAvailable) = unserialize($serialized);
-
-		// Re-create the certificate
-		$this->certificate = new Certificate($certificateData[0], $certificateData[1], $certificateData[2], $certificateData[3]);
 	}
 
 	/**
@@ -239,15 +236,15 @@ class Message implements \Serializable
 	 */
 	public function __toString()
 	{
-		return	'Wrep\Notificato\Apns\Message:' . PHP_EOL .
+		return	get_class($this) . ':' . PHP_EOL .
 				' Device token: ' . $this->getDeviceToken() . PHP_EOL .
 				' Certificate: ' . $this->getCertificate()->getPemFile() . PHP_EOL .
 				' Expires timestamp: ' . $this->getExpiresAt() . PHP_EOL .
 				' Badge: ' . $this->getBadge() . PHP_EOL .
 				' Sound: ' . $this->getSound() . PHP_EOL .
 				' Content avail.: ' . $this->getContentAvailable() . PHP_EOL .
-				' Alert: ' . json_encode($this->getAlert()) . PHP_EOL .
-				' Payload: ' . json_encode($this->getPayload()) . PHP_EOL;
+				' Alert: ' . json_encode($this->getAlert(), JSON_PRETTY_PRINT) . PHP_EOL .
+				' Payload: ' . json_encode($this->getPayload(), JSON_PRETTY_PRINT) . PHP_EOL;
 	}
 
 	/**
