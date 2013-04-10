@@ -123,12 +123,12 @@ class Gateway extends SslSocket
 				{
 					$retryMessageEnvelope = $this->queue( $messageEnvelope->getMessage(), $messageEnvelope->getRetryLimit()-1 );
 					$messageEnvelope->setStatus(MessageEnvelope::STATUS_SENDFAILED, $retryMessageEnvelope);
-					$this->logger->debug('Failed to send Apns\Message #' . $this->lastMessageId . ' "' . $envelope->getStatusDescription() . '" to device "' . $envelope->getMessage()->getDeviceToken() . '" on Apns\Gateway with certificate "' . $this->getCertificate()->getDescription() . '"');
+					$this->logger->debug('Failed to send Apns\Message #' . $this->lastMessageId . ' "' . $messageEnvelope->getStatusDescription() . '" to device "' . $messageEnvelope->getMessage()->getDeviceToken() . '" on Apns\Gateway with certificate "' . $this->getCertificate()->getDescription() . '"');
 				}
 				else
 				{
 					$messageEnvelope->setStatus(MessageEnvelope::STATUS_TOOMANYRETRIES);
-					$this->logger->warning('Failed to send Apns\Message #' . $this->lastMessageId . ' "' . $envelope->getStatusDescription() . '" to device "' . $envelope->getMessage()->getDeviceToken() . '" on Apns\Gateway with certificate "' . $this->getCertificate()->getDescription() . '"');
+					$this->logger->warning('Failed to send Apns\Message #' . $this->lastMessageId . ' "' . $messageEnvelope->getStatusDescription() . '" to device "' . $messageEnvelope->getMessage()->getDeviceToken() . '" on Apns\Gateway with certificate "' . $this->getCertificate()->getDescription() . '"');
 				}
 			}
 			else
