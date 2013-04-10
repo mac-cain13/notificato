@@ -50,7 +50,7 @@ foreach ($messageEnvelopes as $messageEnvelope)
 }
 ```
 
-*Note: You can still pass the Notificato constructor a default certificate that will be used when you call `createMessage` without passing it a certificate.*
+*Note: You can still pass the Notificato constructor a default certificate, this certificate will be set on the `MessageBuilder` by default. Use the setCertificate method to use alternative certificates.*
 
 ## Receiving feedback for all your certificates
 Now we've send the messages we must read the feedback service for all the certificates that are in use. Again the biggest difference is that we don't use a default certificate that we pass to Notificato, but pass a specific certificate to the `receiveFeedback`-method.
