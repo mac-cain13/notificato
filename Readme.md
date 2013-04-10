@@ -40,13 +40,14 @@ class GettingStarted
 		// First we get a Notificato instance and tell it what certificate to use as default certificate
 		$notificato = new Notificato('./certificate.pem', 'passphrase-to-use');
 
-		// Now we get a fresh message from Notificato
+		// Now we get a fresh messagebuilder from Notificato
 		//  This message will be send to device with pushtoken 'fffff...'
 		//  it will automaticly be associated with the default certificate
-		$message = $notificato->createMessage('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff');
-
-		// Let's set App icon badge with this push to 1
-		$message->setBadge(1);
+		//  and we will set the red badge on the App icon to 1
+		$message = $notificato->messageBuilder()
+								->setDeviceToken('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff')
+								->setBadge(1)
+								->build();
 
 		// The message is ready, let's send it!
 		//  Be aware that this method is blocking and on failure Notificato will retry a few times
