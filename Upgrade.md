@@ -19,6 +19,10 @@ This document gives an overview of what's changed between versions. Backwards in
 
 ### Certificates
 
+**Backwards incompatible changes:**
+
+* If the certificate is invalid the class now throws an `InvalidCertificateException` instead of `InvalidArgumentException`
+
 *New features:*
 
 * `Certificate::isValidated` is introduced and indicates if the certificate was validated on construction
