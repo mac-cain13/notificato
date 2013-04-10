@@ -17,22 +17,27 @@ $certificateAppBar = $notificate->createCertificate('./certificate-app-bar.pem',
 $messageEnvelopes = array();
 
 /** Now send a message to App Foo **/
-// First we get a fresh message from Notificato and set the device token, certificate and alert
+// First we get a fresh message from Notificato and set the device token, certificate, alert and sound
 //  Note that we pass the certificate to the message, as we're not using a default certificate anymore
-$message = $notificato->createMessage($deviceToken, $certificateAppFoo);
-$message->setAlert('Pilot: They\'re looking for us in the wrong place.');
+$builder = $notificato->messageBuilder()
+			->setDeviceToken($deviceToken)
+			->setCertificate($certificateAppFoo)
+			->setAlert('Pilot: They\'re looking for us in the wrong place.')
+			->setSound('lost-sound');
 
 // Queue the message for sending
-$messageEnvelopes[] = $notificato->queue($message);
+$messageEnvelopes[] = $notificato->queue( $builder->build() );
 
 /** Now send a message to App Bar **/
-// Again we get a fresh message from Notificato and set the device token, certificate and alert
+// We reuse the builder and update it with the new device token, certificate and alert
 //  Note that we pass the certificate to the message, as we're not using a default certificate anymore
-$message = $notificato->createMessage($deviceToken, $certificateAppFoo);
-$message->setAlert('Charlie: It was imaginary peanut butter, actually.');
+$builder = $notificato->messageBuilder()
+			->setDeviceToken($deviceToken)
+			->setCertificate($certificateAppFooBar)
+			->setAlert('Charlie: It was imaginary peanut butter, actually.');
 
 // Queue the message for sending
-$messageEnvelopes[] = $notificato->queue($message);
+$messageEnvelopes[] = $notificato->queue( $builder->build() );
 
 // Now all messages are queued, lets send them at once
 //  Be aware that this method is blocking and on failure Notificato will retry a few times
