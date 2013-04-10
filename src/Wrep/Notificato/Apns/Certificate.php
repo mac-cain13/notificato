@@ -71,7 +71,7 @@ class Certificate implements \Serializable
 		// Parse (and validate) the certificate
 		if ($validate)
 		{
-			$certificateData = $this->parseCertificate();
+			$this->parseCertificate();
 			$this->isValidated = true;
 		}
 
@@ -84,10 +84,8 @@ class Certificate implements \Serializable
 	}
 
 	/**
-	 * Parses the certificate file and extracts usefull data
-	 *  Also throws exceptions if the certificate doesn't seem to be a valid APNS cert
-	 *
-	 * @return array
+	 * Parse and validate the certificate and private key, also extracts usefull data and sets it on this object
+	 *  Also throws exceptions if the certificate/private key doesn't seem to be a valid APNS cert
 	 */
 	private function parseCertificate()
 	{
