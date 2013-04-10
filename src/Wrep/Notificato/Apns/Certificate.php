@@ -162,7 +162,17 @@ class Certificate implements \Serializable
 		// Validate the private key by loading it
 		$privateKey = openssl_pkey_get_private('file://' . $this->getPemFile(), $this->getPassphrase() );
 		if (false === $privateKey) {
-			throw new \InvalidArgumentException('Could not extract the private key from certificate "' . $this->getPemFile() . '", please check if it contains a private key and if the given passphrase is correct.');
+			throw new \InvalidArgumentException('Could not extract the private key from certificate "' . $this->getPemFile() . '", please check if the given passphrase is correct and if it contains a private key.');
+		}
+
+		// If a passphrase is given, the private key may not be loaded without it
+		if ($this->getPassphrase() != null)
+		{
+			// Try to load the private key without the passphrase (should fail)
+			$privateKey = openssl_pkey_get_private('file://' . $this->getPemFile() );
+			if (false !== $privateKey) {
+				throw new \InvalidArgumentException('Passphrase given, but the private key in "' . $this->getPemFile() . '" is not encrypted, please make sure you are using the correct certificate/passphrase combination.');
+			}
 		}
 	}
 
