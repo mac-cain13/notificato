@@ -1,3 +1,6 @@
+# Be aware!
+Apple recently did a big overhaul of the provisioning portal, so these instructions are outdated! We will update them asap.
+
 # Generate APNS Certificate
 To push to your iOS/Mac App or to Passbook you'll need to generate an APNS certificate in the [Apple developer portal](https://developer.apple.com/). This page will guide you through this process.
 
