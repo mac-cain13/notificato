@@ -18,7 +18,9 @@ class NotificatoTests extends \PHPUnit_Framework_TestCase
 		// TODO: We should be able to retrieve the CertificateFactory and test the default certificate on that instance
 		//       this is quite a hack to test the default cert
 		$this->notificato = new Notificato(__DIR__ . '/resources/certificate_corrupt.pem', 'pem-passphrase', false, 'sandbox');
-		$message = $this->notificato->createMessage('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff');
+		$message = $this->notificato->messageBuilder()
+									->setDeviceToken('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff')
+									->build();
 
 		$this->assertEquals(__DIR__ . '/resources/certificate_corrupt.pem', $message->getCertificate()->getPemFile());
 		$this->assertEquals('pem-passphrase', $message->getCertificate()->getPassphrase());
@@ -45,16 +47,10 @@ class NotificatoTests extends \PHPUnit_Framework_TestCase
 								->disableOriginalConstructor()
 								->getMock();
 
-		$messageFactory = $this->getMockBuilder('\Wrep\Notificato\Apns\MessageFactory')
-								->disableOriginalConstructor()
-								->getMock();
-
-		$messageFactory->expects($this->once())
-						->method('createMessage')
-						->with($this->equalTo('asdf'), $this->equalTo($certificate));
-
-		$this->notificato->setMessageFactory($messageFactory);
-		$this->notificato->createMessage('asdf', $certificate);
+		$this->notificato->messageBuilder()
+						 ->setDeviceToken('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff')
+						 ->setCertificate($certificate)
+						 ->build();
 	}
 
 	public function testQueue()

@@ -62,14 +62,9 @@ class Gateway extends SslSocket
 		// Save the message so we can update it later on
 		$this->storeMessageEnvelope($envelope);
 
-		// If valid, queue or else update status and return the envelope
-		if ($message->validateLength()) {
-			$this->logger->debug('Queuing Apns\Message #' . $this->lastMessageId . ' with retrylimit ' . $retryLimit . ' to device "' . $message->getDeviceToken() . '" on Apns\Gateway with certificate "' . $this->getCertificate()->getDescription() . '"');
-			$this->sendQueue->enqueue($envelope);
-		} else {
-			$envelope->setStatus(MessageEnvelope::STATUS_PAYLOADTOOLONG);
-			$this->logger->warning('Failed queuing Apns\Message #' . $this->lastMessageId . ' "' . $envelope->getStatusDescription() . '" with retrylimit ' . $retryLimit . ' to device "' . $message->getDeviceToken() . '" on Apns\Gateway with certificate "' . $this->getCertificate()->getDescription() . '"');
-		}
+		// Queue and return the envelope
+		$this->logger->debug('Queuing Apns\Message #' . $this->lastMessageId . ' with retrylimit ' . $retryLimit . ' to device "' . $message->getDeviceToken() . '" on Apns\Gateway with certificate "' . $this->getCertificate()->getDescription() . '"');
+		$this->sendQueue->enqueue($envelope);
 
 		return $envelope;
 	}

@@ -2,7 +2,7 @@
 
 namespace Wrep\Notificato\Apns;
 
-class Certificate
+class Certificate implements \Serializable
 {
 	/**
 	 * Identifies the APNS production environment
@@ -40,6 +40,7 @@ class Certificate
 	private $endpointEnv;
 	private $fingerprint;
 
+	private $isValidated;
 	private $description;
 	private $validFrom;
 	private $validTo;
@@ -65,18 +66,13 @@ class Certificate
 		$this->passphrase = $passphrase;
 		$this->endpointEnv = $endpointEnv;
 		$this->fingerprint = null;
+		$this->isValidated = false;
 
 		// Parse (and validate) the certificate
 		if ($validate)
 		{
-			$certificateData = $this->parseCertificate();
-			$this->description = $certificateData['description'];
-			$this->validFrom = $certificateData['validFrom'];
-			$this->validTo = $certificateData['validTo'];
-
-			if (null === $this->endpointEnv) {
-				$this->endpointEnv = $certificateData['environment'];
-			}
+			$this->parseCertificate();
+			$this->isValidated = true;
 		}
 
 		// A valid endpoint is required by now
@@ -88,15 +84,12 @@ class Certificate
 	}
 
 	/**
-	 * Parses the certificate file and extracts usefull data
-	 *  Also throws exceptions if the certificate doesn't seem to be a valid APNS cert
-	 *
-	 * @return array
+	 * Parse and validate the certificate and private key, also extracts usefull data and sets it on this object
+	 *  Also throws exceptions if the certificate/private key doesn't seem to be a valid APNS cert
 	 */
 	private function parseCertificate()
 	{
 		$now = new \DateTime();
-		$normalizedCertificateData = array();
 
 		// Parse the certificate
 		$certificateData = openssl_x509_parse( file_get_contents($this->getPemFile()) );
@@ -112,7 +105,7 @@ class Certificate
 				throw new \InvalidArgumentException('Certificate "' . $this->getPemFile() . '" not yet valid, valid from ' . $validFrom->format(\DateTime::ISO8601) . '.');
 			}
 
-			$normalizedCertificateData['validFrom'] = $validFrom;
+			$this->validFrom = $validFrom;
 		}
 		else {
 			throw new \InvalidArgumentException('Certificate "' . $this->getPemFile() . '" has no valid from timestamp.');
@@ -127,7 +120,7 @@ class Certificate
 				throw new \InvalidArgumentException('Certificate "' . $this->getPemFile() . '" expired, was valid until ' . $validTo->format(\DateTime::ISO8601) . '.');
 			}
 
-			$normalizedCertificateData['validTo'] = $validTo;
+			$this->validTo = $validTo;
 		}
 		else {
 			throw new \InvalidArgumentException('Certificate "' . $this->getPemFile() . '" has no valid to timestamp.');
@@ -141,22 +134,26 @@ class Certificate
 		// Check if the there is an environment hidden in the certificate
 		if (isset($certificateData['subject']) && isset($certificateData['subject']['CN']))
 		{
-			$normalizedCertificateData['description'] = $certificateData['subject']['CN'];
+			$this->description = $certificateData['subject']['CN'];
 
-			if (strpos($certificateData['subject']['CN'], 'Pass Type ID') === 0) {
-				// Passbook Pass certificate, should always be on production
-				$normalizedCertificateData['environment'] = self::ENDPOINT_ENV_PRODUCTION;
-			} else if (strpos($certificateData['subject']['CN'], 'Apple Production IOS Push Services') === 0 || strpos($certificateData['subject']['CN'], 'Apple Production Mac Push Services') === 0) {
-				// APNS Production, should always be on production
-				$normalizedCertificateData['environment'] = self::ENDPOINT_ENV_PRODUCTION;
-			} else if (strpos($certificateData['subject']['CN'], 'Apple Development IOS Push Services') === 0 || strpos($certificateData['subject']['CN'], 'Apple Development Mac Push Services') === 0) {
-				// APNS Development, should always be on sandbox
-				$normalizedCertificateData['environment'] = self::ENDPOINT_ENV_SANDBOX;
-			} else {
-				throw new \InvalidArgumentException('Could not detect APNS environment based on the CN string "' . $certificateData['subject']['CN'] . '" in certificate "' . $this->getPemFile() . '".');
+			if (null === $this->endpointEnv)
+			{
+				if (strpos($certificateData['subject']['CN'], 'Pass Type ID') === 0) {
+					// Passbook Pass certificate, should always be on production
+					$this->endpointEnv = self::ENDPOINT_ENV_PRODUCTION;
+				} else if (strpos($certificateData['subject']['CN'], 'Apple Production IOS Push Services') === 0 || strpos($certificateData['subject']['CN'], 'Apple Production Mac Push Services') === 0) {
+					// APNS Production, should always be on production
+					$this->endpointEnv = self::ENDPOINT_ENV_PRODUCTION;
+				} else if (strpos($certificateData['subject']['CN'], 'Apple Development IOS Push Services') === 0 || strpos($certificateData['subject']['CN'], 'Apple Development Mac Push Services') === 0) {
+					// APNS Development, should always be on sandbox
+					$this->endpointEnv = self::ENDPOINT_ENV_SANDBOX;
+				} else {
+					throw new \InvalidArgumentException('Could not detect APNS environment based on the CN string "' . $certificateData['subject']['CN'] . '" in certificate "' . $this->getPemFile() . '".');
+				}
 			}
 		}
-		else {
+		else
+		{
 			throw new \InvalidArgumentException('No APNS environment information found in certificate "' . $this->getPemFile() . '".');
 		}
 
@@ -175,8 +172,6 @@ class Certificate
 				throw new \InvalidArgumentException('Passphrase given, but the private key in "' . $this->getPemFile() . '" is not encrypted, please make sure you are using the correct certificate/passphrase combination.');
 			}
 		}
-
-		return $normalizedCertificateData;
 	}
 
 	/**
@@ -217,6 +212,16 @@ class Certificate
 	public function getEnvironment()
 	{
 		return $this->endpointEnv;
+	}
+
+	/**
+	 * Check if this certificate is validated
+	 *
+	 * @return boolean
+	 */
+	public function isValidated()
+	{
+		return $this->isValidated;
 	}
 
 	/**
@@ -287,5 +292,41 @@ class Certificate
 		}
 
 		return $this->fingerprint;
+	}
+
+	/**
+	 * String representation of object
+	 *
+	 * @return string
+	 */
+	public function serialize()
+	{
+		return serialize(array(	$this->pemFile,
+								$this->passphrase,
+								$this->endpointEnv,
+								$this->fingerprint,
+
+								$this->isValidated,
+								$this->description,
+								$this->validFrom,
+								$this->validTo));
+	}
+
+	/**
+	 * Constructs the object from serialized data
+	 *
+	 * @param string Serialized data
+	 */
+	public function unserialize($serialized)
+	{
+		list(	$this->pemFile,
+				$this->passphrase,
+				$this->endpointEnv,
+				$this->fingerprint,
+
+				$this->isValidated,
+				$this->description,
+				$this->validFrom,
+				$this->validTo) = unserialize($serialized);
 	}
 }

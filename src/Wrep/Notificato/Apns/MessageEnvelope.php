@@ -25,11 +25,6 @@ class MessageEnvelope
 	const STATUS_EARLIERERROR 	= 257;
 
 	/**
-	 * Statuscode: Payload of message exceeds 256 bytes, will not send message to APNS
-	 */
-	const STATUS_PAYLOADTOOLONG	= 258;
-
-	/**
 	 * Statuscode: Sending message failed, too many retries
 	 */
 	const STATUS_TOOMANYRETRIES = 259;
@@ -76,7 +71,6 @@ class MessageEnvelope
 			// Notificato internal final states
 			self::STATUS_SENDFAILED 	=> 'Sending failed, will retry with other envelope',
 			self::STATUS_EARLIERERROR 	=> 'Failed due earlier error, will retry with other envelope',
-			self::STATUS_PAYLOADTOOLONG => 'Payload exceeds 256 bytes, will not send message to APNS',
 			self::STATUS_TOOMANYRETRIES => 'Sending failed, too many retries'
 		);
 
