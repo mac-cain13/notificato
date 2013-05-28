@@ -28,7 +28,7 @@ There is also a [Notificato for Symfony2 bundle](https://github.com/wrep/notific
 // This imports the Composer autoloader
 require_once('vendor/autoload.php');
 
-use \Wrep\Notificato\Notificato;
+use Wrep\Notificato\Notificato;
 
 class GettingStarted
 {
