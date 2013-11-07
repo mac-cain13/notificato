@@ -17,7 +17,7 @@ class Gateway extends SslSocket
 	/**
 	 * Maximum size of the message envelope store (Internal use)
 	 */
-	const MAX_RECOVERY_SIZE = 50;
+	const MAX_RECOVERY_SIZE = 100;
 
 	/**
 	 * Prefix used to save message envelopes to the store (Internal use)
@@ -184,8 +184,15 @@ class Gateway extends SslSocket
 
 			// Mark the message that triggered the error as failed
 			$failedMessageEnvelope = $this->retrieveMessageEnvelope($errorMessage['identifier']);
-			$failedMessageEnvelope->setStatus($errorMessage['status']);
-			$this->logger->warning('Failed to send message #' . $failedMessageEnvelope->getIdentifier() . ' "' . $failedMessageEnvelope->getStatusDescription() . '" to device "' . $failedMessageEnvelope->getMessage()->getDeviceToken() . '" from the queue of Apns\Gateway with certificate "' . $this->getCertificate()->getDescription() . '"');
+			if (null != $failedMessageEnvelope)
+			{
+				$failedMessageEnvelope->setStatus($errorMessage['status']);
+				$this->logger->warning('Failed to send message #' . $failedMessageEnvelope->getIdentifier() . ' "' . $failedMessageEnvelope->getStatusDescription() . '" to device "' . $failedMessageEnvelope->getMessage()->getDeviceToken() . '" from the queue of Apns\Gateway with certificate "' . $this->getCertificate()->getDescription() . '"');
+			}
+			else
+			{
+				$this->logger->error('Failed retrieve message envelope for message #' . $errorMessage['identifier'] . ' that failed sending with statuscode #' . $errorMessage['status'] . ' from the queue of Apns\Gateway with certificate "' . $this->getCertificate()->getDescription() . '"');
+			}
 
 			// All messages that are send after the failed message should be send again
 			$this->logger->info('Requeueing ' . ($this->lastMessageId - $errorMessage['identifier']) . ' messages that where send after the failed message to the queue of Apns\Gateway with certificate "' . $this->getCertificate()->getDescription() . '"');
