@@ -1,4 +1,4 @@
-# Notificato [![Build Status of Master](https://travis-ci.org/wrep/notificato.png?branch=master)](https://travis-ci.org/wrep/notificato)
+# Notificato [![Build Status of Master](https://travis-ci.org/mac-cain13/notificato.png?branch=master)](https://travis-ci.org/wrep/notificato)
 **Notificato takes care of push notifications in your PHP projects.**
 
 > *Italian:* **notificato** è: participio passato *English:* **notified**
@@ -16,12 +16,12 @@ Installation with [Composer](http://getcomposer.org) is recommended. Run the req
 `composer require wrep/notificato`
 
 *Alternatives:*
-There is also a [Notificato for Symfony2 bundle](https://github.com/wrep/notificato-symfony) available, highly recommended for Symfony2 users.
+There is also a [Notificato for Symfony2 bundle](https://github.com/mac-cain13/notificato-symfony) available, highly recommended for Symfony2 users.
 
 ## Getting started
 1. Take a look at the snippet below for a impression how Notificato works
 2. [Read the documentation](/doc/Readme.md) it will help you with common use cases
-3. Check out the [API docs](http://wrep.github.com/notificato/master/) for a deeper understanding what Notificato is capable of
+3. Check out the [API docs](http://mac-cain13.github.io/notificato/master/) for a deeper understanding what Notificato is capable of
 
 ```php
 <?php
