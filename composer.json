@@ -2,7 +2,7 @@
 	"name": "wrep/notificato",
 	"type": "library",
 	"description": "Takes care of push notifications in your PHP projects.",
-	"homepage": "https://github.com/wrep/notificato",
+	"homepage": "https://github.com/mac-cain13/notificato",
 	"keywords": ["push", "notifications", "pushnotifications", "push notifications", "apns", "aps", "ios"],
 	"license": "MIT",
 	"authors": [
@@ -16,7 +16,7 @@
 		}
 	],
 	"support": {
-		"issues": "https://github.com/wrep/notificato/issues"
+		"issues": "https://github.com/mac-cain13/notificato/issues"
 	},
 	"require": {
 		"php": ">=5.3.3",
