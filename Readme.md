@@ -1,4 +1,4 @@
-# Notificato [![Build Status of Master](https://travis-ci.org/mac-cain13/notificato.png?branch=master)](https://travis-ci.org/wrep/notificato)
+# Notificato [![Build Status of Master](https://travis-ci.org/mac-cain13/notificato.png?branch=master)](https://travis-ci.org/mac-cain13/notificato)
 **Notificato takes care of push notifications in your PHP projects.**
 
 > *Italian:* **notificato** è: participio passato *English:* **notified**
