@@ -17,7 +17,7 @@ class Gateway extends SslSocket
 	/**
 	 * Maximum size of the message envelope store (Internal use)
 	 */
-	const MAX_RECOVERY_SIZE = 100;
+	const MAX_RECOVERY_SIZE = 1000000;
 
 	/**
 	 * Prefix used to save message envelopes to the store (Internal use)
@@ -213,7 +213,7 @@ class Gateway extends SslSocket
 					// Mark the message as failed due earlier error and requeue the message again if allowed
 					if ($messageEnvelope->getRetryLimit() > 0)
 					{
-						$retryMessageEnvelope = $this->queue( $messageEnvelope->getMessage(), $messageEnvelope->getRetryLimit()-1 );
+						$retryMessageEnvelope = $this->queue( $messageEnvelope->getMessage(), $messageEnvelope->getRetryLimit() );
 						$messageEnvelope->setStatus(MessageEnvelope::STATUS_EARLIERERROR, $retryMessageEnvelope);
 						$this->logger->debug('Failed to send Apns\Message #' . $this->lastMessageId . ' "' . $messageEnvelope->getStatusDescription() . '" to device "' . $messageEnvelope->getMessage()->getDeviceToken() . '" on Apns\Gateway with certificate "' . $this->getCertificate()->getDescription() . '"');
 					}
