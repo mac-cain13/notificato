@@ -1,5 +1,5 @@
 # Reading the APNS feedback service
-After you've started [pushing messages](push.md) you have to check what devices unregistered for your notifications. Note that Apple [monitors providers](http://developer.apple.com/library/ios/#documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/CommunicatingWIthAPS/CommunicatingWIthAPS.html%23//apple_ref/doc/uid/TP40008194-CH101-SW3) for their diligence in checking the feedback service. So it's just as important to implement this feedback service as it is to get sending the pushmessages!
+After you've started [pushing messages](push.md) you have to check what devices unregistered for your notifications. Note that Apple [monitors providers](https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/CommunicatingWIthAPS.html#//apple_ref/doc/uid/TP40008194-CH101-SW3) for their diligence in checking the feedback service. So it's just as important to implement this feedback service as it is to get sending the pushmessages!
 
 ## Receiving feedback
 This example will show you how to read the feedback service:
