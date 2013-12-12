@@ -68,10 +68,9 @@ class Notificato implements LoggerAwareInterface
 	 * Queue a message on the correct APNS gateway connection
 	 *
 	 * @param Apns\Message The message to queue
-	 * @param int The times Notificato should retry to deliver the message on failure (deprecated and ignored)
 	 * @return Apns\MessageEnvelope
 	 */
-	public function queue(Apns\Message $message, $retryLimit = PHP_INT_MAX)
+	public function queue(Apns\Message $message)
 	{
 		return $this->sender->queue($message);
 	}

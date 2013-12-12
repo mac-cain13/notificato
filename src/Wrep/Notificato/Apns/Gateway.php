@@ -43,10 +43,9 @@ class Gateway extends SslSocket
 	 * Queue a message for sending
 	 *
 	 * @param Message The message object to queue for sending
-	 * @param int The times Notificato should retry to deliver the message on failure (deprecated and ignored)
 	 * @return MessageEnvelope
 	 */
-	public function queue(Message $message, $retryLimit = PHP_INT_MAX)
+	public function queue(Message $message)
 	{
 		// Bump the message ID
 		$this->lastMessageId++;

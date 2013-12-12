@@ -81,7 +81,7 @@ class Sender implements LoggerAwareInterface
 	 * @param int The times Notificato should retry to deliver the message on failure (deprecated and ignored)
 	 * @return MessageEnvelope
 	 */
-	public function queue(Message $message, $retryLimit = PHP_INT_MAX)
+	public function queue(Message $message)
 	{
 		// Get the gateway for the certificate
 		$gateway = $this->getGatewayForCertificate( $message->getCertificate() );

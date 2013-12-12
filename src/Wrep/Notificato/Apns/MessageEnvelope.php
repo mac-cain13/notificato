@@ -25,13 +25,6 @@ class MessageEnvelope
 	const STATUS_EARLIERERROR 	= 257;
 
 	/**
-	 * Statuscode: Sending message failed, too many retries
-	 *
-	 * @deprecated
-	 */
-	const STATUS_TOOMANYRETRIES = 259;
-
-	/**
 	 * Binary command to send a message to the APNS gateway (Internal use)
 	 */
 	const BINARY_COMMAND = 1;
@@ -66,8 +59,7 @@ class MessageEnvelope
 
 			// Notificato internal final states
 			self::STATUS_SENDFAILED 	=> 'Sending failed, will retry with other envelope',
-			self::STATUS_EARLIERERROR 	=> 'Failed due earlier error, will retry with other envelope',
-			self::STATUS_TOOMANYRETRIES => 'Sending failed, too many retries' // Deprecated
+			self::STATUS_EARLIERERROR 	=> 'Failed due earlier error, will retry with other envelope'
 		);
 
 	/**
@@ -75,9 +67,8 @@ class MessageEnvelope
 	 *
 	 * @param int Unique number to the relevant APNS connection to identify this message
 	 * @param Message The message that's is contained by this envelope
-	 * @param int The times Notificato should retry to deliver the message on failure (deprecated and ignored)
 	 */
-	public function __construct($identifier, Message $message, $retryLimit = PHP_INT_MAX)
+	public function __construct($identifier, Message $message)
 	{
 		// A message id greater then 0 is required
 		if ( !(is_int($identifier) && $identifier > 0) ) {
@@ -114,17 +105,6 @@ class MessageEnvelope
 	public function getMessage()
 	{
 		return $this->message;
-	}
-
-	/**
-	 * The number of times sending should be retried if it fails
-	 *
-	 * @deprecated
-	 * @return int
-	 */
-	public function getRetryLimit()
-	{
-		return PHP_INT_MAX;
 	}
 
 	/**

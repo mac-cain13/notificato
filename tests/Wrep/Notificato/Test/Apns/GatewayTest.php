@@ -103,7 +103,7 @@ class GatewayTest extends \PHPUnit_Framework_TestCase
 		$gateway = new Gateway($this->certificate);
 		$successEnvelope	= $gateway->queue($message);
 		$failEnvelope 		= $gateway->queue($incorrectMessage);
-		$retryEnvelope 		= $gateway->queue($message, 0);
+		$retryEnvelope 		= $gateway->queue($message);
 
 		// Send the messages
 		$gateway->flush();
@@ -115,7 +115,6 @@ class GatewayTest extends \PHPUnit_Framework_TestCase
 		// Check for the expected statusses
 		$this->assertEquals(MessageEnvelope::STATUS_NOERRORS, $successEnvelope->getStatus());
 		$this->assertEquals(8, $failEnvelope->getStatus());
-		$this->assertEquals(MessageEnvelope::STATUS_TOOMANYRETRIES, $retryEnvelope->getStatus());
 	}
 
 	public function testStoreMessageEnvelope()
