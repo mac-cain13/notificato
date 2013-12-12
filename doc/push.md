@@ -17,7 +17,7 @@ $message = $notificato->messageBuilder()
 			->build();
 
 // The message is ready, let's send it!
-//  Be aware that this method is blocking and on failure Notificato will retry a few times
+//  Be aware that this method is blocking and on failure Notificato will retry if necessary
 $messageEnvelope = $notificato->send($message);
 
 // The returned envelope contains usefull information about how many retries where needed and if sending succeeded
@@ -49,7 +49,7 @@ foreach ($pushinformation as $deviceToken => $badge)
 }
 
 // Now all messages are queued, lets send them at once
-//  Be aware that this method is blocking and on failure Notificato will retry a few times
+//  Be aware that this method is blocking and on failure Notificato will retry if necessary
 $notificato->flush();
 
 // The returned envelopes contains usefull information about how many retries where needed and if sending succeeded
@@ -85,12 +85,12 @@ foreach ($pushinformation as $deviceToken => $badge)
 	$builder->setBadge($badge)
 		->setDeviceToken($deviceToken);
 
-	// Queue the message for sending and set the retry limit to 10 times
-	$messageEnvelopes[] = $notificato->queue($builder->build(), 10);
+	// Queue the message for sending
+	$messageEnvelopes[] = $notificato->queue($builder->build());
 }
 
 // Now all messages are queued, lets send them at once
-//  Be aware that this method is blocking and on failure Notificato will retry a few times
+//  Be aware that this method is blocking and on failure Notificato will retry if necessary
 $notificato->flush();
 
 // The returned envelopes contains usefull information about how many retries where needed and if sending succeeded

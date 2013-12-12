@@ -50,7 +50,7 @@ class GettingStarted
 								->build();
 
 		// The message is ready, let's send it!
-		//  Be aware that this method is blocking and on failure Notificato will retry a few times
+		//  Be aware that this method is blocking and on failure Notificato will retry if necessary
 		$messageEnvelope = $notificato->send($message);
 
 		// The returned envelope contains usefull information about how many retries where needed and if sending succeeded

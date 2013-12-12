@@ -46,7 +46,7 @@ class MessageEnvelopeTest extends \PHPUnit_Framework_TestCase
 
 	public function testRetryLimit()
 	{
-		$this->assertEquals(MessageEnvelope::DEFAULT_RETRY_LIMIT, $this->messageEnvelope->getRetryLimit());
+		$this->assertEquals(PHP_INT_MAX, $this->messageEnvelope->getRetryLimit());
 	}
 
 	public function testInitialStatus()

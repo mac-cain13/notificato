@@ -40,7 +40,7 @@ $builder = $notificato->messageBuilder()
 $messageEnvelopes[] = $notificato->queue( $builder->build() );
 
 // Now all messages are queued, lets send them at once
-//  Be aware that this method is blocking and on failure Notificato will retry a few times
+//  Be aware that this method is blocking and on failure Notificato will retry if necessary
 $notificato->flush();
 
 // The returned envelopes contains usefull information about how many retries where needed and if sending succeeded

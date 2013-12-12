@@ -65,10 +65,10 @@ class NotificatoTests extends \PHPUnit_Framework_TestCase
 
 		$sender->expects($this->once())
 				->method('queue')
-				->with($this->equalTo($message), $this->equalTo(9));
+				->with($this->equalTo($message));
 
 		$this->notificato->setSender($sender);
-		$this->notificato->queue($message, 9);
+		$this->notificato->queue($message);
 	}
 
 	public function testFlush()
