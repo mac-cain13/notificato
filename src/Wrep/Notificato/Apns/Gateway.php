@@ -15,11 +15,6 @@ class Gateway extends SslSocket
 	const ERROR_RESPONSE_SIZE = 6;
 
 	/**
-	 * Maximum size of the message envelope store (Internal use)
-	 */
-	const MAX_RECOVERY_SIZE = 100;
-
-	/**
 	 * Prefix used to save message envelopes to the store (Internal use)
 	 */
 	const MESSAGE_ENVELOPE_STORE_PREFIX = 'id#';
@@ -48,27 +43,27 @@ class Gateway extends SslSocket
 	 * Queue a message for sending
 	 *
 	 * @param Message The message object to queue for sending
-	 * @param int The times Notificato should retry to deliver the message on failure
+	 * @param int The times Notificato should retry to deliver the message on failure (deprecated and ignored)
 	 * @return MessageEnvelope
 	 */
-	public function queue(Message $message, $retryLimit = MessageEnvelope::DEFAULT_RETRY_LIMIT)
+	public function queue(Message $message, $retryLimit = PHP_INT_MAX)
 	{
 		// Bump the message ID
 		$this->lastMessageId++;
 
 		// Put the message in an envelope
-		$envelope = new MessageEnvelope($this->lastMessageId, $message, $retryLimit);
+		$envelope = new MessageEnvelope($this->lastMessageId, $message);
 
 		// Save the message so we can update it later on
 		$this->storeMessageEnvelope($envelope);
 
 		// If valid, queue or else update status and return the envelope
 		if ($message->validateLength()) {
-			$this->logger->debug('Queuing Apns\Message #' . $this->lastMessageId . ' with retrylimit ' . $retryLimit . ' to device "' . $message->getDeviceToken() . '" on Apns\Gateway with certificate "' . $this->getCertificate()->getDescription() . '"');
+			$this->logger->debug('Queuing Apns\Message #' . $this->lastMessageId . ' to device "' . $message->getDeviceToken() . '" on Apns\Gateway with certificate "' . $this->getCertificate()->getDescription() . '"');
 			$this->sendQueue->enqueue($envelope);
 		} else {
 			$envelope->setStatus(MessageEnvelope::STATUS_PAYLOADTOOLONG);
-			$this->logger->warning('Failed queuing Apns\Message #' . $this->lastMessageId . ' "' . $envelope->getStatusDescription() . '" with retrylimit ' . $retryLimit . ' to device "' . $message->getDeviceToken() . '" on Apns\Gateway with certificate "' . $this->getCertificate()->getDescription() . '"');
+			$this->logger->warning('Failed queuing Apns\Message #' . $this->lastMessageId . ' "' . $envelope->getStatusDescription() . '" to device "' . $message->getDeviceToken() . '" on Apns\Gateway with certificate "' . $this->getCertificate()->getDescription() . '"');
 		}
 
 		return $envelope;
@@ -118,18 +113,10 @@ class Gateway extends SslSocket
 			$bytesSend = (int)fwrite($this->getConnection(), $binaryMessage);
 			if (strlen($binaryMessage) !== $bytesSend)
 			{
-				// Something did go wrong while sending this message, retry if allowed
-				if ($messageEnvelope->getRetryLimit() > 0)
-				{
-					$retryMessageEnvelope = $this->queue( $messageEnvelope->getMessage(), $messageEnvelope->getRetryLimit()-1 );
-					$messageEnvelope->setStatus(MessageEnvelope::STATUS_SENDFAILED, $retryMessageEnvelope);
-					$this->logger->debug('Failed to send Apns\Message #' . $this->lastMessageId . ' "' . $messageEnvelope->getStatusDescription() . '" to device "' . $messageEnvelope->getMessage()->getDeviceToken() . '" on Apns\Gateway with certificate "' . $this->getCertificate()->getDescription() . '"');
-				}
-				else
-				{
-					$messageEnvelope->setStatus(MessageEnvelope::STATUS_TOOMANYRETRIES);
-					$this->logger->warning('Failed to send Apns\Message #' . $this->lastMessageId . ' "' . $messageEnvelope->getStatusDescription() . '" to device "' . $messageEnvelope->getMessage()->getDeviceToken() . '" on Apns\Gateway with certificate "' . $this->getCertificate()->getDescription() . '"');
-				}
+				// Something did go wrong while sending this message, retry
+				$retryMessageEnvelope = $this->queue( $messageEnvelope->getMessage() );
+				$messageEnvelope->setStatus(MessageEnvelope::STATUS_SENDFAILED, $retryMessageEnvelope);
+				$this->logger->debug('Failed to send Apns\Message #' . $this->lastMessageId . ' "' . $messageEnvelope->getStatusDescription() . '" to device "' . $messageEnvelope->getMessage()->getDeviceToken() . '" on Apns\Gateway with certificate "' . $this->getCertificate()->getDescription() . '"');
 			}
 			else
 			{
@@ -164,6 +151,12 @@ class Gateway extends SslSocket
 			if ($this->getQueueLength() > 0) {
 				$this->flush();
 			}
+		}
+		// All messages send?
+		else
+		{
+			// Clear the message envelope store
+			$this->clearMessageEnvelopeStore();
 		}
 	}
 
@@ -210,18 +203,10 @@ class Gateway extends SslSocket
 				// Check if it's send without errors
 				if (null !== $messageEnvelope && $messageEnvelope->getStatus() == MessageEnvelope::STATUS_NOERRORS)
 				{
-					// Mark the message as failed due earlier error and requeue the message again if allowed
-					if ($messageEnvelope->getRetryLimit() > 0)
-					{
-						$retryMessageEnvelope = $this->queue( $messageEnvelope->getMessage(), $messageEnvelope->getRetryLimit()-1 );
-						$messageEnvelope->setStatus(MessageEnvelope::STATUS_EARLIERERROR, $retryMessageEnvelope);
-						$this->logger->debug('Failed to send Apns\Message #' . $this->lastMessageId . ' "' . $messageEnvelope->getStatusDescription() . '" to device "' . $messageEnvelope->getMessage()->getDeviceToken() . '" on Apns\Gateway with certificate "' . $this->getCertificate()->getDescription() . '"');
-					}
-					else
-					{
-						$messageEnvelope->setStatus(MessageEnvelope::STATUS_TOOMANYRETRIES);
-						$this->logger->warning('Failed to send Apns\Message #' . $this->lastMessageId . ' "' . $messageEnvelope->getStatusDescription() . '" to device "' . $messageEnvelope->getMessage()->getDeviceToken() . '" on Apns\Gateway with certificate "' . $this->getCertificate()->getDescription() . '"');
-					}
+					// Mark the message as failed due earlier error and requeue the message
+					$retryMessageEnvelope = $this->queue( $messageEnvelope->getMessage() );
+					$messageEnvelope->setStatus(MessageEnvelope::STATUS_EARLIERERROR, $retryMessageEnvelope);
+					$this->logger->debug('Failed to send Apns\Message #' . $this->lastMessageId . ' "' . $messageEnvelope->getStatusDescription() . '" to device "' . $messageEnvelope->getMessage()->getDeviceToken() . '" on Apns\Gateway with certificate "' . $this->getCertificate()->getDescription() . '"');
 				}
 				else
 				{
@@ -236,8 +221,6 @@ class Gateway extends SslSocket
 
 	/**
 	 * Store a message envelope for later reference (error handling etc)
-	 *  Only up to self::MAX_RECOVERY_SIZE envelopes will be stored,
-	 *  the oldest envelope is purged if self::MAX_RECOVERY_SIZE is exceeded
 	 *
 	 * @param MessageEnvelope The envelope to story
 	 */
@@ -245,12 +228,6 @@ class Gateway extends SslSocket
 	{
 		// Add the given anvelope to the messages array
 		$this->messageEnvelopeStore[self::MESSAGE_ENVELOPE_STORE_PREFIX . $envelope->getIdentifier()] = $envelope;
-
-		// Remove all oldest elements, so we don't get bigger then self::MAX_RECOVERY_SIZE
-		if (count($this->messageEnvelopeStore) > self::MAX_RECOVERY_SIZE) {
-			array_splice($this->messageEnvelopeStore, 0, count($this->messageEnvelopeStore) - self::MAX_RECOVERY_SIZE);
-			$this->logger->debug('Purged ' . (count($this->messageEnvelopeStore) - self::MAX_RECOVERY_SIZE) . ' from the envelope store of Apns\Gateway with certificate "' . $this->getCertificate()->getDescription() . '"');
-		}
 	}
 
 	/**
@@ -268,5 +245,13 @@ class Gateway extends SslSocket
 		}
 
 		return $envelope;
+	}
+
+	/**
+	 * Wipes all envelopes from the store
+	 */
+	protected function clearMessageEnvelopeStore()
+	{
+		$this->messageEnvelopeStore = array();
 	}
 }

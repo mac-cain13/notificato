@@ -148,18 +148,10 @@ class GatewayTest extends \PHPUnit_Framework_TestCase
 		$firstEnvelope = $this->gateway->queue($message);
 		$this->assertEquals(1, count($this->gateway->getMessageEnvelopeStore()), 'Message envelope not stored.');
 
-		for ($i = 1; $i < Gateway::MAX_RECOVERY_SIZE; $i++)
+		for ($i = 1; $i < 1000; $i++)
 		{
 			$this->gateway->queue($message);
 			$this->assertEquals($i+1, count($this->gateway->getMessageEnvelopeStore()), 'Message envelope not stored.');
 		}
-
-		// Above the max the oldest message should be deleted
-		$lastEnvelope = $this->gateway->queue($message);
-
-		$envelopeStore = $this->gateway->getMessageEnvelopeStore();
-		$this->assertEquals(Gateway::MAX_RECOVERY_SIZE, count($envelopeStore), 'MAX_RECOVERY_SIZE not respected.');
-		$this->assertNull($this->gateway->retrieveMessageEnvelope($firstEnvelope->getIdentifier()), 'Oldest envelope not purged.');
-		$this->assertEquals($lastEnvelope, $this->gateway->retrieveMessageEnvelope($lastEnvelope->getIdentifier()), 'Last message envelope not stored.');
 	}
 }

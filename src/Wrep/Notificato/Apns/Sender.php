@@ -78,16 +78,16 @@ class Sender implements LoggerAwareInterface
 	 * Queue a message on the correct APNS gateway connection
 	 *
 	 * @param Message The message to queue
-	 * @param int The times Notificato should retry to deliver the message on failure
+	 * @param int The times Notificato should retry to deliver the message on failure (deprecated and ignored)
 	 * @return MessageEnvelope
 	 */
-	public function queue(Message $message, $retryLimit = MessageEnvelope::DEFAULT_RETRY_LIMIT)
+	public function queue(Message $message, $retryLimit = PHP_INT_MAX)
 	{
 		// Get the gateway for the certificate
 		$gateway = $this->getGatewayForCertificate( $message->getCertificate() );
 
 		// Queue the message
-		return $gateway->queue($message, $retryLimit);
+		return $gateway->queue($message);
 	}
 
 	/**
