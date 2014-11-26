@@ -40,6 +40,30 @@ abstract class SslSocket implements LoggerAwareInterface
 		$this->setLogger(new NullLogger());
 	}
 
+    /**
+     * Override the CA certificate (e.g. for testing with your own mock APNs).
+     *
+     * @param string $path
+     * @throws \LogicException
+     * @throws \InvalidArgumentException
+     */
+    public function setCACertificatePath($path)
+    {
+        if (is_resource($this->connection)) {
+            throw new \LogicException('Could not set the CA certificate because the connection was already opened.');
+        }
+
+        if (!file_exists($path) || !is_readable($path)) {
+            throw new \InvalidArgumentException(sprintf(
+                'The CA certificate "%s" does not exist or is not readable.',
+                $path
+            ));
+        }
+
+        $this->logger->debug('The CA for this instance of the SslSocket was changed; the set CA certificate will be used when a connection is opened.');
+        $this->CACertificatePath = $path;
+    }
+
 	/**
 	 * Sets a logger instance on the object
 	 *
