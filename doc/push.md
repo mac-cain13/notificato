@@ -7,13 +7,14 @@ In this example we'll send one pushmessage to a device. It's the most basic exam
 // First we get a Notificato instance and tell it what certificate to use as default certificate
 $notificato = new Notificato('./certificate.pem', 'passphrase-to-use');
 
-// Now we get a fresh message from Notificato
+// Now we get a fresh messagebuilder from Notificato
 //  This message will be send to device with pushtoken 'fffff...'
 //  it will automaticly be associated with the default certificate
-$message = $notificato->createMessage('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff');
-
-// Let's set App icon badge with this push to 1
-$message->setBadge(1);
+//  and we will set the red badge on the App icon to 1
+$message = $notificato->messageBuilder()
+			->setDeviceToken('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff')
+			->setBadge(1)
+			->build();
 
 // The message is ready, let's send it!
 //  Be aware that this method is blocking and on failure Notificato will retry if necessary
@@ -32,15 +33,19 @@ $notificato = new Notificato('./certificate.pem', 'passphrase-to-use');
 // Create an array to save the message envelopes in
 $messageEnvelopes = array();
 
-// Let's assume $pushinformation contains all push information we need
+// Get the builder
+$builder = $notificato->messageBuilder()
+			->setAlert('Sayid: I'm a survivor of a plane crash.');
+
+// Let's assume $pushinformation contains the device specific push information we need
 foreach ($pushinformation as $deviceToken => $badge)
 {
-	// Now we get a fresh message from Notificato and set the device token and badge
-	$message = $notificato->createMessage($deviceToken);
-	$message->setBadge($badge);
+	// Update the message for this device
+	$builder->setBadge($badge)
+		->setDeviceToken($deviceToken);
 
 	// Queue the message for sending
-	$messageEnvelopes[] = $notificato->queue($message);
+	$messageEnvelopes[] = $notificato->queue( $builder->build() );
 }
 
 // Now all messages are queued, lets send them at once
@@ -65,20 +70,23 @@ $notificato->setLogger( new Psr\Log\NullLogger() );
 // Create an array to save the message envelopes in
 $messageEnvelopes = array();
 
+// Get the builder
+$builder = $notificato->messageBuilder()
+			->setExpiresAt(new \DateTime('+1 hour'))
+			->setAlert('The numbers are 4, 8, 15, 16, 23 and 42', 'accept-button', 'launch-image')
+			->setSound('spookysound')
+			->setContentAvailable(false)
+			->setPayload( array('persons' => array('Locke', 'Reyes', 'Ford', 'Jarrah', 'Shephard', 'Kwon')) );
+
 // Let's assume $pushinformation contains all push information we need
 foreach ($pushinformation as $deviceToken => $badge)
 {
-	// Now we get a fresh message from Notificato and set the device token
-	$message = $notificato->createMessage($deviceToken);
-	$message->setExpiresAt(new \DateTime('+1 hour'));
-	$message->setAlert('The numbers are 4, 8, 15, 16, 23 and 42', 'accept-button', 'launch-image');
-	$message->setBadge($badge);
-	$message->setSound('spookysound');
-	$message->setContentAvailable(false);
-	$message->setPayload( array('persons' => array('Locke', 'Reyes', 'Ford', 'Jarrah', 'Shephard', 'Kwon')) );
+	// Update the message for this device
+	$builder->setBadge($badge)
+		->setDeviceToken($deviceToken);
 
 	// Queue the message for sending
-	$messageEnvelopes[] = $notificato->queue($message);
+	$messageEnvelopes[] = $notificato->queue($builder->build());
 }
 
 // Now all messages are queued, lets send them at once

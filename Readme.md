@@ -16,7 +16,7 @@ Installation with [Composer](http://getcomposer.org) is recommended. Run the req
 `composer require wrep/notificato`
 
 *Alternatives:*
-There is also a [Notificato for Symfony2 bundle](https://github.com/mac-cain13/notificato-symfony) available, highly recommended for Symfony2 users.
+There is also a [Notificato for Symfony2 bundle](https://github.com/rickpastoor/notificato-symfony) available, highly recommended for Symfony2 users.
 
 ## Getting started
 1. Take a look at the snippet below for a impression how Notificato works
@@ -40,13 +40,14 @@ class GettingStarted
 		// First we get a Notificato instance and tell it what certificate to use as default certificate
 		$notificato = new Notificato('./certificate.pem', 'passphrase-to-use');
 
-		// Now we get a fresh message from Notificato
+		// Now we get a fresh messagebuilder from Notificato
 		//  This message will be send to device with pushtoken 'fffff...'
 		//  it will automaticly be associated with the default certificate
-		$message = $notificato->createMessage('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff');
-
-		// Let's set App icon badge with this push to 1
-		$message->setBadge(1);
+		//  and we will set the red badge on the App icon to 1
+		$message = $notificato->messageBuilder()
+								->setDeviceToken('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff')
+								->setBadge(1)
+								->build();
 
 		// The message is ready, let's send it!
 		//  Be aware that this method is blocking and on failure Notificato will retry if necessary
@@ -85,4 +86,4 @@ $gettingStarted->readFeedbackService();
 We'll love contributions, read [Contribute.md](Contribute.md) for some more info on what you can do and stuff that you should know if you want to help!
 
 ## License & Credits
-Notificato is released under the [MIT License](License) by [Wrep](http://www.wrep.nl/), so feel free to use it in commercial and non-commercial projects.
+Notificato is released under the [MIT License](License) by [Mathijs Kadijk](https://github.com/mac-cain13), so feel free to use it in commercial and non-commercial projects.

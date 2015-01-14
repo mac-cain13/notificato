@@ -33,9 +33,6 @@ class GatewayTest extends \PHPUnit_Framework_TestCase
 		$message = $this->getMockBuilder('\Wrep\Notificato\Apns\Message')
 						->disableOriginalConstructor()
 						->getMock();
-		$message->expects($this->once())
-				->method('validateLength')
-				->will($this->returnValue(true));
 
 		$envelope = $this->gateway->queue($message);
 
@@ -43,29 +40,11 @@ class GatewayTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals(1, $this->gateway->getQueueLength());
 	}
 
-	public function testQueueToLargeMessage()
-	{
-		$message = $this->getMockBuilder('\Wrep\Notificato\Apns\Message')
-						->disableOriginalConstructor()
-						->getMock();
-		$message->expects($this->once())
-				->method('validateLength')
-				->will($this->returnValue(false));
-
-		$envelope = $this->gateway->queue($message);
-
-		$this->assertEquals(MessageEnvelope::STATUS_PAYLOADTOOLONG, $envelope->getStatus());
-		$this->assertEquals(0, $this->gateway->getQueueLength());
-	}
-
 	public function testConnectionFail()
 	{
 		$message = $this->getMockBuilder('\Wrep\Notificato\Apns\Message')
 						->disableOriginalConstructor()
 						->getMock();
-		$message->expects($this->once())
-				->method('validateLength')
-				->will($this->returnValue(true));
 
 		$this->certificate = new Certificate(__DIR__ . '/../resources/certificate_corrupt.pem', 'passphrase', false, Certificate::ENDPOINT_ENV_PRODUCTION);
 		$this->gateway = new Gateway($this->certificate);
@@ -124,7 +103,7 @@ class GatewayTest extends \PHPUnit_Framework_TestCase
 		$gateway = new Gateway($this->certificate);
 		$successEnvelope	= $gateway->queue($message);
 		$failEnvelope 		= $gateway->queue($incorrectMessage);
-		$retryEnvelope 		= $gateway->queue($message, 0);
+		$retryEnvelope 		= $gateway->queue($message);
 
 		// Send the messages
 		$gateway->flush();
@@ -136,13 +115,17 @@ class GatewayTest extends \PHPUnit_Framework_TestCase
 		// Check for the expected statusses
 		$this->assertEquals(MessageEnvelope::STATUS_NOERRORS, $successEnvelope->getStatus());
 		$this->assertEquals(8, $failEnvelope->getStatus());
-		$this->assertEquals(MessageEnvelope::STATUS_TOOMANYRETRIES, $retryEnvelope->getStatus());
 	}
 
 	public function testStoreMessageEnvelope()
 	{
 		$this->gateway = new \Wrep\Notificato\Test\Apns\Mock\MockGateway($this->certificate);
-		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $this->certificate);
+		$message = $this->getMockBuilder('\Wrep\Notificato\Apns\Message')
+						->disableOriginalConstructor()
+						->getMock();
+		$message->expects($this->any())
+				->method('getCertificate')
+				->will($this->returnValue($this->certificate));
 
 		// Check that each message is stored into the message envelope store
 		$firstEnvelope = $this->gateway->queue($message);

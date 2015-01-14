@@ -61,7 +61,7 @@ Code needs explanation, and sometimes those who know the code well have trouble 
     * Typo corrections are also welcome
 
 # Community
-If you write a blog about Notificato, use it in your project, recommended it to a friend or feel it completes your life, please feel free to send me a mail at mathijs@wrep.nl. I'll see if I can mention projects/blogs somewhere and it's very motivating to hear something from happy users.
+If you write a blog about Notificato, use it in your project, recommended it to a friend or feel it completes your life, please feel free to send me a mail at mkadijk@gmail.com. I'll see if I can mention projects/blogs somewhere and it's very motivating to hear something from happy users.
 
 *Please don't mail me for support, but use the issuetracker and StackOverflow/forums for that so more people can help, thanks!*
 

@@ -43,10 +43,9 @@ class Gateway extends SslSocket
 	 * Queue a message for sending
 	 *
 	 * @param Message The message object to queue for sending
-	 * @param int The times Notificato should retry to deliver the message on failure (deprecated and ignored)
 	 * @return MessageEnvelope
 	 */
-	public function queue(Message $message, $retryLimit = PHP_INT_MAX)
+	public function queue(Message $message)
 	{
 		// Bump the message ID
 		$this->lastMessageId++;
@@ -57,14 +56,9 @@ class Gateway extends SslSocket
 		// Save the message so we can update it later on
 		$this->storeMessageEnvelope($envelope);
 
-		// If valid, queue or else update status and return the envelope
-		if ($message->validateLength()) {
-			$this->logger->debug('Queuing Apns\Message #' . $this->lastMessageId . ' to device "' . $message->getDeviceToken() . '" on Apns\Gateway with certificate "' . $this->getCertificate()->getDescription() . '"');
-			$this->sendQueue->enqueue($envelope);
-		} else {
-			$envelope->setStatus(MessageEnvelope::STATUS_PAYLOADTOOLONG);
-			$this->logger->warning('Failed queuing Apns\Message #' . $this->lastMessageId . ' "' . $envelope->getStatusDescription() . '" to device "' . $message->getDeviceToken() . '" on Apns\Gateway with certificate "' . $this->getCertificate()->getDescription() . '"');
-		}
+		// Queue and return the envelope
+		$this->logger->debug('Queuing Apns\Message #' . $this->lastMessageId . ' to device "' . $message->getDeviceToken() . '" on Apns\Gateway with certificate "' . $this->getCertificate()->getDescription() . '"');
+		$this->sendQueue->enqueue($envelope);
 
 		return $envelope;
 	}
