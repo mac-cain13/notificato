@@ -195,6 +195,48 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 	public function longPayloadArguments()
 	{
 		return array(
+			array( array('p' => str_pad('a', 2041))),
+			array( array('p' => str_pad('a', 2048))),
+			array( array('p' => str_pad('a', 4000)))
+			);
+	}
+
+	/**
+	 * @dataProvider shortPayloadArguments
+	 */
+	public function testCompatibleWithSmallPayload($payload)
+	{
+		$certificate = new Certificate(__DIR__ . '/../resources/certificate_corrupt.pem', null, false, Certificate::ENDPOINT_ENV_PRODUCTION);
+
+		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, null, null, null, $payload, null, null);
+		$this->assertEquals($payload, $message->getPayload(), 'Setting payload did not persist.');
+		$this->assertEquals(true, $message->isCompatibleWithSmallPayloadSize());
+	}
+
+	public function shortPayloadArguments()
+	{
+		return array(
+			array( array('p' => str_pad('a', 248))),
+			array( array('p' => str_pad('a', 100))),
+			array( array('p' => str_pad('a', 5)))
+			);
+	}
+
+	/**
+	 * @dataProvider tooBigForShortPayloadArguments
+	 */
+	public function testIncompatibleWithSmallPayload($payload)
+	{
+		$certificate = new Certificate(__DIR__ . '/../resources/certificate_corrupt.pem', null, false, Certificate::ENDPOINT_ENV_PRODUCTION);
+
+		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, null, null, null, $payload, null, null);
+		$this->assertEquals($payload, $message->getPayload(), 'Setting payload did not persist.');
+		$this->assertEquals(false, $message->isCompatibleWithSmallPayloadSize());
+	}
+
+	public function tooBigForShortPayloadArguments()
+	{
+		return array(
 			array( array('p' => str_pad('a', 249))),
 			array( array('p' => str_pad('a', 300))),
 			array( array('p' => str_pad('a', 400)))

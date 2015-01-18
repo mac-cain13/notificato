@@ -59,9 +59,20 @@ class Message implements \Serializable
 		$this->contentAvailable = (bool)$contentAvailable;
 
 		// Validate the length of the message
-		if (strlen($this->getJson()) > 256) {
-			throw new \LengthException('Length of the message exceeds the maximum of 256 characters.');
+		if (strlen($this->getJson()) > 2048) {
+			throw new \LengthException('Length of the message exceeds the maximum of 2048 characters.');
 		}
+	}
+
+	/**
+	 * Check if this message is short enough to be send to iOS 7 or OS X
+	 * Note: iOS 8 support messages up to 2048 bytes, OS X and iOS 7 and below support messages up to 256 bytes
+	 *
+	 * @return boolean Wheter you can send this message savely to older OSses
+	 */
+	public function boolean isCompatibleWithSmallPayloadSize() 
+	{
+		return (strlen($this->getJson()) <= 256)
 	}
 
 	/**
