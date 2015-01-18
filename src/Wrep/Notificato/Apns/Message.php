@@ -70,9 +70,9 @@ class Message implements \Serializable
 	 *
 	 * @return boolean Wheter you can send this message savely to older OSses
 	 */
-	public function boolean isCompatibleWithSmallPayloadSize() 
+	public function isCompatibleWithSmallPayloadSize() 
 	{
-		return (strlen($this->getJson()) <= 256)
+		return (strlen($this->getJson()) <= 256);
 	}
 
 	/**
