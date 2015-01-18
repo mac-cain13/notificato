@@ -11,6 +11,7 @@ class MessageBuilder
 
 	// Attributes that go into the payload
 	private $alert;
+	private $alertActions = array();
 	private $badge;
 	private $sound;
 	private $payload;
@@ -117,6 +118,36 @@ class MessageBuilder
 	}
 
 	/**
+	 * Add custom (iOS 8+) actions to the alert you display
+	 *  Note: You must also call setAlert() or setAlertLocalized() to make a complete alert
+	 *
+	 * @param string The identifier of the custom action
+	 * @param string The text of the alert to display
+	 * @return MessageBuilder
+	 */
+	public function addAlertAction($id, $title)
+	{
+		$alertActions[] = array('id' => $id, 'title' => $title);
+
+		return $this;
+	}
+
+	/**
+	 * Add localized custom (iOS 8+) actions to the alert you display
+	 *  Note: You must also call setAlert() or setAlertLocalized() to make a complete alert
+	 *
+	 * @param string The identifier of the custom action
+	 * @param string The text of the alert to display
+	 * @return MessageBuilder
+	 */
+	public function addAlertActionLocalized($id, $locKey, $locArgs = array())
+	{
+		$alertActions[] = array('id' => $id, 'locKey' => $locKey, 'locArgs' => $locArgs);
+
+		return $this;
+	}
+
+	/**
 	 * Set the badge to display on the App icon
 	 *
 	 * @param int|null The badge number to display
@@ -191,6 +222,16 @@ class MessageBuilder
 	{
 		if (null == $this->certificate) {
 			throw new \InvalidArgumentException('The certificate cannot be null.');
+		}
+
+		// Fold alert actions into the alert
+		if (count($this->alertActions) > 0)
+		{
+			if (is_string($this->alert)) {
+				$this->alert = array('body' => $body, 'actions' => $this->alertActions);
+			} else if (is_array($this->alert)) {
+				$this->alert['actions'] = $this->alertActions;
+			}
 		}
 
 		return new Message(	$this->deviceToken,
