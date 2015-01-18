@@ -1,66 +1,135 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="robots" content="index, follow, all" />
-        <title>Wrep\Notificato\Apns\Gateway | Notificato API</title>
-                    <link rel="stylesheet" type="text/css" href="../../../stylesheet.css">
-                            </head>
-        <body id="class">
-            <div class="header">
-        <ul>
-            <li><a href="../../../classes.html">Classes</a></li>
-                            <li><a href="../../../namespaces.html">Namespaces</a></li>
-                        <li><a href="../../../interfaces.html">Interfaces</a></li>
-            <li><a href="../../../doc-index.html">Index</a></li>
-            
-        </ul>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="robots" content="index, follow, all" />
+    <title>Wrep\Notificato\Apns\Gateway | Notificato API</title>
 
-        <div id="title">Notificato API</div>
+            <link rel="stylesheet" type="text/css" href="../../../css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="../../../css/bootstrap-theme.min.css">
+        <link rel="stylesheet" type="text/css" href="../../../css/sami.css">
+        <script src="../../../js/jquery-1.11.1.min.js"></script>
+        <script src="../../../js/bootstrap.min.js"></script>
+        <script src="../../../js/typeahead.min.js"></script>
+        <script src="../../../sami.js"></script>
+    
+    
+    </head>
 
-            <div class="type">Class</div>
-    <h1><a href="../../../Wrep/Notificato/Apns.html">Wrep\Notificato\Apns</a>\Gateway</h1>
+    <body id="class" data-name="class:Wrep_Notificato_Apns_Gateway" data-root-path="../../../">
+            <div id="content">
+        <div id="left-column">
+                <div id="control-panel">
+                    <form action="#" method="GET">
+                <select id="version-switcher" name="version">
+                                            <option value="../../../../master/index.html" selected>master branch</option>
+                                            <option value="../../../../1.0.0/index.html">1.0.0</option>
+                                            <option value="../../../../1.0.1/index.html">1.0.1</option>
+                                            <option value="../../../../1.0.2/index.html">1.0.2</option>
+                                            <option value="../../../../1.0.3/index.html">1.0.3</option>
+                                            <option value="../../../../1.0.4/index.html">1.0.4</option>
+                                            <option value="../../../../1.1.0/index.html">1.1.0</option>
+                                    </select>
+            </form>
+                <form id="search-form" action="../../../search.html" method="GET">
+            <span class="glyphicon glyphicon-search"></span>
+            <input name="search"
+                   class="typeahead form-control"
+                   type="search"
+                   placeholder="Search">
+        </form>
     </div>
-        <div class="content">
-                <p>class    <strong>Gateway</strong>        extends <a href="../../../Wrep/Notificato/Apns/SslSocket.html"><abbr title="Wrep\Notificato\Apns\SslSocket">SslSocket</abbr></a></p>
 
+                <div id="api-tree"></div>
+
+        </div>
+        <div id="right-column">
+                <nav id="site-nav" class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-elements">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="../../../index.html">Notificato API</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-elements">
+                <ul class="nav navbar-nav">
+                    <li><a href="../../../classes.html">Classes</a></li>
+                                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+                    <li><a href="../../../traits.html">Traits</a></li>
+                    <li><a href="../../../doc-index.html">Index</a></li>
+                    <li><a href="../../../search.html">Search</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+                        <div class="namespace-breadcrumbs">
+            <ol class="breadcrumb">
+                <li><span class="label label-default">class</span></li>
+                                                            <li><a href="../../../Wrep.html">Wrep</a></li>
+                                        <li><a href="../../../Wrep/Notificato.html">Notificato</a></li>
+                                        <li><a href="../../../Wrep/Notificato/Apns.html">Apns</a></li>
+    
+                <li>Gateway</li>
+            </ol>
+        </div>
+                <div id="page-content">
+                
+    <div class="page-header">
+        <h1>Gateway</h1>
+    </div>
+
+    <p>    class
+    <strong>Gateway</strong>        extends <a href="../../../Wrep/Notificato/Apns/SslSocket.html"><abbr title="Wrep\Notificato\Apns\SslSocket">SslSocket</abbr></a></p>
+
+    
     
             <h2>Constants</h2>
 
-            <table>
+            <table class="table table-condensed">
                     <tr>
                 <td>SEND_INTERVAL</td>
                 <td class="last">
                     <p><em>Minimum interval between sending two messages in microseconds (Internal use)</em></p>
-                    <p></p>
+                    <p>
+</p>
                 </td>
             </tr>
                     <tr>
                 <td>READ_TIMEOUT</td>
                 <td class="last">
                     <p><em>Minimum interval to wait for a response (Internal use)</em></p>
-                    <p></p>
+                    <p>
+</p>
                 </td>
             </tr>
                     <tr>
                 <td>ERROR_RESPONSE_COMMAND</td>
                 <td class="last">
                     <p><em>Command APNS sends back on error (Internal use)</em></p>
-                    <p></p>
+                    <p>
+</p>
                 </td>
             </tr>
                     <tr>
                 <td>ERROR_RESPONSE_SIZE</td>
                 <td class="last">
                     <p><em>Size of the APNS error response (Internal use)</em></p>
-                    <p></p>
+                    <p>
+</p>
                 </td>
             </tr>
                     <tr>
                 <td>MESSAGE_ENVELOPE_STORE_PREFIX</td>
                 <td class="last">
                     <p><em>Prefix used to save message envelopes to the store (Internal use)</em></p>
-                    <p></p>
+                    <p>
+</p>
                 </td>
             </tr>
             </table>
@@ -69,84 +138,80 @@
     
             <h2>Methods</h2>
 
-            <table>
-                    <tr>
-                <td class="type">
+            <div class="container-fluid underlined">
+                    <div class="row">
+                <div class="col-md-2 type">
                     
-                </td>
-                <td class="last">
+                </div>
+                <div class="col-md-8 type">
                     <a href="#method___construct">__construct</a>(<a href="../../../Wrep/Notificato/Apns/Certificate.html"><abbr title="Wrep\Notificato\Apns\Certificate">Certificate</abbr></a> $certificate)
-                    <p>Construct Gateway</p>
-                </td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type">
+                                            <p>Construct Gateway</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
                     
-                </td>
-                <td class="last">
+                </div>
+                <div class="col-md-8 type">
                     <a href="#method_setLogger">setLogger</a>(<abbr title="Psr\Log\LoggerInterface">LoggerInterface</abbr> $logger)
-                    <p>Sets a logger instance on the object</p>
-                </td>
-                <td><small>from&nbsp;<a href="../../../Wrep/Notificato/Apns/SslSocket.html#method_setLogger"><abbr title="Wrep\Notificato\Apns\SslSocket">SslSocket</abbr></a></small></td>
-            </tr>
-                    <tr>
-                <td class="type">
+                                            <p>Sets a logger instance on the object</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../Wrep/Notificato/Apns/SslSocket.html#method_setLogger"><abbr title="Wrep\Notificato\Apns\SslSocket">SslSocket</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
                     <a href="../../../Wrep/Notificato/Apns/Certificate.html"><abbr title="Wrep\Notificato\Apns\Certificate">Certificate</abbr></a>
-                </td>
-                <td class="last">
+                </div>
+                <div class="col-md-8 type">
                     <a href="#method_getCertificate">getCertificate</a>()
-                    <p>Get the certificate used with this connection</p>
-                </td>
-                <td><small>from&nbsp;<a href="../../../Wrep/Notificato/Apns/SslSocket.html#method_getCertificate"><abbr title="Wrep\Notificato\Apns\SslSocket">SslSocket</abbr></a></small></td>
-            </tr>
-                    <tr>
-                <td class="type">
+                                            <p>Get the certificate used with this connection</p>                </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../Wrep/Notificato/Apns/SslSocket.html#method_getCertificate"><abbr title="Wrep\Notificato\Apns\SslSocket">SslSocket</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
                     <a href="../../../Wrep/Notificato/Apns/MessageEnvelope.html"><abbr title="Wrep\Notificato\Apns\MessageEnvelope">MessageEnvelope</abbr></a>
-                </td>
-                <td class="last">
-                    <a href="#method_queue">queue</a>(<a href="../../../Wrep/Notificato/Apns/Message.html"><abbr title="Wrep\Notificato\Apns\Message">Message</abbr></a> $message, int $retryLimit = PHP_INT_MAX)
-                    <p>Queue a message for sending</p>
-                </td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type">
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_queue">queue</a>(<a href="../../../Wrep/Notificato/Apns/Message.html"><abbr title="Wrep\Notificato\Apns\Message">Message</abbr></a> $message)
+                                            <p>Queue a message for sending</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
                     int
-                </td>
-                <td class="last">
+                </div>
+                <div class="col-md-8 type">
                     <a href="#method_getQueueLength">getQueueLength</a>()
-                    <p>Count of all queued messages</p>
-                </td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type">
+                                            <p>Count of all queued messages</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
                     
-                </td>
-                <td class="last">
+                </div>
+                <div class="col-md-8 type">
                     <a href="#method_flush">flush</a>()
-                    <p>Send all queued messages</p>
-                </td>
-                <td></td>
-            </tr>
-            </table>
+                                            <p>Send all queued messages</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+            </div>
 
 
         <h2>Details</h2>
 
-                        <h3 id="method___construct">
+            <div id="method-details">
+                    <div class="method-item">
+                    <h3 id="method___construct">
         <div class="location">at line 32</div>
-        <code>            public            
+        <code>                    
     <strong>__construct</strong>(<a href="../../../Wrep/Notificato/Apns/Certificate.html"><abbr title="Wrep\Notificato\Apns\Certificate">Certificate</abbr></a> $certificate)</code>
     </h3>
     <div class="details">
-        <p>Construct Gateway</p>
-        <p></p>
-        <div class="tags">
+                    <div class="method-description">
+                                    <p>Construct Gateway</p>                                </div>
+                <div class="tags">
                             <h4>Parameters</h4>
 
-                    <table>
+                    <table class="table table-condensed">
                     <tr>
                 <td><a href="../../../Wrep/Notificato/Apns/Certificate.html"><abbr title="Wrep\Notificato\Apns\Certificate">Certificate</abbr></a></td>
                 <td>$certificate</td>
@@ -160,22 +225,25 @@
                     </div>
     </div>
 
-                <h3 id="method_setLogger">
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setLogger">
         <div class="location">in <a href="../../../Wrep/Notificato/Apns/SslSocket.html#method_setLogger"><abbr title="Wrep\Notificato\Apns\SslSocket">SslSocket</abbr></a> at line 48</div>
-        <code>            public            
+        <code>                    
     <strong>setLogger</strong>(<abbr title="Psr\Log\LoggerInterface">LoggerInterface</abbr> $logger)</code>
     </h3>
     <div class="details">
-        <p>Sets a logger instance on the object</p>
-        <p></p>
-        <div class="tags">
+                    <div class="method-description">
+                                    <p>Sets a logger instance on the object</p>                                </div>
+                <div class="tags">
                             <h4>Parameters</h4>
 
-                    <table>
+                    <table class="table table-condensed">
                     <tr>
                 <td><abbr title="Psr\Log\LoggerInterface">LoggerInterface</abbr></td>
                 <td>$logger</td>
-                <td></td>
+                <td>
+</td>
             </tr>
             </table>
 
@@ -185,22 +253,25 @@
                     </div>
     </div>
 
-                <h3 id="method_getCertificate">
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getCertificate">
         <div class="location">in <a href="../../../Wrep/Notificato/Apns/SslSocket.html#method_getCertificate"><abbr title="Wrep\Notificato\Apns\SslSocket">SslSocket</abbr></a> at line 58</div>
-        <code>            public            <a href="../../../Wrep/Notificato/Apns/Certificate.html"><abbr title="Wrep\Notificato\Apns\Certificate">Certificate</abbr></a>
+        <code>                    <a href="../../../Wrep/Notificato/Apns/Certificate.html"><abbr title="Wrep\Notificato\Apns\Certificate">Certificate</abbr></a>
     <strong>getCertificate</strong>()</code>
     </h3>
     <div class="details">
-        <p>Get the certificate used with this connection</p>
-        <p></p>
-        <div class="tags">
+                    <div class="method-description">
+                                    <p>Get the certificate used with this connection</p>                                </div>
+                <div class="tags">
             
                             <h4>Return Value</h4>
 
-                    <table>
+                    <table class="table table-condensed">
         <tr>
             <td><a href="../../../Wrep/Notificato/Apns/Certificate.html"><abbr title="Wrep\Notificato\Apns\Certificate">Certificate</abbr></a></td>
-            <td></td>
+            <td>
+</td>
         </tr>
     </table>
 
@@ -209,37 +280,35 @@
                     </div>
     </div>
 
-                <h3 id="method_queue">
-        <div class="location">at line 49</div>
-        <code>            public            <a href="../../../Wrep/Notificato/Apns/MessageEnvelope.html"><abbr title="Wrep\Notificato\Apns\MessageEnvelope">MessageEnvelope</abbr></a>
-    <strong>queue</strong>(<a href="../../../Wrep/Notificato/Apns/Message.html"><abbr title="Wrep\Notificato\Apns\Message">Message</abbr></a> $message, int $retryLimit = PHP_INT_MAX)</code>
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_queue">
+        <div class="location">at line 48</div>
+        <code>                    <a href="../../../Wrep/Notificato/Apns/MessageEnvelope.html"><abbr title="Wrep\Notificato\Apns\MessageEnvelope">MessageEnvelope</abbr></a>
+    <strong>queue</strong>(<a href="../../../Wrep/Notificato/Apns/Message.html"><abbr title="Wrep\Notificato\Apns\Message">Message</abbr></a> $message)</code>
     </h3>
     <div class="details">
-        <p>Queue a message for sending</p>
-        <p></p>
-        <div class="tags">
+                    <div class="method-description">
+                                    <p>Queue a message for sending</p>                                </div>
+                <div class="tags">
                             <h4>Parameters</h4>
 
-                    <table>
+                    <table class="table table-condensed">
                     <tr>
                 <td><a href="../../../Wrep/Notificato/Apns/Message.html"><abbr title="Wrep\Notificato\Apns\Message">Message</abbr></a></td>
                 <td>$message</td>
                 <td>The message object to queue for sending</td>
             </tr>
-                    <tr>
-                <td>int</td>
-                <td>$retryLimit</td>
-                <td>The times Notificato should retry to deliver the message on failure (deprecated and ignored)</td>
-            </tr>
             </table>
 
             
                             <h4>Return Value</h4>
 
-                    <table>
+                    <table class="table table-condensed">
         <tr>
             <td><a href="../../../Wrep/Notificato/Apns/MessageEnvelope.html"><abbr title="Wrep\Notificato\Apns\MessageEnvelope">MessageEnvelope</abbr></a></td>
-            <td></td>
+            <td>
+</td>
         </tr>
     </table>
 
@@ -248,22 +317,25 @@
                     </div>
     </div>
 
-                <h3 id="method_getQueueLength">
-        <div class="location">at line 77</div>
-        <code>            public            int
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getQueueLength">
+        <div class="location">at line 71</div>
+        <code>                    int
     <strong>getQueueLength</strong>()</code>
     </h3>
     <div class="details">
-        <p>Count of all queued messages</p>
-        <p></p>
-        <div class="tags">
+                    <div class="method-description">
+                                    <p>Count of all queued messages</p>                                </div>
+                <div class="tags">
             
                             <h4>Return Value</h4>
 
-                    <table>
+                    <table class="table table-condensed">
         <tr>
             <td>int</td>
-            <td></td>
+            <td>
+</td>
         </tr>
     </table>
 
@@ -272,25 +344,34 @@
                     </div>
     </div>
 
-                <h3 id="method_flush">
-        <div class="location">at line 85</div>
-        <code>            public            
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_flush">
+        <div class="location">at line 79</div>
+        <code>                    
     <strong>flush</strong>()</code>
     </h3>
     <div class="details">
-        <p>Send all queued messages</p>
-        <p></p>
-        <div class="tags">
+                    <div class="method-description">
+                                    <p>Send all queued messages</p>                                </div>
+                <div class="tags">
             
             
             
                     </div>
     </div>
 
+            </div>
+            </div>
+
     
             </div>
-            <div id="footer">
-        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+                <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/">Sami, the API Documentation Generator</a>.
+    </div>
+
+        </div>
     </div>
     </body>
+
 </html>
