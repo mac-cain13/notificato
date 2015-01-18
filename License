@@ -1,6 +1,6 @@
 The MIT License
 
-Copyright (c) 2013 Wrep - http://www.wrep.nl/
+Copyright (c) 2013-2015 Mathijs Kadijk - https://github.com/mac-cain13
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this
 software and associated documentation files (the "Software"), to deal in the Software
@@ -17,8 +17,3 @@ PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS 
 FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
-
-The name "Wrep" and all of the Wrep trademarks, slogans, text or logo representation used
-or referred in this project are the property of [Wrep](http://www.wrep.nl/) and may not be
-used in any way without written permission by Wrep. So please remove our logo, name, icons
-and slogans from any fork you make, especially if you want to publish your own version somewhere.
