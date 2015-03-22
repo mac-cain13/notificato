@@ -10,8 +10,8 @@ This example pushes 2 messages to two different Apps. The big difference is that
 $notificato = new Notificato();
 
 // Now we create the certificate objects for both Apps
-$certificateAppFoo = $notificate->createCertificate('./certificate-app-foo.pem', 'passphrase-here');
-$certificateAppBar = $notificate->createCertificate('./certificate-app-bar.pem', 'the-passphrase');
+$certificateAppFoo = $notificato->createCertificate('./certificate-app-foo.pem', 'passphrase-here');
+$certificateAppBar = $notificato->createCertificate('./certificate-app-bar.pem', 'the-passphrase');
 
 // Create an array to save the message envelopes in
 $messageEnvelopes = array();
@@ -33,7 +33,7 @@ $messageEnvelopes[] = $notificato->queue( $builder->build() );
 //  Note that we pass the certificate to the message, as we're not using a default certificate anymore
 $builder = $notificato->messageBuilder()
 			->setDeviceToken($deviceToken)
-			->setCertificate($certificateAppFooBar)
+			->setCertificate($certificateAppBar)
 			->setAlert('Charlie: It was imaginary peanut butter, actually.');
 
 // Queue the message for sending
@@ -59,8 +59,8 @@ Now we've send the messages we must read the feedback service for all the certif
 $notificato = new Notificato();
 
 // Now we create the certificate objects for both Apps
-$certificateAppFoo = $notificate->createCertificate('./certificate-app-foo.pem', 'passphrase-here');
-$certificateAppBar = $notificate->createCertificate('./certificate-app-bar.pem', 'the-passphrase');
+$certificateAppFoo = $notificato->createCertificate('./certificate-app-foo.pem', 'passphrase-here');
+$certificateAppBar = $notificato->createCertificate('./certificate-app-bar.pem', 'the-passphrase');
 
 /** Get feedback for App Foo **/
 // Now read all "tuples" from the feedback service, be aware that this method is blocking
