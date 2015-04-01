@@ -111,20 +111,41 @@ class Gateway extends SslSocket
 				$retryMessageEnvelope = $this->queue( $messageEnvelope->getMessage() );
 				$messageEnvelope->setStatus(MessageEnvelope::STATUS_SENDFAILED, $retryMessageEnvelope);
 				$this->logger->debug('Failed to send Apns\Message #' . $this->lastMessageId . ' "' . $messageEnvelope->getStatusDescription() . '" to device "' . $messageEnvelope->getMessage()->getDeviceToken() . '" on Apns\Gateway with certificate "' . $this->getCertificate()->getDescription() . '"');
+
+				// Sending failed, need to reconnect the socket
+				$this->waitAndCheckForErrorResponse();
+				$this->disconnect();
+				$this->connect();
 			}
 			else
 			{
 				// Mark the message as send without errors
 				$messageEnvelope->setStatus(MessageEnvelope::STATUS_NOERRORS);
+
+				// Take a nap to give PHP some time to relax after sending data over the socket
+				usleep(self::SEND_INTERVAL);
+
+				// Check for errors
+				$this->checkForErrorResponse();
 			}
-
-			// Take a nap to give PHP some time to relax after sending data over the socket
-			usleep(self::SEND_INTERVAL);
-
-			// Check for errors
-			$this->checkForErrorResponse();
 		}
 
+		$this->waitAndCheckForErrorResponse();
+
+		// If there are requeued messages, initiate a new flush
+		if ($this->getQueueLength() > 0)
+		{
+			$this->flush();
+		}
+		else
+		{
+			// Clear the message envelope store
+			$this->clearMessageEnvelopeStore();
+		}
+	}
+
+	private function waitAndCheckForErrorResponse()
+	{
 		// All messages send, wait some time for an APNS response
 		$read = array($this->getConnection());
 		$write = $except = null;
@@ -140,17 +161,6 @@ class Gateway extends SslSocket
 		{
 			// Handle the response
 			$this->checkForErrorResponse();
-
-			// If there are requeued messages, initiate a new flush
-			if ($this->getQueueLength() > 0) {
-				$this->flush();
-			}
-		}
-		// All messages send?
-		else
-		{
-			// Clear the message envelope store
-			$this->clearMessageEnvelopeStore();
 		}
 	}
 
