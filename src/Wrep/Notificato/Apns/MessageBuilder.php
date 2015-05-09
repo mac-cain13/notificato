@@ -127,7 +127,7 @@ class MessageBuilder
 	 */
 	public function addAlertAction($id, $title)
 	{
-		$alertActions[] = array('id' => $id, 'title' => $title);
+		$this->alertActions[] = array('id' => $id, 'title' => $title);
 
 		return $this;
 	}
@@ -142,7 +142,7 @@ class MessageBuilder
 	 */
 	public function addAlertActionLocalized($id, $locKey, $locArgs = array())
 	{
-		$alertActions[] = array('id' => $id, 'locKey' => $locKey, 'locArgs' => $locArgs);
+		$this->alertActions[] = array('id' => $id, 'locKey' => $locKey, 'locArgs' => $locArgs);
 
 		return $this;
 	}
