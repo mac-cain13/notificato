@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="robots" content="index, follow, all" />
+    <title>Wrep\Notificato\Apns\Message | Notificato API</title>
+
+            <link rel="stylesheet" type="text/css" href="../../../css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="../../../css/bootstrap-theme.min.css">
+        <link rel="stylesheet" type="text/css" href="../../../css/sami.css">
+        <script src="../../../js/jquery-1.11.1.min.js"></script>
+        <script src="../../../js/bootstrap.min.js"></script>
+        <script src="../../../js/typeahead.min.js"></script>
+        <script src="../../../sami.js"></script>
+    
+    
+    </head>
+
+    <body id="class" data-name="class:Wrep_Notificato_Apns_Message" data-root-path="../../../">
+            <div id="content">
+        <div id="left-column">
+                <div id="control-panel">
+                    <form action="#" method="GET">
+                <select id="version-switcher" name="version">
+                                            <option value="../../../../master/index.html">master branch</option>
+                                            <option value="../../../../1.0.0/index.html">1.0.0</option>
+                                            <option value="../../../../1.0.1/index.html">1.0.1</option>
+                                            <option value="../../../../1.0.2/index.html">1.0.2</option>
+                                            <option value="../../../../1.0.3/index.html">1.0.3</option>
+                                            <option value="../../../../1.0.4/index.html">1.0.4</option>
+                                            <option value="../../../../1.1.0/index.html">1.1.0</option>
+                                            <option value="../../../../1.1.1/index.html">1.1.1</option>
+                                            <option value="../../../../1.1.2/index.html" selected>1.1.2</option>
+                                    </select>
+            </form>
+                <form id="search-form" action="../../../search.html" method="GET">
+            <span class="glyphicon glyphicon-search"></span>
+            <input name="search"
+                   class="typeahead form-control"
+                   type="search"
+                   placeholder="Search">
+        </form>
+    </div>
+
+                <div id="api-tree"></div>
+
+        </div>
+        <div id="right-column">
+                <nav id="site-nav" class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-elements">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="../../../index.html">Notificato API</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-elements">
+                <ul class="nav navbar-nav">
+                    <li><a href="../../../classes.html">Classes</a></li>
+                                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+                    <li><a href="../../../traits.html">Traits</a></li>
+                    <li><a href="../../../doc-index.html">Index</a></li>
+                    <li><a href="../../../search.html">Search</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+                        <div class="namespace-breadcrumbs">
+            <ol class="breadcrumb">
+                <li><span class="label label-default">class</span></li>
+                                                            <li><a href="../../../Wrep.html">Wrep</a></li>
+                                        <li><a href="../../../Wrep/Notificato.html">Notificato</a></li>
+                                        <li><a href="../../../Wrep/Notificato/Apns.html">Apns</a></li>
+    
+                <li>Message</li>
+            </ol>
+        </div>
+                <div id="page-content">
+                
+    <div class="page-header">
+        <h1>Message</h1>
+    </div>
+
+    <p>    class
+    <strong>Message</strong>        implements
+        <a href="http://php.net/Serializable"><abbr title="Serializable">Serializable</abbr></a></p>
+
+            <div class="description">
+            <p>An APNS Message representation.</p>            <p>Note: All strings given to this class must be in UTF-8 to create a valid message</p>        </div>
+    
+    
+    
+    
+            <h2>Methods</h2>
+
+            <div class="container-fluid underlined">
+                    <div class="row">
+                <div class="col-md-2 type">
+                    static&nbsp;<a href="../../../Wrep/Notificato/Apns/MessageBuilder.html"><abbr title="Wrep\Notificato\Apns\MessageBuilder">MessageBuilder</abbr></a>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_builder">builder</a>()
+                                            <p>Get a builder to constuct a message</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method___construct">__construct</a>(string $deviceToken, <a href="../../../Wrep/Notificato/Apns/Certificate.html"><abbr title="Wrep\Notificato\Apns\Certificate">Certificate</abbr></a> $certificate, array|null $alert, int|null $badge, string|null $sound, array|<abbr title="Wrep\Notificato\Apns\json">json</abbr>|null $payload, string $category, boolean $contentAvailable, <abbr title="Wrep\Notificato\Apns\DateTime">DateTime</abbr> $expiresAt = null)
+                                            <p>Construct Message</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    boolean
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_isCompatibleWithSmallPayloadSize">isCompatibleWithSmallPayloadSize</a>()
+                                            <p>Check if this message is short enough to be send to iOS 7 or OS X
+Note: iOS 8 support messages up to 2048 bytes, OS X and iOS 7 and below support messages up to 256 bytes</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getDeviceToken">getDeviceToken</a>()
+                                            <p>Get the device token of the receiving device</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <a href="../../../Wrep/Notificato/Apns/Certificate.html"><abbr title="Wrep\Notificato\Apns\Certificate">Certificate</abbr></a>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getCertificate">getCertificate</a>()
+                                            <p>Get the certificate that should be used for this message</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    int
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getExpiresAt">getExpiresAt</a>()
+                                            <p>Get the moment this message expires</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    string|array
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getAlert">getAlert</a>()
+                                            <p>Get the current alert</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    int|null
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getBadge">getBadge</a>()
+                                            <p>Get the value of the badge as set in this message</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    string|null
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getSound">getSound</a>()
+                                            <p>Get the sound that will be played when this message is received</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    string|null
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getCategory">getCategory</a>()
+                                            <p>Get the category identifier that will be used to determine custom actions</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    boolean
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getContentAvailable">getContentAvailable</a>()
+                                            <p>Get newsstand content availability flag that will trigger the newsstand item to download new content</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    array|null
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getPayload">getPayload</a>()
+                                            <p>Get the current payload</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getJson">getJson</a>()
+                                            <p>Get the JSON payload that should be send to the APNS</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_serialize">serialize</a>()
+                                            <p>String representation of object</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_unserialize">unserialize</a>(string $serialized)
+                                            <p>Constructs the object from serialized data</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    string
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method___toString">__toString</a>()
+                                            <p>Get a string representation of this object</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+            </div>
+
+
+        <h2>Details</h2>
+
+            <div id="method-details">
+                    <div class="method-item">
+                    <h3 id="method_builder">
+        <div class="location">at line 29</div>
+        <code>        static            <a href="../../../Wrep/Notificato/Apns/MessageBuilder.html"><abbr title="Wrep\Notificato\Apns\MessageBuilder">MessageBuilder</abbr></a>
+    <strong>builder</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Get a builder to constuct a message</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><a href="../../../Wrep/Notificato/Apns/MessageBuilder.html"><abbr title="Wrep\Notificato\Apns\MessageBuilder">MessageBuilder</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method___construct">
+        <div class="location">at line 49</div>
+        <code>                    
+    <strong>__construct</strong>(string $deviceToken, <a href="../../../Wrep/Notificato/Apns/Certificate.html"><abbr title="Wrep\Notificato\Apns\Certificate">Certificate</abbr></a> $certificate, array|null $alert, int|null $badge, string|null $sound, array|<abbr title="Wrep\Notificato\Apns\json">json</abbr>|null $payload, string $category, boolean $contentAvailable, <abbr title="Wrep\Notificato\Apns\DateTime">DateTime</abbr> $expiresAt = null)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Construct Message</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$deviceToken</td>
+                <td>Receiver of this message</td>
+            </tr>
+                    <tr>
+                <td><a href="../../../Wrep/Notificato/Apns/Certificate.html"><abbr title="Wrep\Notificato\Apns\Certificate">Certificate</abbr></a></td>
+                <td>$certificate</td>
+                <td>The certificate that must be used for the APNS connection this message is send over</td>
+            </tr>
+                    <tr>
+                <td>array|null</td>
+                <td>$alert</td>
+                <td>The alert to display or null to set no alert</td>
+            </tr>
+                    <tr>
+                <td>int|null</td>
+                <td>$badge</td>
+                <td>The badge number to display</td>
+            </tr>
+                    <tr>
+                <td>string|null</td>
+                <td>$sound</td>
+                <td>String of the sound to play, null for no sound sound</td>
+            </tr>
+                    <tr>
+                <td>array|<abbr title="Wrep\Notificato\Apns\json">json</abbr>|null</td>
+                <td>$payload</td>
+                <td>The payload to send as array or JSON string</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$category</td>
+                <td>Category identifier for the app to display the correct custom actions</td>
+            </tr>
+                    <tr>
+                <td>boolean</td>
+                <td>$contentAvailable</td>
+                <td>True when new newsstand content is available, false when not</td>
+            </tr>
+                    <tr>
+                <td><abbr title="Wrep\Notificato\Apns\DateTime">DateTime</abbr></td>
+                <td>$expiresAt</td>
+                <td>Date until the message should be stored for delivery</td>
+            </tr>
+            </table>
+
+            
+            
+                            <h4>Exceptions</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="http://php.net/InvalidArgumentException"><abbr title="InvalidArgumentException">InvalidArgumentException</abbr></a></td>
+                <td>On invalid or missing arguments</td>
+            </tr>
+                    <tr>
+                <td><a href="http://php.net/LengthException"><abbr title="LengthException">LengthException</abbr></a></td>
+                <td>On too long message</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_isCompatibleWithSmallPayloadSize">
+        <div class="location">at line 76</div>
+        <code>                    boolean
+    <strong>isCompatibleWithSmallPayloadSize</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Check if this message is short enough to be send to iOS 7 or OS X
+Note: iOS 8 support messages up to 2048 bytes, OS X and iOS 7 and below support messages up to 256 bytes</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>boolean</td>
+            <td>Wheter you can send this message savely to older OSses</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getDeviceToken">
+        <div class="location">at line 86</div>
+        <code>                    string
+    <strong>getDeviceToken</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Get the device token of the receiving device</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getCertificate">
+        <div class="location">at line 96</div>
+        <code>                    <a href="../../../Wrep/Notificato/Apns/Certificate.html"><abbr title="Wrep\Notificato\Apns\Certificate">Certificate</abbr></a>
+    <strong>getCertificate</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Get the certificate that should be used for this message</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><a href="../../../Wrep/Notificato/Apns/Certificate.html"><abbr title="Wrep\Notificato\Apns\Certificate">Certificate</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getExpiresAt">
+        <div class="location">at line 106</div>
+        <code>                    int
+    <strong>getExpiresAt</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Get the moment this message expires</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>int</td>
+            <td>Unix timestamp of expiry moment or zero if no specific expiry moment is set</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getAlert">
+        <div class="location">at line 116</div>
+        <code>                    string|array
+    <strong>getAlert</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Get the current alert</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string|array</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getBadge">
+        <div class="location">at line 126</div>
+        <code>                    int|null
+    <strong>getBadge</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Get the value of the badge as set in this message</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>int|null</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getSound">
+        <div class="location">at line 136</div>
+        <code>                    string|null
+    <strong>getSound</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Get the sound that will be played when this message is received</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string|null</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getCategory">
+        <div class="location">at line 146</div>
+        <code>                    string|null
+    <strong>getCategory</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Get the category identifier that will be used to determine custom actions</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string|null</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getContentAvailable">
+        <div class="location">at line 156</div>
+        <code>                    boolean
+    <strong>getContentAvailable</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Get newsstand content availability flag that will trigger the newsstand item to download new content</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>boolean</td>
+            <td>True when new content is available, false when not</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getPayload">
+        <div class="location">at line 166</div>
+        <code>                    array|null
+    <strong>getPayload</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Get the current payload</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>array|null</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getJson">
+        <div class="location">at line 177</div>
+        <code>                    string
+    <strong>getJson</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Get the JSON payload that should be send to the APNS</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="http://php.net/RuntimeException"><abbr title="RuntimeException">RuntimeException</abbr></a></td>
+                <td>When unable to create JSON, for example because of non-UTF-8 characters</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_serialize">
+        <div class="location">at line 232</div>
+        <code>                    string
+    <strong>serialize</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>String representation of object</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_unserialize">
+        <div class="location">at line 249</div>
+        <code>                    
+    <strong>unserialize</strong>(string $serialized)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Constructs the object from serialized data</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$serialized</td>
+                <td>Serialized data</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method___toString">
+        <div class="location">at line 266</div>
+        <code>                    string
+    <strong>__toString</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Get a string representation of this object</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+            </div>
+
+    
+            </div>
+                <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/">Sami, the API Documentation Generator</a>.
+    </div>
+
+        </div>
+    </div>
+    </body>
+
+</html>

@@ -29,6 +29,8 @@
                                             <option value="../../../../1.0.3/index.html">1.0.3</option>
                                             <option value="../../../../1.0.4/index.html">1.0.4</option>
                                             <option value="../../../../1.1.0/index.html">1.1.0</option>
+                                            <option value="../../../../1.1.1/index.html">1.1.1</option>
+                                            <option value="../../../../1.1.2/index.html">1.1.2</option>
                                     </select>
             </form>
                 <form id="search-form" action="../../../search.html" method="GET">
@@ -111,7 +113,7 @@
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method___construct">__construct</a>(string $deviceToken, <a href="../../../Wrep/Notificato/Apns/Certificate.html"><abbr title="Wrep\Notificato\Apns\Certificate">Certificate</abbr></a> $certificate, array|null $alert, int|null $badge, string|null $sound, array|<abbr title="Wrep\Notificato\Apns\json">json</abbr>|null $payload, boolean $contentAvailable, <abbr title="Wrep\Notificato\Apns\DateTime">DateTime</abbr> $expiresAt = null)
+                    <a href="#method___construct">__construct</a>(string $deviceToken, <a href="../../../Wrep/Notificato/Apns/Certificate.html"><abbr title="Wrep\Notificato\Apns\Certificate">Certificate</abbr></a> $certificate, array|null $alert, int|null $badge, string|null $sound, array|<abbr title="Wrep\Notificato\Apns\json">json</abbr>|null $payload, string $category, boolean $contentAvailable, <abbr title="Wrep\Notificato\Apns\DateTime">DateTime</abbr> $expiresAt = null)
                                             <p>Construct Message</p>                </div>
                 <div class="col-md-2"></div>
             </div>
@@ -181,6 +183,15 @@ Note: iOS 8 support messages up to 2048 bytes, OS X and iOS 7 and below support 
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
+                    string|null
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getCategory">getCategory</a>()
+                                            <p>Get the category identifier that will be used to determine custom actions</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
                     boolean
                 </div>
                 <div class="col-md-8 type">
@@ -241,7 +252,7 @@ Note: iOS 8 support messages up to 2048 bytes, OS X and iOS 7 and below support 
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method_builder">
-        <div class="location">at line 28</div>
+        <div class="location">at line 29</div>
         <code>        static            <a href="../../../Wrep/Notificato/Apns/MessageBuilder.html"><abbr title="Wrep\Notificato\Apns\MessageBuilder">MessageBuilder</abbr></a>
     <strong>builder</strong>()</code>
     </h3>
@@ -268,9 +279,9 @@ Note: iOS 8 support messages up to 2048 bytes, OS X and iOS 7 and below support 
             </div>
                     <div class="method-item">
                     <h3 id="method___construct">
-        <div class="location">at line 47</div>
+        <div class="location">at line 49</div>
         <code>                    
-    <strong>__construct</strong>(string $deviceToken, <a href="../../../Wrep/Notificato/Apns/Certificate.html"><abbr title="Wrep\Notificato\Apns\Certificate">Certificate</abbr></a> $certificate, array|null $alert, int|null $badge, string|null $sound, array|<abbr title="Wrep\Notificato\Apns\json">json</abbr>|null $payload, boolean $contentAvailable, <abbr title="Wrep\Notificato\Apns\DateTime">DateTime</abbr> $expiresAt = null)</code>
+    <strong>__construct</strong>(string $deviceToken, <a href="../../../Wrep/Notificato/Apns/Certificate.html"><abbr title="Wrep\Notificato\Apns\Certificate">Certificate</abbr></a> $certificate, array|null $alert, int|null $badge, string|null $sound, array|<abbr title="Wrep\Notificato\Apns\json">json</abbr>|null $payload, string $category, boolean $contentAvailable, <abbr title="Wrep\Notificato\Apns\DateTime">DateTime</abbr> $expiresAt = null)</code>
     </h3>
     <div class="details">
                     <div class="method-description">
@@ -310,6 +321,11 @@ Note: iOS 8 support messages up to 2048 bytes, OS X and iOS 7 and below support 
                 <td>The payload to send as array or JSON string</td>
             </tr>
                     <tr>
+                <td>string</td>
+                <td>$category</td>
+                <td>Category identifier for the app to display the correct custom actions</td>
+            </tr>
+                    <tr>
                 <td>boolean</td>
                 <td>$contentAvailable</td>
                 <td>True when new newsstand content is available, false when not</td>
@@ -343,7 +359,7 @@ Note: iOS 8 support messages up to 2048 bytes, OS X and iOS 7 and below support 
             </div>
                     <div class="method-item">
                     <h3 id="method_isCompatibleWithSmallPayloadSize">
-        <div class="location">at line 73</div>
+        <div class="location">at line 76</div>
         <code>                    boolean
     <strong>isCompatibleWithSmallPayloadSize</strong>()</code>
     </h3>
@@ -370,7 +386,7 @@ Note: iOS 8 support messages up to 2048 bytes, OS X and iOS 7 and below support 
             </div>
                     <div class="method-item">
                     <h3 id="method_getDeviceToken">
-        <div class="location">at line 83</div>
+        <div class="location">at line 86</div>
         <code>                    string
     <strong>getDeviceToken</strong>()</code>
     </h3>
@@ -397,7 +413,7 @@ Note: iOS 8 support messages up to 2048 bytes, OS X and iOS 7 and below support 
             </div>
                     <div class="method-item">
                     <h3 id="method_getCertificate">
-        <div class="location">at line 93</div>
+        <div class="location">at line 96</div>
         <code>                    <a href="../../../Wrep/Notificato/Apns/Certificate.html"><abbr title="Wrep\Notificato\Apns\Certificate">Certificate</abbr></a>
     <strong>getCertificate</strong>()</code>
     </h3>
@@ -424,7 +440,7 @@ Note: iOS 8 support messages up to 2048 bytes, OS X and iOS 7 and below support 
             </div>
                     <div class="method-item">
                     <h3 id="method_getExpiresAt">
-        <div class="location">at line 103</div>
+        <div class="location">at line 106</div>
         <code>                    int
     <strong>getExpiresAt</strong>()</code>
     </h3>
@@ -450,7 +466,7 @@ Note: iOS 8 support messages up to 2048 bytes, OS X and iOS 7 and below support 
             </div>
                     <div class="method-item">
                     <h3 id="method_getAlert">
-        <div class="location">at line 113</div>
+        <div class="location">at line 116</div>
         <code>                    string|array
     <strong>getAlert</strong>()</code>
     </h3>
@@ -477,7 +493,7 @@ Note: iOS 8 support messages up to 2048 bytes, OS X and iOS 7 and below support 
             </div>
                     <div class="method-item">
                     <h3 id="method_getBadge">
-        <div class="location">at line 123</div>
+        <div class="location">at line 126</div>
         <code>                    int|null
     <strong>getBadge</strong>()</code>
     </h3>
@@ -504,7 +520,7 @@ Note: iOS 8 support messages up to 2048 bytes, OS X and iOS 7 and below support 
             </div>
                     <div class="method-item">
                     <h3 id="method_getSound">
-        <div class="location">at line 133</div>
+        <div class="location">at line 136</div>
         <code>                    string|null
     <strong>getSound</strong>()</code>
     </h3>
@@ -530,8 +546,35 @@ Note: iOS 8 support messages up to 2048 bytes, OS X and iOS 7 and below support 
 
             </div>
                     <div class="method-item">
+                    <h3 id="method_getCategory">
+        <div class="location">at line 146</div>
+        <code>                    string|null
+    <strong>getCategory</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Get the category identifier that will be used to determine custom actions</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>string|null</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
                     <h3 id="method_getContentAvailable">
-        <div class="location">at line 143</div>
+        <div class="location">at line 156</div>
         <code>                    boolean
     <strong>getContentAvailable</strong>()</code>
     </h3>
@@ -557,7 +600,7 @@ Note: iOS 8 support messages up to 2048 bytes, OS X and iOS 7 and below support 
             </div>
                     <div class="method-item">
                     <h3 id="method_getPayload">
-        <div class="location">at line 153</div>
+        <div class="location">at line 166</div>
         <code>                    array|null
     <strong>getPayload</strong>()</code>
     </h3>
@@ -584,7 +627,7 @@ Note: iOS 8 support messages up to 2048 bytes, OS X and iOS 7 and below support 
             </div>
                     <div class="method-item">
                     <h3 id="method_getJson">
-        <div class="location">at line 164</div>
+        <div class="location">at line 177</div>
         <code>                    string
     <strong>getJson</strong>()</code>
     </h3>
@@ -620,7 +663,7 @@ Note: iOS 8 support messages up to 2048 bytes, OS X and iOS 7 and below support 
             </div>
                     <div class="method-item">
                     <h3 id="method_serialize">
-        <div class="location">at line 214</div>
+        <div class="location">at line 232</div>
         <code>                    string
     <strong>serialize</strong>()</code>
     </h3>
@@ -647,7 +690,7 @@ Note: iOS 8 support messages up to 2048 bytes, OS X and iOS 7 and below support 
             </div>
                     <div class="method-item">
                     <h3 id="method_unserialize">
-        <div class="location">at line 231</div>
+        <div class="location">at line 249</div>
         <code>                    
     <strong>unserialize</strong>(string $serialized)</code>
     </h3>
@@ -674,7 +717,7 @@ Note: iOS 8 support messages up to 2048 bytes, OS X and iOS 7 and below support 
             </div>
                     <div class="method-item">
                     <h3 id="method___toString">
-        <div class="location">at line 248</div>
+        <div class="location">at line 266</div>
         <code>                    string
     <strong>__toString</strong>()</code>
     </h3>

@@ -29,6 +29,8 @@
                                             <option value="../../../../1.0.3/index.html">1.0.3</option>
                                             <option value="../../../../1.0.4/index.html">1.0.4</option>
                                             <option value="../../../../1.1.0/index.html">1.1.0</option>
+                                            <option value="../../../../1.1.1/index.html">1.1.1</option>
+                                            <option value="../../../../1.1.2/index.html">1.1.2</option>
                                     </select>
             </form>
                 <form id="search-form" action="../../../search.html" method="GET">
@@ -197,6 +199,15 @@
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setCategory">setCategory</a>(string $category)
+                                            <p>Set the category identifier for this message used by the app to display custom actions</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
                     <a href="../../../Wrep/Notificato/Apns/MessageBuilder.html"><abbr title="Wrep\Notificato\Apns\MessageBuilder">MessageBuilder</abbr></a>
                 </div>
                 <div class="col-md-8 type">
@@ -221,7 +232,7 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method_setDeviceToken">
-        <div class="location">at line 26</div>
+        <div class="location">at line 27</div>
         <code>                    <a href="../../../Wrep/Notificato/Apns/MessageBuilder.html"><abbr title="Wrep\Notificato\Apns\MessageBuilder">MessageBuilder</abbr></a>
     <strong>setDeviceToken</strong>(string $deviceToken)</code>
     </h3>
@@ -258,7 +269,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setCertificate">
-        <div class="location">at line 39</div>
+        <div class="location">at line 40</div>
         <code>                    <a href="../../../Wrep/Notificato/Apns/MessageBuilder.html"><abbr title="Wrep\Notificato\Apns\MessageBuilder">MessageBuilder</abbr></a>
     <strong>setCertificate</strong>(<a href="../../../Wrep/Notificato/Apns/Certificate.html"><abbr title="Wrep\Notificato\Apns\Certificate">Certificate</abbr></a> $certificate)</code>
     </h3>
@@ -295,7 +306,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setExpiresAt">
-        <div class="location">at line 53</div>
+        <div class="location">at line 54</div>
         <code>                    <a href="../../../Wrep/Notificato/Apns/MessageBuilder.html"><abbr title="Wrep\Notificato\Apns\MessageBuilder">MessageBuilder</abbr></a>
     <strong>setExpiresAt</strong>(<abbr title="Wrep\Notificato\Apns\DateTime">DateTime</abbr> $expiresAt = null)</code>
     </h3>
@@ -332,7 +343,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setAlert">
-        <div class="location">at line 69</div>
+        <div class="location">at line 70</div>
         <code>                    <a href="../../../Wrep/Notificato/Apns/MessageBuilder.html"><abbr title="Wrep\Notificato\Apns\MessageBuilder">MessageBuilder</abbr></a>
     <strong>setAlert</strong>(string|null $body, string|null $actionLocKey = null, string|null $launchImage = null)</code>
     </h3>
@@ -379,7 +390,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setAlertLocalized">
-        <div class="location">at line 104</div>
+        <div class="location">at line 105</div>
         <code>                    <a href="../../../Wrep/Notificato/Apns/MessageBuilder.html"><abbr title="Wrep\Notificato\Apns\MessageBuilder">MessageBuilder</abbr></a>
     <strong>setAlertLocalized</strong>(string $locKey, array $locArgs = array(), string|null $actionLocKey = null, string|null $launchImage = null)</code>
     </h3>
@@ -431,7 +442,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_addAlertAction">
-        <div class="location">at line 128</div>
+        <div class="location">at line 129</div>
         <code>                    <a href="../../../Wrep/Notificato/Apns/MessageBuilder.html"><abbr title="Wrep\Notificato\Apns\MessageBuilder">MessageBuilder</abbr></a>
     <strong>addAlertAction</strong>(string $id, string $title)</code>
     </h3>
@@ -474,7 +485,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_addAlertActionLocalized">
-        <div class="location">at line 143</div>
+        <div class="location">at line 144</div>
         <code>                    <a href="../../../Wrep/Notificato/Apns/MessageBuilder.html"><abbr title="Wrep\Notificato\Apns\MessageBuilder">MessageBuilder</abbr></a>
     <strong>addAlertActionLocalized</strong>($id, $locKey, $locArgs = array())</code>
     </h3>
@@ -525,7 +536,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setBadge">
-        <div class="location">at line 156</div>
+        <div class="location">at line 157</div>
         <code>                    <a href="../../../Wrep/Notificato/Apns/MessageBuilder.html"><abbr title="Wrep\Notificato\Apns\MessageBuilder">MessageBuilder</abbr></a>
     <strong>setBadge</strong>(int|null $badge)</code>
     </h3>
@@ -562,7 +573,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_clearBadge">
-        <div class="location">at line 168</div>
+        <div class="location">at line 169</div>
         <code>                    <a href="../../../Wrep/Notificato/Apns/MessageBuilder.html"><abbr title="Wrep\Notificato\Apns\MessageBuilder">MessageBuilder</abbr></a>
     <strong>clearBadge</strong>()</code>
     </h3>
@@ -589,7 +600,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setSound">
-        <div class="location">at line 181</div>
+        <div class="location">at line 182</div>
         <code>                    <a href="../../../Wrep/Notificato/Apns/MessageBuilder.html"><abbr title="Wrep\Notificato\Apns\MessageBuilder">MessageBuilder</abbr></a>
     <strong>setSound</strong>(string $sound = &#039;default&#039;)</code>
     </h3>
@@ -626,7 +637,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setContentAvailable">
-        <div class="location">at line 194</div>
+        <div class="location">at line 195</div>
         <code>                    <a href="../../../Wrep/Notificato/Apns/MessageBuilder.html"><abbr title="Wrep\Notificato\Apns\MessageBuilder">MessageBuilder</abbr></a>
     <strong>setContentAvailable</strong>(boolean $contentAvailable)</code>
     </h3>
@@ -662,8 +673,35 @@
 
             </div>
                     <div class="method-item">
-                    <h3 id="method_setPayload">
+                    <h3 id="method_setCategory">
         <div class="location">at line 207</div>
+        <code>                    
+    <strong>setCategory</strong>(string $category)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Set the category identifier for this message used by the app to display custom actions</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$category</td>
+                <td>String of the category identifier</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setPayload">
+        <div class="location">at line 220</div>
         <code>                    <a href="../../../Wrep/Notificato/Apns/MessageBuilder.html"><abbr title="Wrep\Notificato\Apns\MessageBuilder">MessageBuilder</abbr></a>
     <strong>setPayload</strong>(array|<abbr title="Wrep\Notificato\Apns\json">json</abbr>|null $payload)</code>
     </h3>
@@ -700,7 +738,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_build">
-        <div class="location">at line 221</div>
+        <div class="location">at line 234</div>
         <code>                    <a href="../../../Wrep/Notificato/Apns/Message.html"><abbr title="Wrep\Notificato\Apns\Message">Message</abbr></a>
     <strong>build</strong>()</code>
     </h3>
