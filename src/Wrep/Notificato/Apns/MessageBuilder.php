@@ -203,6 +203,7 @@ class MessageBuilder
 	 * Set the category identifier for this message used by the app to display custom actions
 	 *
 	 * @param string String of the category identifier
+	 * @return MessageBuilder
 	 */
 	public function setCategory($category)
 	{
