@@ -18,6 +18,7 @@ class Message implements \Serializable
 	private $badge;
 	private $sound;
 	private $payload;
+	private $category;
 	private $contentAvailable;
 
 	/**
@@ -39,12 +40,13 @@ class Message implements \Serializable
 	 * @param int|null The badge number to display
 	 * @param string|null String of the sound to play, null for no sound sound
 	 * @param array|json|null The payload to send as array or JSON string
+	 * @param string Category identifier for the app to display the correct custom actions
 	 * @param boolean True when new newsstand content is available, false when not
 	 * @param \DateTime|null Date until the message should be stored for delivery
 	 * @throws \InvalidArgumentException On invalid or missing arguments
 	 * @throws \LengthException On too long message
 	 */
-	public function __construct($deviceToken, Certificate $certificate, $alert, $badge, $sound, $payload, $contentAvailable, \DateTime $expiresAt = null)
+	public function __construct($deviceToken, Certificate $certificate, $alert, $badge, $sound, $payload, $category, $contentAvailable, \DateTime $expiresAt = null)
 	{
 		// Set the devicetoken
 		$this->setDeviceToken($deviceToken);
@@ -56,6 +58,7 @@ class Message implements \Serializable
 		$this->setBadge($badge);
 		$this->sound = (null == $sound) ? null : (string)$sound;
 		$this->setPayload($payload);
+		$this->category = $category;
 		$this->contentAvailable = (bool)$contentAvailable;
 
 		// Validate the length of the message
@@ -136,6 +139,16 @@ class Message implements \Serializable
 	}
 
 	/**
+	 * Get the category identifier that will be used to determine custom actions
+	 *
+	 * @return string|null
+	 */
+	public function getCategory()
+	{
+		return $this->category;
+	}
+
+	/**
 	 * Get newsstand content availability flag that will trigger the newsstand item to download new content
 	 *
 	 * @return boolean True when new content is available, false when not
@@ -185,6 +198,11 @@ class Message implements \Serializable
 		// Add the sound if any
 		if (null !== $this->sound) {
 			$aps['sound'] = $this->sound;
+		}
+
+		// Add category identifier if any
+		if (null !== $this->category) {
+			$aps['category'] = $this->category;
 		}
 
 		// Add the content-available flag if set

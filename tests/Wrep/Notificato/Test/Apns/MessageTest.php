@@ -19,10 +19,10 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 	/**
 	 * @dataProvider incorrectConstructorArguments
 	 */
-	public function testInvalidConstruction($deviceToken, $certificate, $alert, $badge, $sound, $payload, $contentAvailable, $expiresAt)
+	public function testInvalidConstruction($deviceToken, $certificate, $alert, $badge, $sound, $payload, $category, $contentAvailable, $expiresAt)
 	{
 		$this->setExpectedException('InvalidArgumentException');
-		$message = new Message($deviceToken, $certificate, $alert, $badge, $sound, $payload, $contentAvailable, $expiresAt);
+		$message = new Message($deviceToken, $certificate, $alert, $badge, $sound, $payload, $category, $contentAvailable, $expiresAt);
 	}
 
 	public function incorrectConstructorArguments()
@@ -30,10 +30,10 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 		$certificate = new Certificate(__DIR__ . '/../resources/certificate_corrupt.pem', null, false, Certificate::ENDPOINT_ENV_PRODUCTION);
 
 		return array(
-			array( 'thisisnotanhexstring!', $certificate, null, 5, 'default', null, null, null ),
-			array( '', $certificate, null, 5, 'default', null, null, null ),
-			array( 'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, null, -1, 'default', null, null, null ),
-			array( 'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, null, null, 'default', 'invalidjsonstring {}', null, null )
+			array( 'thisisnotanhexstring!', $certificate, null, 5, 'default', null, null, null, null ),
+			array( '', $certificate, null, 5, 'default', null, null, null, null ),
+			array( 'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, null, -1, 'default', null, null, null, null ),
+			array( 'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, null, null, 'default', 'invalidjsonstring {}', null, null, null )
 			);
 	}
 
@@ -43,7 +43,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 	public function testExpiry($expiryDate)
 	{
 		$certificate = new Certificate(__DIR__ . '/../resources/certificate_corrupt.pem', null, false, Certificate::ENDPOINT_ENV_PRODUCTION);
-		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, null, 0, 'default', null, null, $expiryDate);
+		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, null, 0, 'default', null, null, null, $expiryDate);
 
 		if (null == $expiryDate)
 		{
@@ -70,7 +70,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 	public function testAlert($alert)
 	{
 		$certificate = new Certificate(__DIR__ . '/../resources/certificate_corrupt.pem', null, false, Certificate::ENDPOINT_ENV_PRODUCTION);
-		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, $alert, 0, 'default', null, null, null);
+		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, $alert, 0, 'default', null, null, null, null);
 
 		$this->assertEquals($alert, $message->getAlert());
 	}
@@ -104,7 +104,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 		$certificate = new Certificate(__DIR__ . '/../resources/certificate_corrupt.pem', null, false, Certificate::ENDPOINT_ENV_PRODUCTION);
 
 		$this->setExpectedException('InvalidArgumentException');
-		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, $alert, 0, 'default', null, null, null);
+		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, $alert, 0, 'default', null, null, null, null);
 
 	}
 
@@ -121,13 +121,13 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 	{
 		$certificate = new Certificate(__DIR__ . '/../resources/certificate_corrupt.pem', null, false, Certificate::ENDPOINT_ENV_PRODUCTION);
 
-		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, null, 999, 'default', null, null, null);
+		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, null, 999, 'default', null, null, null, null);
 		$this->assertEquals(999, $message->getBadge(), 'Setting badge to 999 did not persist.');
 
-		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, null, 0, 'default', null, null, null);
+		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, null, 0, 'default', null, null, null, null);
 		$this->assertEquals(0, $message->getBadge(), 'Clearing the badge did not persist.');
 
-		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, null, null, 'default', null, null, null);
+		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, null, null, 'default', null, null, null, null);
 		$this->assertNull($message->getBadge(), 'Unsetting the badge did not persist.');
 	}
 
@@ -135,27 +135,38 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 	{
 		$certificate = new Certificate(__DIR__ . '/../resources/certificate_corrupt.pem', null, false, Certificate::ENDPOINT_ENV_PRODUCTION);
 
-		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, null, null, 'funkybeat', null, null, null);
+		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, null, null, 'funkybeat', null, null, null, null, null);
 		$this->assertEquals('funkybeat', $message->getSound(), 'Setting sound to funkybeat did not persist.');
 
-		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, null, null, 'default', null, null, null);
+		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, null, null, 'default', null, null, null, null, null);
 		$this->assertEquals('default', $message->getSound(), 'Setting sound to default did not persist.');
 
-		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, null, null, null, null, null, null);
+		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, null, null, null, null, null, null, null, null);
 		$this->assertNull($message->getSound(), 'Unsetting the sound did not persist.');
+	}
+
+	public function testCategory()
+	{
+		$certificate = new Certificate(__DIR__ . '/../resources/certificate_corrupt.pem', null, false, Certificate::ENDPOINT_ENV_PRODUCTION);
+
+		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, null, null, null, null, 'testcat', null, null);
+		$this->assertEquals('testcat', $message->getCategory(), 'Setting category to testcat did not persist.');
+
+		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, null, null, null, null, null, null, null);
+		$this->assertNull(null, $message->getCategory(), 'Nulling the category did not persist.');
 	}
 
 	public function testContentAvailable()
 	{
 		$certificate = new Certificate(__DIR__ . '/../resources/certificate_corrupt.pem', null, false, Certificate::ENDPOINT_ENV_PRODUCTION);
 
-		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, null, null, null, null, true, null);
+		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, null, null, null, null, null, true, null);
 		$this->assertEquals(true, $message->getContentAvailable(), 'Setting ContentAvailable to true did not persist.');
 
-		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, null, null, null, null, false, null);
+		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, null, null, null, null, null, false, null);
 		$this->assertEquals(false, $message->getContentAvailable(), 'Disabling the ContentAvailable did not persist.');
 
-		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, null, null, null, null, null, null);
+		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, null, null, null, null, null, null, null);
 		$this->assertEquals(false, $message->getContentAvailable(), 'Nulling the ContentAvailable did not persist.');
 	}
 
@@ -166,7 +177,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 	{
 		$certificate = new Certificate(__DIR__ . '/../resources/certificate_corrupt.pem', null, false, Certificate::ENDPOINT_ENV_PRODUCTION);
 
-		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, null, null, null, $payload, null, null);
+		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, null, null, null, $payload, null, null, null);
 		$this->assertEquals($payload, $message->getPayload(), 'Setting payload did not persist.');
 	}
 
@@ -188,7 +199,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 		$certificate = new Certificate(__DIR__ . '/../resources/certificate_corrupt.pem', null, false, Certificate::ENDPOINT_ENV_PRODUCTION);
 
 		$this->setExpectedException('\LengthException');
-		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, null, null, null, $payload, null, null);
+		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, null, null, null, $payload, null, null, null);
 		$this->assertEquals($payload, $message->getPayload(), 'Setting payload did not persist.');
 	}
 
@@ -208,7 +219,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 	{
 		$certificate = new Certificate(__DIR__ . '/../resources/certificate_corrupt.pem', null, false, Certificate::ENDPOINT_ENV_PRODUCTION);
 
-		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, null, null, null, $payload, null, null);
+		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, null, null, null, $payload, null, null, null);
 		$this->assertEquals($payload, $message->getPayload(), 'Setting payload did not persist.');
 		$this->assertEquals(true, $message->isCompatibleWithSmallPayloadSize());
 	}
@@ -229,7 +240,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 	{
 		$certificate = new Certificate(__DIR__ . '/../resources/certificate_corrupt.pem', null, false, Certificate::ENDPOINT_ENV_PRODUCTION);
 
-		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, null, null, null, $payload, null, null);
+		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, null, null, null, $payload, null, null, null);
 		$this->assertEquals($payload, $message->getPayload(), 'Setting payload did not persist.');
 		$this->assertEquals(false, $message->isCompatibleWithSmallPayloadSize());
 	}
@@ -251,7 +262,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 		$certificate = new Certificate(__DIR__ . '/../resources/certificate_corrupt.pem', null, false, Certificate::ENDPOINT_ENV_PRODUCTION);
 
 		$this->setExpectedException('InvalidArgumentException', 'Invalid payload for message.');
-		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, null, null, null, $payload, null, null);
+		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, null, null, null, $payload, null, null, null);
 		$this->assertEquals($payload, $message->getPayload(), 'Setting payload did not persist.');
 	}
 
@@ -268,7 +279,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 	public function testGetJson()
 	{
 		$certificate = new Certificate(__DIR__ . '/../resources/certificate_corrupt.pem', null, false, Certificate::ENDPOINT_ENV_PRODUCTION);
-		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, 'alert', 3, 'sound', array('payload' => array( 'some' => 'payloadhere' )), true, new \DateTime('1970-01-01T00:01:00Z'));
-		$this->assertJsonStringEqualsJsonString(json_encode(array('payload' => array( 'some' => 'payloadhere' ), 'aps' => array('badge' => 3, 'alert' => 'alert', 'sound' => 'sound', 'content-available' => 1)), JSON_FORCE_OBJECT), $message->getJson());
+		$message = new Message('ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', $certificate, 'alert', 3, 'sound', array('payload' => array( 'some' => 'payloadhere' )), 'mycategory', true, new \DateTime('1970-01-01T00:01:00Z'));
+		$this->assertJsonStringEqualsJsonString(json_encode(array('payload' => array( 'some' => 'payloadhere' ), 'aps' => array('badge' => 3, 'alert' => 'alert', 'sound' => 'sound', 'category' => 'mycategory', 'content-available' => 1)), JSON_FORCE_OBJECT), $message->getJson());
 	}
 }
