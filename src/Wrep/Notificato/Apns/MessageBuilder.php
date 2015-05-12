@@ -15,6 +15,7 @@ class MessageBuilder
 	private $badge;
 	private $sound;
 	private $payload;
+	private $category;
 	private $contentAvailable;
 
 	/**
@@ -199,6 +200,18 @@ class MessageBuilder
 	}
 
 	/**
+	 * Set the category identifier for this message used by the app to display custom actions
+	 *
+	 * @param string String of the category identifier
+	 */
+	public function setCategory($category)
+	{
+		$this->category = $category;
+
+		return $this;
+	}
+
+	/**
 	 * Set custom payload to go with the message
 	 *
 	 * @param array|json|null The payload to send as array or JSON string
@@ -240,6 +253,7 @@ class MessageBuilder
 							$this->badge,
 							$this->sound,
 							$this->payload,
+							$this->category,
 							$this->contentAvailable,
 							$this->expiresAt);
 	}
