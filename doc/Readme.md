@@ -1,5 +1,5 @@
 # Notificato documentation
-We want Notificato to be straight forward and easy to use, but we believe that a library should also be as flexible and powerfull as possible to not block you from using it in unexpected situations. This docs try to give you an overview of how to use Notificato, from the "Getting Started" examples to some of the more complex use cases.
+We want Notificato to be straight forward and easy to use, but we believe that a library should also be as flexible and powerful as possible to not block you from using it in unexpected situations. This docs try to give you an overview of how to use Notificato, from the "Getting Started" examples to some of the more complex use cases.
 
 ## Topics
 
