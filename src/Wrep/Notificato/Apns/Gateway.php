@@ -170,6 +170,8 @@ class Gateway extends SslSocket
 	 */
 	private function checkForErrorResponse()
 	{
+        $this->reconnectIfDropped();
+
 		// Check if there is something to read from the socket
 		$errorResponse = fread($this->getConnection(), self::ERROR_RESPONSE_SIZE);
 		if (false !== $errorResponse && self::ERROR_RESPONSE_SIZE === strlen($errorResponse))
