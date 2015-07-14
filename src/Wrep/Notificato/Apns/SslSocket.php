@@ -139,6 +139,10 @@ abstract class SslSocket implements LoggerAwareInterface
         if (feof($this->getConnection()) === true) {
             $this->disconnect();
             $this->connect();
+
+            return true;
         }
+
+        return false;
     }
 }
