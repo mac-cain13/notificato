@@ -104,10 +104,9 @@ class Gateway extends SslSocket
 			$binaryMessage = $messageEnvelope->getBinaryMessage();
 
 			// Send the message and check if all the bytes are written
-			$bytesSend = (int)fwrite($this->getConnection(), $binaryMessage);
-
             // If the connection has been dropped, reconnect to APNS
             $this->reconnectIfDropped();
+			$bytesSend = (int)fwrite($this->getConnection(), $binaryMessage);
 
 			if (strlen($binaryMessage) !== $bytesSend)
 			{
