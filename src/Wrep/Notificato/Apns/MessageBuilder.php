@@ -242,7 +242,7 @@ class MessageBuilder
 		if (count($this->alertActions) > 0)
 		{
 			if (is_string($this->alert)) {
-				$this->alert = array('body' => $body, 'actions' => $this->alertActions);
+				$this->alert = array('body' => $this->alert, 'actions' => $this->alertActions);
 			} else if (is_array($this->alert)) {
 				$this->alert['actions'] = $this->alertActions;
 			}
