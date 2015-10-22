@@ -19,7 +19,7 @@
 		"issues": "https://github.com/mac-cain13/notificato/issues"
 	},
 	"require": {
-		"php": ">=5.3.3",
+		"php": ">=5.4",
 		"ext-spl": "*",
 		"ext-sockets": "*",
 		"ext-openssl": "*",
