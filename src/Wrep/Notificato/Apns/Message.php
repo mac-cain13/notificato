@@ -216,7 +216,7 @@ class Message implements \Serializable
 		}
 
 		// Encode as JSON object
-		$json = json_encode($message, JSON_FORCE_OBJECT);
+		$json = json_encode($message);
 		if (false == $json) {
 			throw new \RuntimeException('Failed to convert APNS\Message to JSON, are all strings UTF-8?', json_last_error());
 		}
