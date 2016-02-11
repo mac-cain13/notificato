@@ -143,13 +143,14 @@ class Certificate implements \Serializable
 
 			if (null === $this->endpointEnv)
 			{
-				if (strpos($certificateData['subject']['CN'], 'Pass Type ID') === 0) {
-					// Passbook Pass certificate, should always be on production
+				if (strpos($certificateData['subject']['CN'], 'Pass Type ID') === 0 ||
+					strpos($certificateData['subject']['CN'], 'Apple Push Services') === 0 ||
+					strpos($certificateData['subject']['CN'], 'Apple Production IOS Push Services') === 0 ||
+					strpos($certificateData['subject']['CN'], 'Apple Production Mac Push Services') === 0) {
+					// Passbook Pass certificate & APNS Production/hybrid certs, should be on production
 					$this->endpointEnv = self::ENDPOINT_ENV_PRODUCTION;
-				} else if (strpos($certificateData['subject']['CN'], 'Apple Production IOS Push Services') === 0 || strpos($certificateData['subject']['CN'], 'Apple Production Mac Push Services') === 0) {
-					// APNS Production, should always be on production
-					$this->endpointEnv = self::ENDPOINT_ENV_PRODUCTION;
-				} else if (strpos($certificateData['subject']['CN'], 'Apple Development IOS Push Services') === 0 || strpos($certificateData['subject']['CN'], 'Apple Development Mac Push Services') === 0) {
+				} else if (	strpos($certificateData['subject']['CN'], 'Apple Development IOS Push Services') === 0 ||
+							strpos($certificateData['subject']['CN'], 'Apple Development Mac Push Services') === 0) {
 					// APNS Development, should always be on sandbox
 					$this->endpointEnv = self::ENDPOINT_ENV_SANDBOX;
 				} else {
