@@ -1,6 +1,10 @@
 # Upgrade guide
 This document gives an overview of what's changed between versions. Backwards incompatible changes are described as wel as the most important new features.
 
+## From 1.1 to 1.2
+
+No breaking changes, just support for the new production certificates from Apple.
+
 ## From 1.0 to 1.1
 
 ### Message creation
@@ -14,7 +18,7 @@ This document gives an overview of what's changed between versions. Backwards in
 
 *New features:*
 
-* `Message` is now serializeable for easy storage
+* `Message` is now serializable for easy storage
 * `Message::__toString` is implemented and dumps the contents of the message for debugging
 
 ### Certificates
