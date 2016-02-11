@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="robots" content="index, follow, all" />
+    <title>Wrep\Notificato\Apns\Sender | Notificato API</title>
+
+            <link rel="stylesheet" type="text/css" href="../../../css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="../../../css/bootstrap-theme.min.css">
+        <link rel="stylesheet" type="text/css" href="../../../css/sami.css">
+        <script src="../../../js/jquery-1.11.1.min.js"></script>
+        <script src="../../../js/bootstrap.min.js"></script>
+        <script src="../../../js/typeahead.min.js"></script>
+        <script src="../../../sami.js"></script>
+    
+    
+    </head>
+
+    <body id="class" data-name="class:Wrep_Notificato_Apns_Sender" data-root-path="../../../">
+            <div id="content">
+        <div id="left-column">
+                <div id="control-panel">
+                    <form action="#" method="GET">
+                <select id="version-switcher" name="version">
+                                            <option value="../../../../master/index.html">master branch</option>
+                                            <option value="../../../../1.0.0/index.html">1.0.0</option>
+                                            <option value="../../../../1.0.1/index.html">1.0.1</option>
+                                            <option value="../../../../1.0.2/index.html">1.0.2</option>
+                                            <option value="../../../../1.0.3/index.html">1.0.3</option>
+                                            <option value="../../../../1.0.4/index.html">1.0.4</option>
+                                            <option value="../../../../1.1.0/index.html" selected>1.1.0</option>
+                                    </select>
+            </form>
+                <form id="search-form" action="../../../search.html" method="GET">
+            <span class="glyphicon glyphicon-search"></span>
+            <input name="search"
+                   class="typeahead form-control"
+                   type="search"
+                   placeholder="Search">
+        </form>
+    </div>
+
+                <div id="api-tree"></div>
+
+        </div>
+        <div id="right-column">
+                <nav id="site-nav" class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-elements">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="../../../index.html">Notificato API</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-elements">
+                <ul class="nav navbar-nav">
+                    <li><a href="../../../classes.html">Classes</a></li>
+                                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+                    <li><a href="../../../traits.html">Traits</a></li>
+                    <li><a href="../../../doc-index.html">Index</a></li>
+                    <li><a href="../../../search.html">Search</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+                        <div class="namespace-breadcrumbs">
+            <ol class="breadcrumb">
+                <li><span class="label label-default">class</span></li>
+                                                            <li><a href="../../../Wrep.html">Wrep</a></li>
+                                        <li><a href="../../../Wrep/Notificato.html">Notificato</a></li>
+                                        <li><a href="../../../Wrep/Notificato/Apns.html">Apns</a></li>
+    
+                <li>Sender</li>
+            </ol>
+        </div>
+                <div id="page-content">
+                
+    <div class="page-header">
+        <h1>Sender</h1>
+    </div>
+
+    <p>    class
+    <strong>Sender</strong>        implements
+        <abbr title="Psr\Log\LoggerAwareInterface">LoggerAwareInterface</abbr></p>
+
+    
+    
+    
+    
+            <h2>Methods</h2>
+
+            <div class="container-fluid underlined">
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method___construct">__construct</a>()
+                                            <p>Construct Sender</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setGatewayFactory">setGatewayFactory</a>(<a href="../../../Wrep/Notificato/Apns/GatewayFactory.html"><abbr title="Wrep\Notificato\Apns\GatewayFactory">GatewayFactory</abbr></a> $gatewayFactory)
+                                            <p>Set the gateway factory to use for creating connections to the APNS gateway</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <a href="../../../Wrep/Notificato/Apns/GatewayFactory.html"><abbr title="Wrep\Notificato\Apns\GatewayFactory">GatewayFactory</abbr></a>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getGatewayFactory">getGatewayFactory</a>()
+                                            <p>Get the current gateway factory</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_setLogger">setLogger</a>(<abbr title="Psr\Log\LoggerInterface">LoggerInterface</abbr> $logger)
+                                            <p>Sets a logger instance on the object</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <a href="../../../Wrep/Notificato/Apns/MessageEnvelope.html"><abbr title="Wrep\Notificato\Apns\MessageEnvelope">MessageEnvelope</abbr></a>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_send">send</a>(<a href="../../../Wrep/Notificato/Apns/Message.html"><abbr title="Wrep\Notificato\Apns\Message">Message</abbr></a> $message)
+                                            <p>Queues a message and flushes the gateway connection it must be send over immediately
+ Note: If you send multiple messages, queue as many as possible and flush them at once for maximum performance</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    <a href="../../../Wrep/Notificato/Apns/MessageEnvelope.html"><abbr title="Wrep\Notificato\Apns\MessageEnvelope">MessageEnvelope</abbr></a>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_queue">queue</a>(<a href="../../../Wrep/Notificato/Apns/Message.html"><abbr title="Wrep\Notificato\Apns\Message">Message</abbr></a> $message)
+                                            <p>Queue a message on the correct APNS gateway connection</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    int
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getQueueLength">getQueueLength</a>()
+                                            <p>Count of all queued messages</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_flush">flush</a>(<a href="../../../Wrep/Notificato/Apns/Certificate.html"><abbr title="Wrep\Notificato\Apns\Certificate">Certificate</abbr></a> $certificate = null)
+                                            <p>Send all queued messages</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+            </div>
+
+
+        <h2>Details</h2>
+
+            <div id="method-details">
+                    <div class="method-item">
+                    <h3 id="method___construct">
+        <div class="location">at line 18</div>
+        <code>                    
+    <strong>__construct</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Construct Sender</p>                                </div>
+                <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setGatewayFactory">
+        <div class="location">at line 30</div>
+        <code>                    
+    <strong>setGatewayFactory</strong>(<a href="../../../Wrep/Notificato/Apns/GatewayFactory.html"><abbr title="Wrep\Notificato\Apns\GatewayFactory">GatewayFactory</abbr></a> $gatewayFactory)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Set the gateway factory to use for creating connections to the APNS gateway</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../../Wrep/Notificato/Apns/GatewayFactory.html"><abbr title="Wrep\Notificato\Apns\GatewayFactory">GatewayFactory</abbr></a></td>
+                <td>$gatewayFactory</td>
+                <td>The gateway factory to use</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getGatewayFactory">
+        <div class="location">at line 40</div>
+        <code>                    <a href="../../../Wrep/Notificato/Apns/GatewayFactory.html"><abbr title="Wrep\Notificato\Apns\GatewayFactory">GatewayFactory</abbr></a>
+    <strong>getGatewayFactory</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Get the current gateway factory</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><a href="../../../Wrep/Notificato/Apns/GatewayFactory.html"><abbr title="Wrep\Notificato\Apns\GatewayFactory">GatewayFactory</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_setLogger">
+        <div class="location">at line 50</div>
+        <code>                    
+    <strong>setLogger</strong>(<abbr title="Psr\Log\LoggerInterface">LoggerInterface</abbr> $logger)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Sets a logger instance on the object</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><abbr title="Psr\Log\LoggerInterface">LoggerInterface</abbr></td>
+                <td>$logger</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_send">
+        <div class="location">at line 67</div>
+        <code>                    <a href="../../../Wrep/Notificato/Apns/MessageEnvelope.html"><abbr title="Wrep\Notificato\Apns\MessageEnvelope">MessageEnvelope</abbr></a>
+    <strong>send</strong>(<a href="../../../Wrep/Notificato/Apns/Message.html"><abbr title="Wrep\Notificato\Apns\Message">Message</abbr></a> $message)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Queues a message and flushes the gateway connection it must be send over immediately
+ Note: If you send multiple messages, queue as many as possible and flush them at once for maximum performance</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../../Wrep/Notificato/Apns/Message.html"><abbr title="Wrep\Notificato\Apns\Message">Message</abbr></a></td>
+                <td>$message</td>
+                <td>The message to send</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><a href="../../../Wrep/Notificato/Apns/MessageEnvelope.html"><abbr title="Wrep\Notificato\Apns\MessageEnvelope">MessageEnvelope</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_queue">
+        <div class="location">at line 84</div>
+        <code>                    <a href="../../../Wrep/Notificato/Apns/MessageEnvelope.html"><abbr title="Wrep\Notificato\Apns\MessageEnvelope">MessageEnvelope</abbr></a>
+    <strong>queue</strong>(<a href="../../../Wrep/Notificato/Apns/Message.html"><abbr title="Wrep\Notificato\Apns\Message">Message</abbr></a> $message)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Queue a message on the correct APNS gateway connection</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../../Wrep/Notificato/Apns/Message.html"><abbr title="Wrep\Notificato\Apns\Message">Message</abbr></a></td>
+                <td>$message</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><a href="../../../Wrep/Notificato/Apns/MessageEnvelope.html"><abbr title="Wrep\Notificato\Apns\MessageEnvelope">MessageEnvelope</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getQueueLength">
+        <div class="location">at line 98</div>
+        <code>                    int
+    <strong>getQueueLength</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Count of all queued messages</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>int</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_flush">
+        <div class="location">at line 115</div>
+        <code>                    
+    <strong>flush</strong>(<a href="../../../Wrep/Notificato/Apns/Certificate.html"><abbr title="Wrep\Notificato\Apns\Certificate">Certificate</abbr></a> $certificate = null)</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Send all queued messages</p>                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../../Wrep/Notificato/Apns/Certificate.html"><abbr title="Wrep\Notificato\Apns\Certificate">Certificate</abbr></a></td>
+                <td>$certificate</td>
+                <td>When given only the gateway connection for the given certificate is flushed</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+            </div>
+
+    
+            </div>
+                <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/">Sami, the API Documentation Generator</a>.
+    </div>
+
+        </div>
+    </div>
+    </body>
+
+</html>
