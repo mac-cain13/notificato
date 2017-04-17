@@ -104,7 +104,10 @@ class Gateway extends SslSocket
 			$binaryMessage = $messageEnvelope->getBinaryMessage();
 
 			// Send the message and check if all the bytes are written
+            // If the connection has been dropped, reconnect to APNS
+            $this->reconnectIfDropped();
 			$bytesSend = (int)fwrite($this->getConnection(), $binaryMessage);
+
 			if (strlen($binaryMessage) !== $bytesSend)
 			{
 				// Something did go wrong while sending this message, retry
@@ -121,9 +124,6 @@ class Gateway extends SslSocket
 			{
 				// Mark the message as send without errors
 				$messageEnvelope->setStatus(MessageEnvelope::STATUS_NOERRORS);
-
-				// Take a nap to give PHP some time to relax after sending data over the socket
-				usleep(self::SEND_INTERVAL);
 
 				// Check for errors
 				$this->checkForErrorResponse();
@@ -169,6 +169,8 @@ class Gateway extends SslSocket
 	 */
 	private function checkForErrorResponse()
 	{
+        $this->reconnectIfDropped();
+
 		// Check if there is something to read from the socket
 		$errorResponse = fread($this->getConnection(), self::ERROR_RESPONSE_SIZE);
 		if (false !== $errorResponse && self::ERROR_RESPONSE_SIZE === strlen($errorResponse))

@@ -130,4 +130,19 @@ abstract class SslSocket implements LoggerAwareInterface
 
 		$this->connection = null;
 	}
+
+    /**
+     * Reconnect if the connection has been dropped by APNS
+     */
+    protected function reconnectIfDropped()
+    {
+        if (feof($this->getConnection()) === true) {
+            $this->disconnect();
+            $this->connect();
+
+            return true;
+        }
+
+        return false;
+    }
 }
