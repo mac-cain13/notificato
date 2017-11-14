@@ -15,8 +15,8 @@ Installation with [Composer](http://getcomposer.org) is recommended. Run the req
 
 `composer require wrep/notificato`
 
-*Alternatives:*
-There is also a [Notificato for Symfony2 bundle](https://github.com/rickpastoor/notificato-symfony) available, highly recommended for Symfony2 users.
+*Suggestion:*
+There is also a [Notificato for Symfony bundle](https://github.com/rickpastoor/notificato-symfony) available, highly recommended for Symfony2 & Symfony3 users.
 
 ## Getting started
 1. Take a look at the snippet below for a impression how Notificato works
