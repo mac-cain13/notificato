@@ -27,7 +27,7 @@
 		"sami/sami": "dev-master"
 	},
 	"suggest": {
-		"wrep/notificato-symfony": "Integrate Notificato into Symfony2"
+		"wrep/notificato-symfony": "Integrate Notificato into Symfony"
 	},
 	"replace": {
 		"wrep/notificare": "*"
