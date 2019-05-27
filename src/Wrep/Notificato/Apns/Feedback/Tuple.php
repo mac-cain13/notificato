@@ -40,11 +40,6 @@ class Tuple
 			throw new \InvalidArgumentException('Invalid device token given, no hexadecimal: ' . $deviceToken);
 		}
 
-		// Check if the length of the devicetoken is correct
-		if (64 != strlen($deviceToken)) {
-			throw new \InvalidArgumentException('Invalid device token given, incorrect length: ' . $deviceToken . ' (' . strlen($deviceToken) . ')');
-		}
-
 		// Save the data
 		$this->invalidatedAt = new \DateTime('@' . (int)$invalidatedAtTimestamp);
 		$this->deviceToken = $deviceToken;
