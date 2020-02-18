@@ -62,31 +62,23 @@ class MessageBuilder
 	 * Set the alert to display.
 	 *  See also: http://developer.apple.com/library/ios/#documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/ApplePushService/ApplePushService.html#//apple_ref/doc/uid/TP40008194-CH100-SW1
 	 *
-	 * @param string|null The text of the alert to display or null to set no alert
+	 * @param string The text of the alert to display as title
+	 * @param string|null The text of the alert to display in the body or null to set no alert
 	 * @param string|null The localization key to use for the action button
 	 * @param string|null The name of the launch image to use
 	 * @return MessageBuilder
 	 */
-	public function setAlert($body, $actionLocKey = null, $launchImage = null)
+	public function setAlert($title, $body, $actionLocKey = null, $launchImage = null)
 	{
-		// Check if we must use an JSON object
-		if (null == $actionLocKey && null == $launchImage)
-		{
-			// No, just use a string
-			$this->alert = $body;
+		$this->alert = array('body' => $body);
+		$this->alert['title'] = $title;
+
+		if ($actionLocKey) {
+			$this->alert['action-loc-key'] = $actionLocKey;
 		}
-		else
-		{
-			// Yes, use an object
-			$this->alert = array('body' => $body);
 
-			if ($actionLocKey) {
-				$this->alert['action-loc-key'] = $actionLocKey;
-			}
-
-			if ($launchImage) {
-				$this->alert['launch-image'] = $launchImage;
-			}
+		if ($launchImage) {
+			$this->alert['launch-image'] = $launchImage;
 		}
 
 		return $this;
